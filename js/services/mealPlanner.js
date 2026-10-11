@@ -10,6 +10,10 @@ export class MealPlanner {
     this.externalRecipes = [];
   }
 
+  setBaseRecipes(recipes = []) {
+    this.baseRecipes = recipes;
+  }
+
   setExternalRecipes(recipes = []) {
     this.externalRecipes = recipes;
   }
@@ -99,13 +103,15 @@ export class MealPlanner {
       const shuffled = [...pool].sort(() => Math.random() - 0.5);
       let chosen = [shuffled[0]];
 
+      const allowDuplicates = pool.length < mealCount;
+
       while (chosen.length < mealCount) {
         let bestNext = null;
         let lowestIncremental = Infinity;
 
         // Trouver le plat qui ajoute le moins de surcoût au ticket de caisse
         for (const cand of shuffled) {
-          if (chosen.some(c => c.id === cand.id)) continue;
+          if (!allowDuplicates && chosen.some(c => c.id === cand.id)) continue;
           const costWithCand = this.getStoreCartCost([...chosen, cand], servings, pantryChecked);
           if (costWithCand < lowestIncremental) {
             lowestIncremental = costWithCand;
@@ -116,7 +122,7 @@ export class MealPlanner {
         if (bestNext) {
           chosen.push(bestNext);
         } else {
-          break;
+          chosen.push(pool[chosen.length % pool.length]);
         }
       }
 
@@ -141,9 +147,13 @@ export class MealPlanner {
     } else if (lowestCostPlan) {
       chosenPlan = lowestCostPlan;
     } else {
+      const fallbackMeals = [];
+      for (let i = 0; i < mealCount; i++) {
+        fallbackMeals.push(pool[i % pool.length]);
+      }
       chosenPlan = {
-        meals: pool.slice(0, mealCount),
-        finalCost: this.getStoreCartCost(pool.slice(0, mealCount), servings, pantryChecked)
+        meals: fallbackMeals,
+        finalCost: this.getStoreCartCost(fallbackMeals, servings, pantryChecked)
       };
     }
 

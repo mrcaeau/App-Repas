@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261011_5">
+  <link rel="stylesheet" href="styles.css?v=20261011_6">
 </head>
 <body>
 
@@ -24,11 +24,11 @@
       </a>
 
       <div class="header-actions">
-        <!-- Bouton API TheMealDB -->
-        <button class="api-badge" id="btnSyncMealDb" style="border-color: #f59e0b; color: #d97706; background: rgba(245, 158, 11, 0.1);" title="Importer des recettes internationales de TheMealDB">
-          <span>🌍</span>
-          <span id="mealDbStatusText">TheMealDB API</span>
-        </button>
+        <!-- Statut Catalogue JSON -->
+        <div class="api-badge" style="border-color: var(--primary-500); color: var(--primary-700); background: var(--primary-50);" title="Catalogue local de recettes JSON">
+          <span>📖</span>
+          <span id="catalogStatusText">Catalogue JSON</span>
+        </div>
 
         <!-- Bouton API Open Prices -->
         <button class="api-badge" id="btnOpenPricesModal" title="Voir les prix en direct via Open Food Facts">
@@ -292,6 +292,6 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=20261011_5"></script>
+  <script type="module" src="js/app.js?v=20261011_6"></script>
 </body>
 </html>

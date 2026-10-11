@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "nom": "Pâtes crémeuses au poulet",
+    "portions": 1,
+    "temps_minutes": 20,
+    "categorie": "pates",
+    "ingredients": [
+      {
+        "nom": "pâtes",
+        "quantite": 100,
+        "unite": "g"
+      },
+      {
+        "nom": "blanc de poulet",
+        "quantite": 120,
+        "unite": "g"
+      },
+      {
+        "nom": "crème fraîche",
+        "quantite": 80,
+        "unite": "g"
+      }
+    ],
+    "instructions": [
+      "Faire cuire les pâtes.",
+      "Couper le poulet en morceaux et le faire revenir.",
+      "Ajouter la crème et laisser mijoter quelques minutes.",
+      "Mélanger avec les pâtes."
+    ]
+  }
+]

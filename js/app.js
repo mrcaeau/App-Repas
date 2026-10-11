@@ -1,9 +1,8 @@
-// Application principale PlanRepas avec TheMealDB, filtre électroménager et adaptation solo
+// Application principale PlanRepas avec Catalogue JSON, filtre électroménager et adaptation solo
 import { mealPlanner } from "./services/mealPlanner.js";
 import { groceryListService, DEPARTMENT_LABELS } from "./services/groceryList.js";
 import { openPricesService } from "./services/openPricesApi.js";
-import { theMealDbService } from "./services/mealDbApi.js";
-import { RECIPES_DATA } from "./data/recipes.js";
+import { RECIPES_DATA, loadRecipesCatalog } from "./data/recipes.js";
 
 const APPLIANCE_ICONS = {
   plaques: "🍳 Poêle/Plaques",
@@ -24,15 +23,14 @@ class PlanRepasApp {
       activeTab: "meals",
       currentPlan: null,
       pantryChecked: new Set(),
-      theme: localStorage.getItem("planrepas_theme") || "light",
-      isMealDbLoading: false
+      theme: localStorage.getItem("planrepas_theme") || "light"
     };
 
     this.initElements();
     this.bindEvents();
     this.applyTheme(this.state.theme);
     this.toggleSoloPortionMode(true);
-    this.initTheMealDb();
+    this.initRecipesCatalog();
   }
 
   initElements() {
@@ -81,9 +79,8 @@ class PlanRepasApp {
     this.modalContentContainer = document.getElementById("modalContentContainer");
     this.btnModalOverlayClose = document.getElementById("btnModalOverlayClose");
 
-    // TheMealDB & Open Prices
-    this.btnSyncMealDb = document.getElementById("btnSyncMealDb");
-    this.mealDbStatusText = document.getElementById("mealDbStatusText");
+    // Catalogue JSON & Open Prices
+    this.catalogStatusText = document.getElementById("catalogStatusText");
     this.btnOpenPricesModal = document.getElementById("btnOpenPricesModal");
     this.apiTesterModal = document.getElementById("apiTesterModal");
     this.btnCloseApiModal = document.getElementById("btnCloseApiModal");
@@ -94,16 +91,17 @@ class PlanRepasApp {
     this.toastContainer = document.getElementById("toastContainer");
   }
 
-  async initTheMealDb() {
+  async initRecipesCatalog() {
     try {
-      // Charger le catalogue initial de TheMealDB
-      const meals = await theMealDbService.fetchCuratedMeals(12);
-      if (meals && meals.length > 0) {
-        mealPlanner.setExternalRecipes(meals);
-        this.mealDbStatusText.textContent = `TheMealDB (+${meals.length} plats)`;
+      const catalog = await loadRecipesCatalog();
+      if (catalog && catalog.length > 0) {
+        mealPlanner.setBaseRecipes(catalog);
+        if (this.catalogStatusText) {
+          this.catalogStatusText.textContent = `Catalogue JSON (${catalog.length} recette${catalog.length > 1 ? 's' : ''})`;
+        }
       }
     } catch (e) {
-      console.warn("TheMealDB init fallback:", e);
+      console.warn("Erreur chargement catalogue JSON:", e);
     }
     this.updateAvgPortionBadge();
     this.generatePlan();
@@ -166,8 +164,6 @@ class PlanRepasApp {
       this.showToast("✨ Planning recalculé avec succès !");
     });
 
-    // Bouton de synchronisation TheMealDB
-    this.btnSyncMealDb.addEventListener("click", () => this.syncMoreTheMealDb());
 
     // Navigation Onglets
     this.tabMeals.addEventListener("click", () => this.switchTab("meals"));
@@ -272,26 +268,6 @@ class PlanRepasApp {
     }
   }
 
-  async syncMoreTheMealDb() {
-    if (this.state.isMealDbLoading) return;
-    this.state.isMealDbLoading = true;
-    this.mealDbStatusText.textContent = "Chargement API...";
-    this.showToast("🌍 Recherche de nouvelles recettes sur TheMealDB...");
-
-    try {
-      const meals = await theMealDbService.fetchCuratedMeals(25);
-      if (meals && meals.length > 0) {
-        mealPlanner.setExternalRecipes(meals);
-        this.mealDbStatusText.textContent = `TheMealDB (${mealPlanner.getAllRecipes().length} recettes)`;
-        this.generatePlan();
-        this.showToast(`✨ ${meals.length} recettes TheMealDB intégrées au planning !`);
-      }
-    } catch (e) {
-      this.showToast("Erreur lors de la synchronisation TheMealDB");
-    } finally {
-      this.state.isMealDbLoading = false;
-    }
-  }
 
   generatePlan() {
     this.state.currentPlan = mealPlanner.generatePlan({
@@ -423,7 +399,7 @@ class PlanRepasApp {
       this.updateBudgetMeter();
       this.showToast(`🔄 Remplacé par "${newMeal.title}"`);
     } else {
-      this.showToast("Toutes les recettes compatibles avec vos appareils sont déjà sélectionnées !");
+      this.showToast("ℹ️ Aucune autre recette dans le catalogue pour l'instant.");
     }
   }
 
