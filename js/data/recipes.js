@@ -1,91 +1,647 @@
 // Catalogue de recettes JSON & Référentiel Supermarché Français
-// Supporte le format produit_id et les métadonnées supermarché directes
+// Découplage complet : les recettes utilisent des identifiants sémantiques propres (ex: "spaghetti", "poulet"),
+// et les caractéristiques supermarché (format paquet, prix, rayon) sont gérées dans data/produits.json.
 
-export const SUPERMARKET_PRODUCTS_MAP = {
-  ail_tete: { name: "Ail frais (Tête)", department: "legumes", packageSize: 1, packagePrice: 0.80, unit: "gousse", unitPrice: 0.10 },
-  aubergine_piece: { name: "Aubergine", department: "legumes", packageSize: 250, packagePrice: 1.20, unit: "g", unitPrice: 0.0048 },
-  basilic_frais_botte: { name: "Basilic frais", department: "legumes", packageSize: 25, packagePrice: 1.30, unit: "g", unitPrice: 0.052 },
-  beurre_doux_250g: { name: "Beurre doux", department: "frais", packageSize: 250, packagePrice: 2.40, unit: "g", unitPrice: 0.0096 },
-  boeuf_hache_15pct_350g: { name: "Bœuf haché 15% MG", department: "boucherie", packageSize: 350, packagePrice: 5.20, unit: "g", unitPrice: 0.0148 },
-  boulettes_boeuf_300g: { name: "Boulettes de bœuf (300g)", department: "boucherie", packageSize: 300, packagePrice: 3.90, unit: "g", unitPrice: 0.013 },
-  brocoli_piece_500g: { name: "Brocoli frais", department: "legumes", packageSize: 500, packagePrice: 1.90, unit: "g", unitPrice: 0.0038 },
-  carotte_botte: { name: "Carottes fraîches", department: "legumes", packageSize: 1000, packagePrice: 1.60, unit: "g", unitPrice: 0.0016 },
-  champignons_paris_250g: { name: "Champignons de Paris (250g)", department: "legumes", packageSize: 250, packagePrice: 1.65, unit: "g", unitPrice: 0.0066 },
-  cheddar_mature_200g: { name: "Cheddar râpé / bloc", department: "frais", packageSize: 200, packagePrice: 2.30, unit: "g", unitPrice: 0.0115 },
-  chorizo_doux_200g: { name: "Chorizo doux", department: "frais", packageSize: 200, packagePrice: 2.50, unit: "g", unitPrice: 0.0125 },
-  coquillettes_500g: { name: "Coquillettes (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.25, unit: "g", unitPrice: 0.0025 },
-  coulis_tomate_500g: { name: "Coulis de tomate (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.30, unit: "ml", unitPrice: 0.0026 },
-  courge_butternut_piece: { name: "Courge butternut", department: "legumes", packageSize: 800, packagePrice: 2.20, unit: "g", unitPrice: 0.00275 },
-  courgette_piece: { name: "Courgette fraîche", department: "legumes", packageSize: 300, packagePrice: 1.10, unit: "g", unitPrice: 0.0036 },
-  creme_fraiche_20cl: { name: "Crème fraîche 20cl", department: "frais", packageSize: 200, packagePrice: 1.15, unit: "ml", unitPrice: 0.00575 },
-  crevettes_decortiquees_200g: { name: "Crevettes décortiquées (200g)", department: "boucherie", packageSize: 200, packagePrice: 4.20, unit: "g", unitPrice: 0.021 },
-  des_jambon_200g: { name: "Dés de jambon (200g)", department: "frais", packageSize: 200, packagePrice: 2.30, unit: "g", unitPrice: 0.0115 },
-  emmental_rape_200g: { name: "Emmental râpé (200g)", department: "frais", packageSize: 200, packagePrice: 2.25, unit: "g", unitPrice: 0.0112 },
-  epinards_frais_250g: { name: "Épinards frais (250g)", department: "legumes", packageSize: 250, packagePrice: 1.80, unit: "g", unitPrice: 0.0072 },
-  filet_dinde_400g: { name: "Filet de dinde (400g)", department: "boucherie", packageSize: 400, packagePrice: 5.20, unit: "g", unitPrice: 0.013 },
-  fromage_chevre_frais_150g: { name: "Chèvre frais (150g)", department: "frais", packageSize: 150, packagePrice: 2.10, unit: "g", unitPrice: 0.014 },
-  fusilli_500g: { name: "Fusilli (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.30, unit: "g", unitPrice: 0.0026 },
-  huile_olive_vierge_75cl: { name: "Huile d'olive vierge (75cl)", department: "epicerie", packageSize: 750, packagePrice: 6.90, unit: "ml", unitPrice: 0.0092 },
-  jambon_blanc_4_tranches_160g: { name: "Jambon blanc 4 tranches", department: "frais", packageSize: 160, packagePrice: 2.60, unit: "g", unitPrice: 0.01625 },
-  jambon_sec_4_tranches_100g: { name: "Jambon sec 4 tranches", department: "frais", packageSize: 100, packagePrice: 2.80, unit: "g", unitPrice: 0.028 },
-  jus_citron_25cl: { name: "Jus de citron (25cl)", department: "epicerie", packageSize: 250, packagePrice: 1.20, unit: "ml", unitPrice: 0.0048 },
-  lait_demi_ecreme_1l: { name: "Lait demi-écrémé (1L)", department: "frais", packageSize: 1000, packagePrice: 1.15, unit: "ml", unitPrice: 0.00115 },
-  lardons_fumes_200g: { name: "Lardons fumés (200g)", department: "frais", packageSize: 200, packagePrice: 2.20, unit: "g", unitPrice: 0.011 },
-  linguine_500g: { name: "Linguine (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.40, unit: "g", unitPrice: 0.0028 },
-  mais_doux_boite_300g: { name: "Maïs doux en boîte (300g)", department: "epicerie", packageSize: 300, packagePrice: 1.20, unit: "g", unitPrice: 0.004 },
-  mayonnaise_tube_175g: { name: "Mayonnaise (175g)", department: "epicerie", packageSize: 175, packagePrice: 1.50, unit: "g", unitPrice: 0.0085 },
-  moutarde_ancienne_200g: { name: "Moutarde à l'ancienne (200g)", department: "epicerie", packageSize: 200, packagePrice: 1.40, unit: "g", unitPrice: 0.007 },
-  moutarde_dijon_200g: { name: "Moutarde de Dijon (200g)", department: "epicerie", packageSize: 200, packagePrice: 1.25, unit: "g", unitPrice: 0.00625 },
-  mozzarella_125g: { name: "Mozzarella (125g)", department: "frais", packageSize: 125, packagePrice: 1.35, unit: "g", unitPrice: 0.0108 },
-  oeufs_boite_6: { name: "Boîte de 6 œufs frais", department: "frais", packageSize: 6, packagePrice: 2.30, unit: "piece", unitPrice: 0.383 },
-  oignon_jaune_filet_1kg: { name: "Oignons jaunes (filet 1kg)", department: "legumes", packageSize: 1000, packagePrice: 1.60, unit: "g", unitPrice: 0.0016 },
-  olives_noires_denoyautees_150g: { name: "Olives noires dénoyautées (150g)", department: "epicerie", packageSize: 150, packagePrice: 1.50, unit: "g", unitPrice: 0.01 },
-  paprika_doux_flacon_40g: { name: "Paprika doux flacon (40g)", department: "epicerie", packageSize: 40, packagePrice: 1.40, unit: "g", unitPrice: 0.035 },
-  parmesan_rape_100g: { name: "Parmesan râpé (100g)", department: "frais", packageSize: 100, packagePrice: 2.10, unit: "g", unitPrice: 0.021 },
-  pave_saumon_frais_140g: { name: "Pavé de saumon frais (140g)", department: "boucherie", packageSize: 140, packagePrice: 4.80, unit: "g", unitPrice: 0.034 },
-  penne_500g: { name: "Penne (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.35, unit: "g", unitPrice: 0.0027 },
-  persil_plat_botte: { name: "Persil plat frais", department: "legumes", packageSize: 30, packagePrice: 1.10, unit: "g", unitPrice: 0.036 },
-  pesto_alla_genovese_190g: { name: "Pesto alla Genovese (190g)", department: "epicerie", packageSize: 190, packagePrice: 1.95, unit: "g", unitPrice: 0.0102 },
-  pesto_rosso_190g: { name: "Pesto Rosso (190g)", department: "epicerie", packageSize: 190, packagePrice: 1.95, unit: "g", unitPrice: 0.0102 },
-  petits_pois_surgeles_600g: { name: "Petits pois surgelés (600g)", department: "frais", packageSize: 600, packagePrice: 1.70, unit: "g", unitPrice: 0.0028 },
-  piment_rouge_frais_50g: { name: "Piment rouge frais (50g)", department: "legumes", packageSize: 50, packagePrice: 1.10, unit: "g", unitPrice: 0.022 },
-  poivre_noir_moulin_50g: { name: "Poivre noir moulin (50g)", department: "epicerie", packageSize: 50, packagePrice: 2.20, unit: "g", unitPrice: 0.044 },
-  poivron_rouge_piece: { name: "Poivron rouge", department: "legumes", packageSize: 200, packagePrice: 1.30, unit: "g", unitPrice: 0.0065 },
-  portions_vache_qui_rit_x12: { name: "La Vache qui rit (12 port.)", department: "frais", packageSize: 12, packagePrice: 2.40, unit: "piece", unitPrice: 0.20 },
-  poudre_curry_doux_45g: { name: "Curry doux flacon (45g)", department: "epicerie", packageSize: 45, packagePrice: 1.40, unit: "g", unitPrice: 0.031 },
-  poulet_filet_500g: { name: "Filets de poulet (500g)", department: "boucherie", packageSize: 500, packagePrice: 6.20, unit: "g", unitPrice: 0.0124 },
-  saucisses_strasbourg_x4: { name: "Saucisses de Strasbourg (x4)", department: "frais", packageSize: 160, packagePrice: 1.90, unit: "g", unitPrice: 0.0118 },
-  saumon_fume_100g: { name: "Saumon fumé (100g)", department: "frais", packageSize: 100, packagePrice: 3.90, unit: "g", unitPrice: 0.039 },
-  spaghetti_500g: { name: "Spaghetti (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.35, unit: "g", unitPrice: 0.0027 },
-  tagliatelles_500g: { name: "Tagliatelles (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.45, unit: "g", unitPrice: 0.0029 },
-  thon_au_naturel_160g: { name: "Thon au naturel (160g)", department: "epicerie", packageSize: 160, packagePrice: 2.15, unit: "g", unitPrice: 0.0134 },
-  tomates_cerises_250g: { name: "Tomates cerises (250g)", department: "legumes", packageSize: 250, packagePrice: 1.70, unit: "g", unitPrice: 0.0068 },
-  tomates_concassees_400g: { name: "Tomates concassées (400g)", department: "epicerie", packageSize: 400, packagePrice: 1.20, unit: "g", unitPrice: 0.003 },
-  riz_basmati_1kg: { name: "Riz basmati (1kg)", department: "epicerie", packageSize: 1000, packagePrice: 2.30, unit: "g", unitPrice: 0.0023 },
-  riz_long_blanc_1kg: { name: "Riz long blanc (1kg)", department: "epicerie", packageSize: 1000, packagePrice: 1.85, unit: "g", unitPrice: 0.00185 },
-  haricots_rouges_boite_400g: { name: "Haricots rouges (boîte 400g)", department: "epicerie", packageSize: 400, packagePrice: 1.25, unit: "g", unitPrice: 0.0031 },
-  riz_thai_1kg: { name: "Riz thaï jasmin (1kg)", department: "epicerie", packageSize: 1000, packagePrice: 2.40, unit: "g", unitPrice: 0.0024 },
-  lait_coco_brique_20cl: { name: "Lait de coco (20cl)", department: "epicerie", packageSize: 200, packagePrice: 1.35, unit: "ml", unitPrice: 0.00675 },
-  sauce_soja_salee_150ml: { name: "Sauce soja salée (150ml)", department: "epicerie", packageSize: 150, packagePrice: 1.80, unit: "ml", unitPrice: 0.012 },
-  riz_rond_japonais_1kg: { name: "Riz rond japonais (1kg)", department: "epicerie", packageSize: 1000, packagePrice: 2.90, unit: "g", unitPrice: 0.0029 },
-  sauce_soja_sucree_150ml: { name: "Sauce soja sucrée (150ml)", department: "epicerie", packageSize: 150, packagePrice: 1.95, unit: "ml", unitPrice: 0.013 },
-  graines_sesame_100g: { name: "Graines de sésame (100g)", department: "epicerie", packageSize: 100, packagePrice: 1.45, unit: "g", unitPrice: 0.0145 },
-  riz_arborio_risotto_500g: { name: "Riz Arborio risotto (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.95, unit: "g", unitPrice: 0.0039 },
-  bouillon_legumes_cube_x8: { name: "Bouillon légumes (8 cubes)", department: "epicerie", packageSize: 8, packagePrice: 1.30, unit: "piece", unitPrice: 0.1625 },
-  huile_tournesol_1l: { name: "Huile de tournesol (1L)", department: "epicerie", packageSize: 1000, packagePrice: 2.10, unit: "ml", unitPrice: 0.0021 },
-  riz_rond_500g: { name: "Riz rond (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.35, unit: "g", unitPrice: 0.0027 },
-  lentilles_vertes_500g: { name: "Lentilles vertes (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.65, unit: "g", unitPrice: 0.0033 },
-  pois_chiches_cuits_bocal_400g: { name: "Pois chiches cuits (400g)", department: "epicerie", packageSize: 400, packagePrice: 1.35, unit: "g", unitPrice: 0.003375 },
-  poireau_botte: { name: "Poireaux frais", department: "legumes", packageSize: 500, packagePrice: 1.80, unit: "g", unitPrice: 0.0036 },
-  steak_hache_15pct_125g: { name: "Steak haché 15% (125g)", department: "boucherie", packageSize: 125, packagePrice: 1.95, unit: "g", unitPrice: 0.0156 },
-  dos_cabillaud_200g: { name: "Dos de cabillaud (200g)", department: "boucherie", packageSize: 200, packagePrice: 4.90, unit: "g", unitPrice: 0.0245 }
+export const DEFAULT_PRODUCTS = {
+  "spaghetti": {
+    "nom": "Spaghetti",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.35,
+    "prix_unitaire": 0.0027
+  },
+  "penne": {
+    "nom": "Penne",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.35,
+    "prix_unitaire": 0.0027
+  },
+  "tagliatelles": {
+    "nom": "Tagliatelles",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.45,
+    "prix_unitaire": 0.0029
+  },
+  "fusilli": {
+    "nom": "Fusilli",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.3,
+    "prix_unitaire": 0.0026
+  },
+  "coquillettes": {
+    "nom": "Coquillettes",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.25,
+    "prix_unitaire": 0.0025
+  },
+  "linguine": {
+    "nom": "Linguine",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.4,
+    "prix_unitaire": 0.0028
+  },
+  "riz_basmati": {
+    "nom": "Riz basmati",
+    "rayon": "epicerie",
+    "paquet": 1000,
+    "unite": "g",
+    "prix": 2.3,
+    "prix_unitaire": 0.0023
+  },
+  "riz_long": {
+    "nom": "Riz long blanc",
+    "rayon": "epicerie",
+    "paquet": 1000,
+    "unite": "g",
+    "prix": 1.85,
+    "prix_unitaire": 0.00185
+  },
+  "riz_thai": {
+    "nom": "Riz thaï jasmin",
+    "rayon": "epicerie",
+    "paquet": 1000,
+    "unite": "g",
+    "prix": 2.4,
+    "prix_unitaire": 0.0024
+  },
+  "riz_rond": {
+    "nom": "Riz rond",
+    "rayon": "epicerie",
+    "paquet": 1000,
+    "unite": "g",
+    "prix": 2.4,
+    "prix_unitaire": 0.0024
+  },
+  "riz_risotto": {
+    "nom": "Riz Arborio pour risotto",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.95,
+    "prix_unitaire": 0.0039
+  },
+  "lardons": {
+    "nom": "Lardons fumés",
+    "rayon": "frais",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 2.2,
+    "prix_unitaire": 0.011
+  },
+  "poulet": {
+    "nom": "Filets de poulet",
+    "rayon": "boucherie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 6.2,
+    "prix_unitaire": 0.0124
+  },
+  "dinde": {
+    "nom": "Filet de dinde",
+    "rayon": "boucherie",
+    "paquet": 400,
+    "unite": "g",
+    "prix": 5.2,
+    "prix_unitaire": 0.013
+  },
+  "boeuf_hache": {
+    "nom": "Bœuf haché 15% MG",
+    "rayon": "boucherie",
+    "paquet": 350,
+    "unite": "g",
+    "prix": 5.2,
+    "prix_unitaire": 0.0148
+  },
+  "boulettes_boeuf": {
+    "nom": "Boulettes de bœuf",
+    "rayon": "boucherie",
+    "paquet": 300,
+    "unite": "g",
+    "prix": 3.9,
+    "prix_unitaire": 0.013
+  },
+  "steak_hache": {
+    "nom": "Steak haché pur bœuf 15%",
+    "rayon": "boucherie",
+    "paquet": 125,
+    "unite": "g",
+    "prix": 1.95,
+    "prix_unitaire": 0.0156
+  },
+  "saucisses_strasbourg": {
+    "nom": "Saucisses de Strasbourg (x4)",
+    "rayon": "frais",
+    "paquet": 160,
+    "unite": "g",
+    "prix": 1.9,
+    "prix_unitaire": 0.0118
+  },
+  "jambon_blanc": {
+    "nom": "Jambon blanc (4 tranches)",
+    "rayon": "frais",
+    "paquet": 160,
+    "unite": "g",
+    "prix": 2.6,
+    "prix_unitaire": 0.01625
+  },
+  "jambon_sec": {
+    "nom": "Jambon sec (4 tranches)",
+    "rayon": "frais",
+    "paquet": 100,
+    "unite": "g",
+    "prix": 2.8,
+    "prix_unitaire": 0.028
+  },
+  "des_jambon": {
+    "nom": "Dés de jambon",
+    "rayon": "frais",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 2.3,
+    "prix_unitaire": 0.0115
+  },
+  "chorizo": {
+    "nom": "Chorizo doux",
+    "rayon": "frais",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 2.5,
+    "prix_unitaire": 0.0125
+  },
+  "thon": {
+    "nom": "Thon au naturel en boîte",
+    "rayon": "epicerie",
+    "paquet": 160,
+    "unite": "g",
+    "prix": 2.15,
+    "prix_unitaire": 0.0134
+  },
+  "saumon_frais": {
+    "nom": "Pavé de saumon frais",
+    "rayon": "boucherie",
+    "paquet": 140,
+    "unite": "g",
+    "prix": 4.8,
+    "prix_unitaire": 0.034
+  },
+  "saumon_fume": {
+    "nom": "Saumon fumé",
+    "rayon": "frais",
+    "paquet": 100,
+    "unite": "g",
+    "prix": 3.9,
+    "prix_unitaire": 0.039
+  },
+  "cabillaud": {
+    "nom": "Dos de cabillaud frais",
+    "rayon": "boucherie",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 4.9,
+    "prix_unitaire": 0.0245
+  },
+  "crevettes": {
+    "nom": "Crevettes décortiquées cuites",
+    "rayon": "boucherie",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 4.2,
+    "prix_unitaire": 0.021
+  },
+  "oeufs": {
+    "nom": "Boîte de 6 œufs frais",
+    "rayon": "frais",
+    "paquet": 6,
+    "unite": "piece",
+    "prix": 2.3,
+    "prix_unitaire": 0.383
+  },
+  "creme_fraiche": {
+    "nom": "Crème fraîche fluide/épaisse",
+    "rayon": "frais",
+    "paquet": 200,
+    "unite": "ml",
+    "prix": 1.15,
+    "prix_unitaire": 0.00575
+  },
+  "beurre": {
+    "nom": "Beurre doux",
+    "rayon": "frais",
+    "paquet": 250,
+    "unite": "g",
+    "prix": 2.4,
+    "prix_unitaire": 0.0096
+  },
+  "parmesan": {
+    "nom": "Parmesan râpé",
+    "rayon": "frais",
+    "paquet": 100,
+    "unite": "g",
+    "prix": 2.1,
+    "prix_unitaire": 0.021
+  },
+  "emmental": {
+    "nom": "Emmental râpé",
+    "rayon": "frais",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 2.25,
+    "prix_unitaire": 0.0112
+  },
+  "mozzarella": {
+    "nom": "Mozzarella",
+    "rayon": "frais",
+    "paquet": 125,
+    "unite": "g",
+    "prix": 1.35,
+    "prix_unitaire": 0.0108
+  },
+  "cheddar": {
+    "nom": "Cheddar râpé / bloc",
+    "rayon": "frais",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 2.3,
+    "prix_unitaire": 0.0115
+  },
+  "chevre_frais": {
+    "nom": "Fromage de chèvre frais",
+    "rayon": "frais",
+    "paquet": 150,
+    "unite": "g",
+    "prix": 2.1,
+    "prix_unitaire": 0.014
+  },
+  "vache_qui_rit": {
+    "nom": "La Vache qui rit (12 port.)",
+    "rayon": "frais",
+    "paquet": 12,
+    "unite": "piece",
+    "prix": 2.4,
+    "prix_unitaire": 0.2
+  },
+  "lait": {
+    "nom": "Lait demi-écrémé",
+    "rayon": "frais",
+    "paquet": 1000,
+    "unite": "ml",
+    "prix": 1.15,
+    "prix_unitaire": 0.00115
+  },
+  "coulis_tomate": {
+    "nom": "Coulis de tomate",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "ml",
+    "prix": 1.3,
+    "prix_unitaire": 0.0026
+  },
+  "tomates_concassees": {
+    "nom": "Tomates concassées en boîte",
+    "rayon": "epicerie",
+    "paquet": 400,
+    "unite": "g",
+    "prix": 1.2,
+    "prix_unitaire": 0.003
+  },
+  "pesto_vert": {
+    "nom": "Pesto alla Genovese",
+    "rayon": "epicerie",
+    "paquet": 190,
+    "unite": "g",
+    "prix": 1.95,
+    "prix_unitaire": 0.0102
+  },
+  "pesto_rouge": {
+    "nom": "Pesto Rosso",
+    "rayon": "epicerie",
+    "paquet": 190,
+    "unite": "g",
+    "prix": 1.95,
+    "prix_unitaire": 0.0102
+  },
+  "huile_olive": {
+    "nom": "Huile d'olive vierge extra",
+    "rayon": "epicerie",
+    "paquet": 750,
+    "unite": "ml",
+    "prix": 6.9,
+    "prix_unitaire": 0.0092
+  },
+  "huile_tournesol": {
+    "nom": "Huile de tournesol",
+    "rayon": "epicerie",
+    "paquet": 1000,
+    "unite": "ml",
+    "prix": 2.1,
+    "prix_unitaire": 0.0021
+  },
+  "sauce_soja_salee": {
+    "nom": "Sauce soja salée",
+    "rayon": "epicerie",
+    "paquet": 150,
+    "unite": "ml",
+    "prix": 1.8,
+    "prix_unitaire": 0.012
+  },
+  "sauce_soja_sucree": {
+    "nom": "Sauce soja sucrée",
+    "rayon": "epicerie",
+    "paquet": 150,
+    "unite": "ml",
+    "prix": 1.95,
+    "prix_unitaire": 0.013
+  },
+  "lait_coco": {
+    "nom": "Lait de coco",
+    "rayon": "epicerie",
+    "paquet": 200,
+    "unite": "ml",
+    "prix": 1.35,
+    "prix_unitaire": 0.00675
+  },
+  "mayonnaise": {
+    "nom": "Mayonnaise en tube",
+    "rayon": "epicerie",
+    "paquet": 175,
+    "unite": "g",
+    "prix": 1.5,
+    "prix_unitaire": 0.0085
+  },
+  "moutarde_dijon": {
+    "nom": "Moutarde de Dijon",
+    "rayon": "epicerie",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 1.25,
+    "prix_unitaire": 0.00625
+  },
+  "moutarde_ancienne": {
+    "nom": "Moutarde à l'ancienne",
+    "rayon": "epicerie",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 1.4,
+    "prix_unitaire": 0.007
+  },
+  "olives_noires": {
+    "nom": "Olives noires dénoyautées",
+    "rayon": "epicerie",
+    "paquet": 150,
+    "unite": "g",
+    "prix": 1.5,
+    "prix_unitaire": 0.01
+  },
+  "mais_doux": {
+    "nom": "Maïs doux en boîte",
+    "rayon": "epicerie",
+    "paquet": 300,
+    "unite": "g",
+    "prix": 1.2,
+    "prix_unitaire": 0.004
+  },
+  "haricots_rouges": {
+    "nom": "Haricots rouges en boîte",
+    "rayon": "epicerie",
+    "paquet": 400,
+    "unite": "g",
+    "prix": 1.25,
+    "prix_unitaire": 0.0031
+  },
+  "pois_chiches": {
+    "nom": "Pois chiches cuits en bocal",
+    "rayon": "epicerie",
+    "paquet": 400,
+    "unite": "g",
+    "prix": 1.35,
+    "prix_unitaire": 0.003375
+  },
+  "lentilles_vertes": {
+    "nom": "Lentilles vertes",
+    "rayon": "epicerie",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.65,
+    "prix_unitaire": 0.0033
+  },
+  "bouillon_legumes": {
+    "nom": "Bouillon de légumes (cubes)",
+    "rayon": "epicerie",
+    "paquet": 8,
+    "unite": "piece",
+    "prix": 1.3,
+    "prix_unitaire": 0.1625
+  },
+  "curry": {
+    "nom": "Curry doux en poudre",
+    "rayon": "epicerie",
+    "paquet": 45,
+    "unite": "g",
+    "prix": 1.4,
+    "prix_unitaire": 0.031
+  },
+  "paprika": {
+    "nom": "Paprika doux en flacon",
+    "rayon": "epicerie",
+    "paquet": 40,
+    "unite": "g",
+    "prix": 1.4,
+    "prix_unitaire": 0.035
+  },
+  "graines_sesame": {
+    "nom": "Graines de sésame",
+    "rayon": "epicerie",
+    "paquet": 100,
+    "unite": "g",
+    "prix": 1.45,
+    "prix_unitaire": 0.0145
+  },
+  "poivre": {
+    "nom": "Poivre noir moulin",
+    "rayon": "epicerie",
+    "paquet": 50,
+    "unite": "g",
+    "prix": 2.2,
+    "prix_unitaire": 0.044
+  },
+  "oignon": {
+    "nom": "Oignons jaunes (filet 1kg)",
+    "rayon": "legumes",
+    "paquet": 1000,
+    "unite": "g",
+    "prix": 1.6,
+    "prix_unitaire": 0.0016
+  },
+  "ail": {
+    "nom": "Ail frais (tête)",
+    "rayon": "legumes",
+    "paquet": 1,
+    "unite": "piece",
+    "prix": 0.8,
+    "prix_unitaire": 0.1
+  },
+  "champignons": {
+    "nom": "Champignons de Paris frais",
+    "rayon": "legumes",
+    "paquet": 250,
+    "unite": "g",
+    "prix": 1.65,
+    "prix_unitaire": 0.0066
+  },
+  "courgette": {
+    "nom": "Courgettes fraîches",
+    "rayon": "legumes",
+    "paquet": 300,
+    "unite": "g",
+    "prix": 1.1,
+    "prix_unitaire": 0.0036
+  },
+  "aubergine": {
+    "nom": "Aubergine",
+    "rayon": "legumes",
+    "paquet": 250,
+    "unite": "g",
+    "prix": 1.2,
+    "prix_unitaire": 0.0048
+  },
+  "poivron": {
+    "nom": "Poivron rouge",
+    "rayon": "legumes",
+    "paquet": 200,
+    "unite": "g",
+    "prix": 1.3,
+    "prix_unitaire": 0.0065
+  },
+  "brocoli": {
+    "nom": "Brocoli frais",
+    "rayon": "legumes",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.9,
+    "prix_unitaire": 0.0038
+  },
+  "epinards": {
+    "nom": "Épinards frais",
+    "rayon": "legumes",
+    "paquet": 250,
+    "unite": "g",
+    "prix": 1.8,
+    "prix_unitaire": 0.0072
+  },
+  "carotte": {
+    "nom": "Carottes fraîches (botte)",
+    "rayon": "legumes",
+    "paquet": 1000,
+    "unite": "g",
+    "prix": 1.6,
+    "prix_unitaire": 0.0016
+  },
+  "poireau": {
+    "nom": "Poireaux frais",
+    "rayon": "legumes",
+    "paquet": 500,
+    "unite": "g",
+    "prix": 1.8,
+    "prix_unitaire": 0.0036
+  },
+  "courge_butternut": {
+    "nom": "Courge butternut",
+    "rayon": "legumes",
+    "paquet": 800,
+    "unite": "g",
+    "prix": 2.2,
+    "prix_unitaire": 0.00275
+  },
+  "tomates_cerises": {
+    "nom": "Tomates cerises",
+    "rayon": "legumes",
+    "paquet": 250,
+    "unite": "g",
+    "prix": 1.7,
+    "prix_unitaire": 0.0068
+  },
+  "piment": {
+    "nom": "Piment rouge frais",
+    "rayon": "legumes",
+    "paquet": 50,
+    "unite": "g",
+    "prix": 1.1,
+    "prix_unitaire": 0.022
+  },
+  "petits_pois": {
+    "nom": "Petits pois surgelés",
+    "rayon": "frais",
+    "paquet": 600,
+    "unite": "g",
+    "prix": 1.7,
+    "prix_unitaire": 0.0028
+  },
+  "persil": {
+    "nom": "Persil plat frais",
+    "rayon": "legumes",
+    "paquet": 30,
+    "unite": "g",
+    "prix": 1.1,
+    "prix_unitaire": 0.036
+  },
+  "basilic": {
+    "nom": "Basilic frais",
+    "rayon": "legumes",
+    "paquet": 25,
+    "unite": "g",
+    "prix": 1.3,
+    "prix_unitaire": 0.052
+  },
+  "citron": {
+    "nom": "Jus de citron",
+    "rayon": "epicerie",
+    "paquet": 250,
+    "unite": "ml",
+    "prix": 1.2,
+    "prix_unitaire": 0.0048
+  }
 };
 
+export const SUPERMARKET_PRODUCTS_MAP = {};
 export const DEFAULT_PRICE_INDEX = {};
-for (const [key, val] of Object.entries(SUPERMARKET_PRODUCTS_MAP)) {
-  DEFAULT_PRICE_INDEX[val.name] = { unitPrice: val.unitPrice, packagePrice: val.packagePrice, unit: val.unit };
-  DEFAULT_PRICE_INDEX[key] = { unitPrice: val.unitPrice, packagePrice: val.packagePrice, unit: val.unit };
+
+export function updateProductsRegistry(catalog = {}) {
+  for (const [key, prod] of Object.entries(catalog)) {
+    const name = prod.nom || prod.name;
+    const department = prod.rayon || prod.department || "epicerie";
+    const packageSize = prod.paquet || prod.packageSize || 100;
+    const packagePrice = prod.prix !== undefined ? prod.prix : (prod.packagePrice || 1.50);
+    const unit = prod.unite || prod.unit || "g";
+    const unitPrice = prod.prix_unitaire !== undefined ? prod.prix_unitaire : (prod.unitPrice || (packageSize ? packagePrice / packageSize : 0.003));
+
+    const meta = {
+      name,
+      department,
+      packageSize,
+      packagePrice,
+      unit,
+      unitPrice
+    };
+
+    SUPERMARKET_PRODUCTS_MAP[key] = meta;
+    DEFAULT_PRICE_INDEX[name] = { unitPrice, packagePrice, unit };
+    DEFAULT_PRICE_INDEX[key] = { unitPrice, packagePrice, unit };
+  }
 }
+
+// Initialisation immédiate avec le catalogue par défaut
+updateProductsRegistry(DEFAULT_PRODUCTS);
 
 /**
  * Image illustrative selon le titre de la recette
@@ -140,7 +696,7 @@ function getRecipeImage(nom = "") {
 function generateCookingInstructions(title, ingredients = []) {
   const lower = title.toLowerCase();
   const garnish = ingredients.filter(i => {
-    const n = i.name.toLowerCase();
+    const n = (i.name || "").toLowerCase();
     return !n.includes("spaghetti") && !n.includes("penne") && !n.includes("tagliatelle") &&
            !n.includes("fusilli") && !n.includes("coquillette") && !n.includes("linguine") &&
            !n.includes("riz") && !n.includes("bouillon");
@@ -151,7 +707,7 @@ function generateCookingInstructions(title, ingredients = []) {
     return [
       "Dans une sauteuse chaude avec une noisette de beurre, faire nacrer le riz à sec pendant 2 minutes.",
       "Verser le bouillon chaud louche après louche en remuant régulièrement jusqu'à absorption complète (environ 18 min).",
-      garnish.length > 0 ? `Incorporer la garniture (${garnishNames}) à mi-cuisson pour qu'elle mijote doucement.` : "Assaisonner d'une pincée de poivre moulu.",
+      garnish.length > 0 ? ("Incorporer la garniture (" + garnishNames + ") à mi-cuisson pour qu'elle mijote doucement.") : "Assaisonner d'une pincée de poivre moulu.",
       "Hors du feu, lier avec le parmesan râpé et un soupçon de crème ou beurre, couvrir 2 minutes puis servir bien crémeux !"
     ];
   }
@@ -159,7 +715,7 @@ function generateCookingInstructions(title, ingredients = []) {
   if (lower.includes("riz")) {
     return [
       "Rincer le riz puis le cuire dans une casserole d'eau bouillante salée (environ 11 à 14 minutes) ou au cuiseur.",
-      garnish.length > 0 ? `Dans une poêle ou un wok chaud, faire dorer et mijoter la garniture (${garnishNames}) à feu moyen.` : "Égoutter le riz.",
+      garnish.length > 0 ? ("Dans une poêle ou un wok chaud, faire dorer et mijoter la garniture (" + garnishNames + ") à feu moyen.") : "Égoutter le riz.",
       "Ajouter la sauce ou les aromates à la poêle et laisser réduire quelques minutes pour concentrer les saveurs.",
       "Servir le riz bien chaud généreusement nappé de la préparation parfumée !"
     ];
@@ -167,7 +723,7 @@ function generateCookingInstructions(title, ingredients = []) {
 
   return [
     "Faire bouillir un grand volume d'eau salée et plonger les pâtes selon le temps indiqué al dente.",
-    garnish.length > 0 ? `Dans une poêle avec un filet d'huile ou une noisette de beurre, faire revenir la garniture (${garnishNames}) à feu moyen.` : "Égoutter les pâtes en gardant 2 cuillères d'eau de cuisson.",
+    garnish.length > 0 ? ("Dans une poêle avec un filet d'huile ou une noisette de beurre, faire revenir la garniture (" + garnishNames + ") à feu moyen.") : "Égoutter les pâtes en gardant 2 cuillères d'eau de cuisson.",
     "Égoutter les pâtes en réservant un petit fond d'eau de cuisson pour émulsionner la sauce.",
     "Mélanger immédiatement les pâtes bien chaudes avec la préparation et servir aussitôt avec le fromage !"
   ];
@@ -176,14 +732,15 @@ function generateCookingInstructions(title, ingredients = []) {
 /**
  * Normalise un ingrédient à partir de produit_id ou nom
  */
-function enrichIngredient(rawIng, recipePortions = 1) {
+export function enrichIngredient(rawIng, recipePortions = 1) {
   const portions = Math.max(1, recipePortions);
   const qty = rawIng.quantite !== undefined ? rawIng.quantite : 100;
   const amountPerPerson = Math.round((qty / portions) * 10) / 10;
   const unit = rawIng.unite || "g";
 
-  if (rawIng.produit_id && SUPERMARKET_PRODUCTS_MAP[rawIng.produit_id]) {
-    const meta = SUPERMARKET_PRODUCTS_MAP[rawIng.produit_id];
+  const id = rawIng.produit_id;
+  if (id && SUPERMARKET_PRODUCTS_MAP[id]) {
+    const meta = SUPERMARKET_PRODUCTS_MAP[id];
     return {
       name: meta.name,
       amountPerPerson,
@@ -215,13 +772,13 @@ function enrichIngredient(rawIng, recipePortions = 1) {
  */
 export function normalizeRecipe(raw, idx = 0) {
   const portions = raw.portions || 1;
-  const title = raw.nom || raw.title || `Recette maison #${idx + 1}`;
+  const title = raw.nom || raw.title || ("Recette maison #" + (idx + 1));
   const totalMinutes = raw.temps_minutes || 20;
   const prepTime = Math.max(5, Math.round(totalMinutes * 0.35));
   const cookTime = Math.max(5, Math.round(totalMinutes * 0.65));
   const lower = title.toLowerCase();
   const category = raw.categorie || (lower.includes("risotto") ? "risotto" : lower.includes("riz") ? "riz" : "pates");
-  const id = String(raw.id || (raw.nom ? raw.nom.toLowerCase().replace(/[^a-z0-9]+/g, "-") : `recette-${idx + 1}`));
+  const id = String(raw.id || (raw.nom ? raw.nom.toLowerCase().replace(/[^a-z0-9]+/g, "-") : ("recette-" + (idx + 1))));
 
   const ingredients = (raw.ingredients || []).map(ing => enrichIngredient(ing, portions));
   const instructions = Array.isArray(raw.instructions) && raw.instructions.length > 0
@@ -242,7 +799,7 @@ export function normalizeRecipe(raw, idx = 0) {
     id,
     title,
     nom: title,
-    description: raw.description || `Délicieuse recette de ${title.toLowerCase()} facile et rapide.`,
+    description: raw.description || ("Délicieuse recette de " + title.toLowerCase() + " facile et rapide."),
     category,
     diet: isVege ? "vegetarien" : "omnivore",
     prepTime,
@@ -251,7 +808,7 @@ export function normalizeRecipe(raw, idx = 0) {
     image: raw.image || getRecipeImage(title),
     tags: [
       tagLabel,
-      `⏱️ ${totalMinutes} min`,
+      ("⏱️ " + totalMinutes + " min"),
       isVege ? "Végétarien" : "Gourmand"
     ],
     appliances: ["plaques"],
@@ -269,11 +826,29 @@ export function normalizeCatalog(rawList = []) {
 export const RECIPES_DATA = [];
 
 /**
- * Charge le catalogue depuis data/recipes.json avec repli sécurisé
+ * Charge le référentiel supermarché depuis data/produits.json
+ */
+export async function loadProductsCatalog() {
+  try {
+    const res = await fetch("data/produits.json?v=" + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (typeof data === "object" && Object.keys(data).length > 0) {
+        updateProductsRegistry(data);
+      }
+    }
+  } catch (err) {
+    console.warn("Chargement de data/produits.json échoué, repli sur le catalogue interne :", err.message);
+  }
+}
+
+/**
+ * Charge le catalogue depuis data/recipes.json avec mise à jour préalable des produits
  */
 export async function loadRecipesCatalog() {
+  await loadProductsCatalog();
   try {
-    const res = await fetch(`data/recipes.json?v=${Date.now()}`);
+    const res = await fetch("data/recipes.json?v=" + Date.now());
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) {
