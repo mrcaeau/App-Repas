@@ -1,5 +1,5 @@
 // Base de recettes diversifiées, économiques et équilibrées
-// Avec électroménager requis (appliances) et portions minimales adaptées (minServings)
+// Avec électroménager requis (appliances), portions minimales (minServings) et prix paquets réels supermarché
 
 export const RECIPES_DATA = [
   {
@@ -12,9 +12,9 @@ export const RECIPES_DATA = [
     cookTime: 12,
     difficulty: "Très facile",
     image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=800&q=80",
-    tags: ["Express", "Gourmand", "Moins de 2€/pers"],
+    tags: ["Express", "Gourmand", "Bistrot"],
     appliances: ["plaques"],
-    minServings: 1, // Parfait pour 1 personne comme pour plusieurs
+    minServings: 1,
     instructions: [
       "Faire cuire les pâtes dans un grand volume d'eau bouillante salée selon le temps indiqué.",
       "Pendant ce temps, faire dorer les lardons à feu vif dans une poêle sans matière grasse.",
@@ -23,17 +23,17 @@ export const RECIPES_DATA = [
       "Mélanger les pâtes chaudes avec les lardons, puis hors du feu verser le mélange œuf/crème. Saupoudrer de parmesan."
     ],
     ingredients: [
-      { name: "Pâtes (Penne ou Tagliatelles)", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.15, offQuery: "pates penne" },
-      { name: "Lardons fumés", amountPerPerson: 50, unit: "g", department: "frais", packageSize: 200, packagePrice: 1.85, offQuery: "lardons fumes" },
-      { name: "Œufs frais", amountPerPerson: 1, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 1.95, offQuery: "oeufs" },
-      { name: "Crème fraîche fluide", amountPerPerson: 40, unit: "ml", department: "frais", packageSize: 200, packagePrice: 0.95, offQuery: "creme fraiche liquide" },
-      { name: "Parmesan râpé", amountPerPerson: 15, unit: "g", department: "frais", packageSize: 100, packagePrice: 1.70, offQuery: "parmesan rape" }
+      { name: "Pâtes (Penne ou Tagliatelles)", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.35, offQuery: "pates penne" },
+      { name: "Lardons fumés", amountPerPerson: 50, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.20, offQuery: "lardons fumes" },
+      { name: "Œufs frais", amountPerPerson: 1, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.30, offQuery: "oeufs" },
+      { name: "Crème fraîche fluide", amountPerPerson: 40, unit: "ml", department: "frais", packageSize: 200, packagePrice: 1.15, offQuery: "creme fraiche liquide" },
+      { name: "Parmesan râpé", amountPerPerson: 15, unit: "g", department: "frais", packageSize: 100, packagePrice: 2.10, offQuery: "parmesan rape" }
     ]
   },
   {
     id: "dahl-lentilles-corail",
     title: "Dahl de lentilles corail au lait de coco",
-    description: "Riche en protéines végétales, doux, réconfortant et ultra économique.",
+    description: "Riche en protéines végétales, doux, réconfortant et économique.",
     category: "vege",
     diet: "vegetarien",
     prepTime: 10,
@@ -51,11 +51,11 @@ export const RECIPES_DATA = [
       "Servir chaud accompagné de riz basmati."
     ],
     ingredients: [
-      { name: "Lentilles corail", amountPerPerson: 80, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.65, offQuery: "lentilles corail" },
-      { name: "Lait de coco", amountPerPerson: 100, unit: "ml", department: "epicerie", packageSize: 400, packagePrice: 1.45, offQuery: "lait de coco" },
-      { name: "Tomates concassées en boîte", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 400, packagePrice: 0.95, offQuery: "tomates concassees" },
-      { name: "Oignon jaune", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.50, offQuery: "oignon jaune" },
-      { name: "Riz basmati", amountPerPerson: 70, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.40, offQuery: "riz basmati" }
+      { name: "Lentilles corail", amountPerPerson: 80, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.95, offQuery: "lentilles corail" },
+      { name: "Lait de coco", amountPerPerson: 100, unit: "ml", department: "epicerie", packageSize: 400, packagePrice: 1.65, offQuery: "lait de coco" },
+      { name: "Tomates concassées en boîte", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 400, packagePrice: 1.20, offQuery: "tomates concassees" },
+      { name: "Oignon jaune", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.60, offQuery: "oignon jaune" },
+      { name: "Riz basmati", amountPerPerson: 70, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.70, offQuery: "riz basmati" }
     ]
   },
   {
@@ -69,7 +69,7 @@ export const RECIPES_DATA = [
     difficulty: "Très facile",
     image: "https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=800&q=80",
     tags: ["Airfryer", "Croustillant", "Protéines"],
-    appliances: ["airfryer", "plaques"], // Peut être fait à l'airfryer ou poêle
+    appliances: ["airfryer", "plaques"],
     minServings: 1,
     instructions: [
       "Couper les blancs de poulet en aiguillettes et les courgettes en rondelles.",
@@ -78,9 +78,9 @@ export const RECIPES_DATA = [
       "Secouer à mi-cuisson pour une dorure homogène et servir avec du riz chaud."
     ],
     ingredients: [
-      { name: "Filets de poulet", amountPerPerson: 120, unit: "g", department: "boucherie", packageSize: 400, packagePrice: 4.60, offQuery: "filet de poulet" },
-      { name: "Courgettes", amountPerPerson: 1, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.80, offQuery: "courgettes" },
-      { name: "Riz blanc long", amountPerPerson: 70, unit: "g", department: "epicerie", packageSize: 1000, packagePrice: 1.60, offQuery: "riz long" }
+      { name: "Filets de poulet", amountPerPerson: 120, unit: "g", department: "boucherie", packageSize: 400, packagePrice: 5.80, offQuery: "filet de poulet" },
+      { name: "Courgettes", amountPerPerson: 1, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 2.10, offQuery: "courgettes" },
+      { name: "Riz blanc long", amountPerPerson: 70, unit: "g", department: "epicerie", packageSize: 1000, packagePrice: 1.85, offQuery: "riz long" }
     ]
   },
   {
@@ -95,7 +95,7 @@ export const RECIPES_DATA = [
     image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80",
     tags: ["Express", "Solo friendly", "Tradition"],
     appliances: ["plaques"],
-    minServings: 1, // Idéal pour portion solo
+    minServings: 1,
     instructions: [
       "Faire fondre une noisette de beurre dans une poêle large.",
       "Déposer la galette de sarrasin et casser l'œuf au centre.",
@@ -103,11 +103,11 @@ export const RECIPES_DATA = [
       "Rabattre les 4 coins dès que le blanc d'œuf est cuit et servir avec de la salade."
     ],
     ingredients: [
-      { name: "Galettes de sarrasin", amountPerPerson: 1, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.10, offQuery: "galette sarrasin" },
-      { name: "Œuf frais", amountPerPerson: 1, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 1.95, offQuery: "oeufs plein air" },
-      { name: "Jambon blanc supérieur", amountPerPerson: 1, unit: "tranche", department: "frais", packageSize: 4, packagePrice: 2.20, offQuery: "jambon blanc" },
-      { name: "Emmental râpé", amountPerPerson: 30, unit: "g", department: "frais", packageSize: 200, packagePrice: 1.80, offQuery: "emmental rape" },
-      { name: "Salade verte (Mâche ou Batiste)", amountPerPerson: 40, unit: "g", department: "legumes", packageSize: 150, packagePrice: 1.30, offQuery: "salade verte" }
+      { name: "Galettes de sarrasin", amountPerPerson: 1, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.45, offQuery: "galette sarrasin" },
+      { name: "Œuf frais", amountPerPerson: 1, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.30, offQuery: "oeufs plein air" },
+      { name: "Jambon blanc supérieur", amountPerPerson: 1, unit: "tranche", department: "frais", packageSize: 4, packagePrice: 2.60, offQuery: "jambon blanc" },
+      { name: "Emmental râpé", amountPerPerson: 30, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.25, offQuery: "emmental rape" },
+      { name: "Salade verte (Mâche ou Batiste)", amountPerPerson: 40, unit: "g", department: "legumes", packageSize: 150, packagePrice: 1.45, offQuery: "salade verte" }
     ]
   },
   {
@@ -130,12 +130,12 @@ export const RECIPES_DATA = [
       "Laisser mijoter 15 minutes à feu doux et servir avec du riz blanc."
     ],
     ingredients: [
-      { name: "Haricots rouges en boîte", amountPerPerson: 120, unit: "g", department: "epicerie", packageSize: 400, packagePrice: 1.10, offQuery: "haricots rouges" },
-      { name: "Tomates concassées", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 400, packagePrice: 0.95, offQuery: "tomates concassees" },
-      { name: "Maïs doux en boîte", amountPerPerson: 60, unit: "g", department: "epicerie", packageSize: 300, packagePrice: 1.05, offQuery: "mais doux" },
-      { name: "Poivron rouge", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 3, packagePrice: 2.20, offQuery: "poivron" },
-      { name: "Oignon jaune", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.50, offQuery: "oignon" },
-      { name: "Riz blanc", amountPerPerson: 60, unit: "g", department: "epicerie", packageSize: 1000, packagePrice: 1.60, offQuery: "riz" }
+      { name: "Haricots rouges en boîte", amountPerPerson: 120, unit: "g", department: "epicerie", packageSize: 400, packagePrice: 1.25, offQuery: "haricots rouges" },
+      { name: "Tomates concassées", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 400, packagePrice: 1.20, offQuery: "tomates concassees" },
+      { name: "Maïs doux en boîte", amountPerPerson: 60, unit: "g", department: "epicerie", packageSize: 300, packagePrice: 1.20, offQuery: "mais doux" },
+      { name: "Poivron rouge", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 3, packagePrice: 2.40, offQuery: "poivron" },
+      { name: "Oignon jaune", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.60, offQuery: "oignon" },
+      { name: "Riz blanc", amountPerPerson: 60, unit: "g", department: "epicerie", packageSize: 1000, packagePrice: 1.85, offQuery: "riz" }
     ]
   },
   {
@@ -149,8 +149,8 @@ export const RECIPES_DATA = [
     difficulty: "Très facile",
     image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80",
     tags: ["Four", "Fondant", "Confort"],
-    appliances: ["four", "plaques"], // Requiert le four pour gratiner
-    minServings: 2, // Plat à gratin type familial
+    appliances: ["four", "plaques"],
+    minServings: 2,
     instructions: [
       "Préchauffer le four à 200°C. Cuire les coquillettes al dente sur les plaques.",
       "Mélanger dans un plat à gratin les pâtes, le coulis de tomate et le thon émietté.",
@@ -158,10 +158,10 @@ export const RECIPES_DATA = [
       "Enfourner 15 minutes jusqu'à ce que le fromage soit gratiné et doré."
     ],
     ingredients: [
-      { name: "Coquillettes", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 0.99, offQuery: "coquillettes" },
-      { name: "Thon au naturel en boîte", amountPerPerson: 80, unit: "g", department: "epicerie", packageSize: 160, packagePrice: 1.75, offQuery: "thon naturel" },
-      { name: "Coulis de tomate cuisiné", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.10, offQuery: "coulis tomate" },
-      { name: "Mozzarella", amountPerPerson: 60, unit: "g", department: "frais", packageSize: 125, packagePrice: 1.15, offQuery: "mozzarella" }
+      { name: "Coquillettes", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.20, offQuery: "coquillettes" },
+      { name: "Thon au naturel en boîte", amountPerPerson: 80, unit: "g", department: "epicerie", packageSize: 160, packagePrice: 2.15, offQuery: "thon naturel" },
+      { name: "Coulis de tomate cuisiné", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.30, offQuery: "coulis tomate" },
+      { name: "Mozzarella", amountPerPerson: 60, unit: "g", department: "frais", packageSize: 125, packagePrice: 1.35, offQuery: "mozzarella" }
     ]
   },
   {
@@ -176,7 +176,7 @@ export const RECIPES_DATA = [
     image: "https://images.unsplash.com/photo-1510693206972-df098062cb71?auto=format&fit=crop&w=800&q=80",
     tags: ["Express", "Solo friendly", "Moins de 10 min"],
     appliances: ["plaques"],
-    minServings: 1, // Portion solo idéale
+    minServings: 1,
     instructions: [
       "Émincer les champignons de Paris et les faire dorer 3 minutes à la poêle avec une noisette de beurre.",
       "Battre les œufs dans un bol avec sel, poivre et persil.",
@@ -184,10 +184,10 @@ export const RECIPES_DATA = [
       "Plier en deux et servir avec du pain croustillant."
     ],
     ingredients: [
-      { name: "Œufs frais", amountPerPerson: 2.5, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 1.95, offQuery: "oeufs" },
-      { name: "Champignons de Paris frais", amountPerPerson: 100, unit: "g", department: "legumes", packageSize: 250, packagePrice: 1.40, offQuery: "champignons paris" },
-      { name: "Beurre doux", amountPerPerson: 10, unit: "g", department: "frais", packageSize: 250, packagePrice: 2.10, offQuery: "beurre" },
-      { name: "Pain de mie ou baguette", amountPerPerson: 60, unit: "g", department: "boulangerie", packageSize: 250, packagePrice: 1.00, offQuery: "baguette" }
+      { name: "Œufs frais", amountPerPerson: 2.5, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.30, offQuery: "oeufs" },
+      { name: "Champignons de Paris frais", amountPerPerson: 100, unit: "g", department: "legumes", packageSize: 250, packagePrice: 1.65, offQuery: "champignons paris" },
+      { name: "Beurre doux", amountPerPerson: 10, unit: "g", department: "frais", packageSize: 250, packagePrice: 2.40, offQuery: "beurre" },
+      { name: "Pain de mie ou baguette", amountPerPerson: 60, unit: "g", department: "boulangerie", packageSize: 250, packagePrice: 1.20, offQuery: "baguette" }
     ]
   },
   {
@@ -202,7 +202,7 @@ export const RECIPES_DATA = [
     image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80",
     tags: ["Micro-ondes", "Express 5 min", "Étudiant"],
     appliances: ["microondes"],
-    minServings: 1, // Portion solo exclusive
+    minServings: 1,
     instructions: [
       "Dans une grande tasse ou un bol adapté au micro-ondes, battre 2 œufs avec 2 cuillères de crème.",
       "Ajouter les dés de jambon, l'emmental râpé, sel et poivre.",
@@ -210,10 +210,10 @@ export const RECIPES_DATA = [
       "Laisser tiédir 1 minute et déguster avec une tranche de pain toastée."
     ],
     ingredients: [
-      { name: "Œufs frais", amountPerPerson: 2, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 1.95, offQuery: "oeufs" },
-      { name: "Jambon blanc supérieur", amountPerPerson: 1, unit: "tranche", department: "frais", packageSize: 4, packagePrice: 2.20, offQuery: "jambon blanc" },
-      { name: "Emmental râpé", amountPerPerson: 30, unit: "g", department: "frais", packageSize: 200, packagePrice: 1.80, offQuery: "emmental" },
-      { name: "Crème fraîche fluide", amountPerPerson: 30, unit: "ml", department: "frais", packageSize: 200, packagePrice: 0.95, offQuery: "creme fraiche" }
+      { name: "Œufs frais", amountPerPerson: 2, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.30, offQuery: "oeufs" },
+      { name: "Jambon blanc supérieur", amountPerPerson: 1, unit: "tranche", department: "frais", packageSize: 4, packagePrice: 2.60, offQuery: "jambon blanc" },
+      { name: "Emmental râpé", amountPerPerson: 30, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.25, offQuery: "emmental" },
+      { name: "Crème fraîche fluide", amountPerPerson: 30, unit: "ml", department: "frais", packageSize: 200, packagePrice: 1.15, offQuery: "creme fraiche" }
     ]
   },
   {
@@ -227,8 +227,8 @@ export const RECIPES_DATA = [
     difficulty: "Facile",
     image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80",
     tags: ["Four", "Convivial", "Familial"],
-    appliances: ["four"], // Requiert obligatoirement un four
-    minServings: 2, // Tarte familiale (pas pour 1 portion seule)
+    appliances: ["four"],
+    minServings: 2,
     instructions: [
       "Préchauffer le four à 200°C. Dérouler la pâte feuilletée sur une plaque de cuisson.",
       "Piquer le fond et étaler 2 cuillères de moutarde.",
@@ -236,10 +236,10 @@ export const RECIPES_DATA = [
       "Cuire 25 minutes jusqu'à ce que la pâte soit bien dorée et croustillante."
     ],
     ingredients: [
-      { name: "Pâte feuilletée pur beurre", amountPerPerson: 0.25, unit: "pièce", department: "frais", packageSize: 1, packagePrice: 1.35, offQuery: "pate feuilletee" },
-      { name: "Tomates rondes", amountPerPerson: 1.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 2.20, offQuery: "tomates" },
-      { name: "Bûche de chèvre", amountPerPerson: 40, unit: "g", department: "frais", packageSize: 200, packagePrice: 1.85, offQuery: "fromage de chevre" },
-      { name: "Moutarde de Dijon", amountPerPerson: 10, unit: "g", department: "epicerie", packageSize: 370, packagePrice: 1.10, offQuery: "moutarde dijon" }
+      { name: "Pâte feuilletée pur beurre", amountPerPerson: 0.25, unit: "pièce", department: "frais", packageSize: 1, packagePrice: 1.55, offQuery: "pate feuilletee" },
+      { name: "Tomates rondes", amountPerPerson: 1.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 2.60, offQuery: "tomates" },
+      { name: "Bûche de chèvre", amountPerPerson: 40, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.10, offQuery: "fromage de chevre" },
+      { name: "Moutarde de Dijon", amountPerPerson: 10, unit: "g", department: "epicerie", packageSize: 370, packagePrice: 1.25, offQuery: "moutarde dijon" }
     ]
   },
   {
@@ -254,7 +254,7 @@ export const RECIPES_DATA = [
     image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80",
     tags: ["Airfryer", "Oméga 3", "Rapide"],
     appliances: ["airfryer", "plaques"],
-    minServings: 1, // Portion solo idéale
+    minServings: 1,
     instructions: [
       "Badigeonner le pavé de saumon d'un filet d'huile d'olive et de sauce soja.",
       "Disposer le saumon et les fleurettes de brocoli dans le panier de l'Airfryer.",
@@ -262,10 +262,10 @@ export const RECIPES_DATA = [
       "Déguster avec du riz basmati chaud."
     ],
     ingredients: [
-      { name: "Pavé de saumon frais ou surgelé", amountPerPerson: 120, unit: "g", department: "frais", packageSize: 240, packagePrice: 5.20, offQuery: "saumon" },
-      { name: "Brocolis frais ou surgelés", amountPerPerson: 120, unit: "g", department: "legumes", packageSize: 500, packagePrice: 1.70, offQuery: "brocolis" },
-      { name: "Riz basmati", amountPerPerson: 75, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.40, offQuery: "riz basmati" },
-      { name: "Sauce soja", amountPerPerson: 10, unit: "ml", department: "epicerie", packageSize: 150, packagePrice: 1.60, offQuery: "sauce soja" }
+      { name: "Pavé de saumon frais ou surgelé", amountPerPerson: 120, unit: "g", department: "frais", packageSize: 240, packagePrice: 5.95, offQuery: "saumon" },
+      { name: "Brocolis frais ou surgelés", amountPerPerson: 120, unit: "g", department: "legumes", packageSize: 500, packagePrice: 1.95, offQuery: "brocolis" },
+      { name: "Riz basmati", amountPerPerson: 75, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.70, offQuery: "riz basmati" },
+      { name: "Sauce soja", amountPerPerson: 10, unit: "ml", department: "epicerie", packageSize: 150, packagePrice: 1.80, offQuery: "sauce soja" }
     ]
   },
   {
@@ -279,8 +279,8 @@ export const RECIPES_DATA = [
     difficulty: "Moyen",
     image: "https://images.unsplash.com/photo-1584947915598-8e6f1f44e138?auto=format&fit=crop&w=800&q=80",
     tags: ["Four", "Familial", "Tradition"],
-    appliances: ["four", "plaques"], // Requiert four pour gratiner
-    minServings: 2, // Plat pour minimum 2 personnes
+    appliances: ["four", "plaques"],
+    minServings: 2,
     instructions: [
       "Cuire les pommes de terre épluchées dans l'eau salée puis les écraser avec du lait.",
       "Faire revenir le bœuf haché et l'oignon dans une poêle.",
@@ -288,10 +288,10 @@ export const RECIPES_DATA = [
       "Enfourner à 200°C pendant 20 minutes."
     ],
     ingredients: [
-      { name: "Bœuf haché 15% MG", amountPerPerson: 120, unit: "g", department: "boucherie", packageSize: 400, packagePrice: 4.80, offQuery: "boeuf hache" },
-      { name: "Pommes de terre", amountPerPerson: 200, unit: "g", department: "legumes", packageSize: 2500, packagePrice: 2.70, offQuery: "pommes de terre" },
-      { name: "Lait demi-écrémé", amountPerPerson: 40, unit: "ml", department: "frais", packageSize: 1000, packagePrice: 1.15, offQuery: "lait" },
-      { name: "Emmental râpé", amountPerPerson: 25, unit: "g", department: "frais", packageSize: 200, packagePrice: 1.80, offQuery: "emmental" }
+      { name: "Bœuf haché 15% MG", amountPerPerson: 120, unit: "g", department: "boucherie", packageSize: 400, packagePrice: 5.60, offQuery: "boeuf hache" },
+      { name: "Pommes de terre", amountPerPerson: 200, unit: "g", department: "legumes", packageSize: 2500, packagePrice: 3.20, offQuery: "pommes de terre" },
+      { name: "Lait demi-écrémé", amountPerPerson: 40, unit: "ml", department: "frais", packageSize: 1000, packagePrice: 1.25, offQuery: "lait" },
+      { name: "Emmental râpé", amountPerPerson: 25, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.25, offQuery: "emmental" }
     ]
   },
   {
@@ -305,7 +305,7 @@ export const RECIPES_DATA = [
     difficulty: "Facile",
     image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80",
     tags: ["Friteuse", "Gourmand", "Bistrot"],
-    appliances: ["fritteuse", "plaques"], // Requiert une friteuse
+    appliances: ["fritteuse", "plaques"],
     minServings: 1,
     instructions: [
       "Couper les pommes de terre en bâtonnets et bien les sécher dans un torchon.",
@@ -314,8 +314,8 @@ export const RECIPES_DATA = [
       "Saler les frites chaudes et servir immédiatement."
     ],
     ingredients: [
-      { name: "Bœuf haché 15% MG", amountPerPerson: 120, unit: "g", department: "boucherie", packageSize: 400, packagePrice: 4.80, offQuery: "steak hache" },
-      { name: "Pommes de terre", amountPerPerson: 220, unit: "g", department: "legumes", packageSize: 2500, packagePrice: 2.70, offQuery: "pommes de terre" }
+      { name: "Bœuf haché 15% MG", amountPerPerson: 120, unit: "g", department: "boucherie", packageSize: 400, packagePrice: 5.60, offQuery: "steak hache" },
+      { name: "Pommes de terre", amountPerPerson: 220, unit: "g", department: "legumes", packageSize: 2500, packagePrice: 3.20, offQuery: "pommes de terre" }
     ]
   },
   {
@@ -337,10 +337,10 @@ export const RECIPES_DATA = [
       "Servir chaud et croustillant avec une salade verte assaisonnée."
     ],
     ingredients: [
-      { name: "Pain de mie grandes tranches", amountPerPerson: 2, unit: "tranche", department: "boulangerie", packageSize: 14, packagePrice: 1.45, offQuery: "pain de mie" },
-      { name: "Jambon blanc supérieur", amountPerPerson: 1, unit: "tranche", department: "frais", packageSize: 4, packagePrice: 2.20, offQuery: "jambon blanc" },
-      { name: "Emmental râpé", amountPerPerson: 35, unit: "g", department: "frais", packageSize: 200, packagePrice: 1.80, offQuery: "emmental rape" },
-      { name: "Salade verte (Mâche ou Batiste)", amountPerPerson: 40, unit: "g", department: "legumes", packageSize: 150, packagePrice: 1.30, offQuery: "salade verte" }
+      { name: "Pain de mie grandes tranches", amountPerPerson: 2, unit: "tranche", department: "boulangerie", packageSize: 14, packagePrice: 1.65, offQuery: "pain de mie" },
+      { name: "Jambon blanc supérieur", amountPerPerson: 1, unit: "tranche", department: "frais", packageSize: 4, packagePrice: 2.60, offQuery: "jambon blanc" },
+      { name: "Emmental râpé", amountPerPerson: 35, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.25, offQuery: "emmental rape" },
+      { name: "Salade verte (Mâche ou Batiste)", amountPerPerson: 40, unit: "g", department: "legumes", packageSize: 150, packagePrice: 1.45, offQuery: "salade verte" }
     ]
   },
   {
@@ -364,11 +364,11 @@ export const RECIPES_DATA = [
       "Servir avec du riz blanc."
     ],
     ingredients: [
-      { name: "Pois chiches en boîte", amountPerPerson: 130, unit: "g", department: "epicerie", packageSize: 400, packagePrice: 1.15, offQuery: "pois chiches" },
-      { name: "Épinards frais en branches", amountPerPerson: 80, unit: "g", department: "legumes", packageSize: 200, packagePrice: 1.60, offQuery: "epinards" },
-      { name: "Lait de coco", amountPerPerson: 90, unit: "ml", department: "epicerie", packageSize: 200, packagePrice: 1.10, offQuery: "lait de coco" },
-      { name: "Oignon jaune", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.50, offQuery: "oignon" },
-      { name: "Riz blanc", amountPerPerson: 70, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.20, offQuery: "riz" }
+      { name: "Pois chiches en boîte", amountPerPerson: 130, unit: "g", department: "epicerie", packageSize: 400, packagePrice: 1.35, offQuery: "pois chiches" },
+      { name: "Épinards frais en branches", amountPerPerson: 80, unit: "g", department: "legumes", packageSize: 200, packagePrice: 1.80, offQuery: "epinards" },
+      { name: "Lait de coco", amountPerPerson: 90, unit: "ml", department: "epicerie", packageSize: 200, packagePrice: 1.25, offQuery: "lait de coco" },
+      { name: "Oignon jaune", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.60, offQuery: "oignon" },
+      { name: "Riz blanc", amountPerPerson: 70, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.35, offQuery: "riz" }
     ]
   },
   {
@@ -391,56 +391,56 @@ export const RECIPES_DATA = [
       "Arroser de sauce soja et remuer vivement 2 minutes."
     ],
     ingredients: [
-      { name: "Crevettes décortiquées cuites", amountPerPerson: 90, unit: "g", department: "frais", packageSize: 200, packagePrice: 3.50, offQuery: "crevettes" },
-      { name: "Nouilles asiatiques aux œufs", amountPerPerson: 75, unit: "g", department: "epicerie", packageSize: 250, packagePrice: 1.30, offQuery: "nouilles asiatiques" },
-      { name: "Carottes fraîches", amountPerPerson: 1, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.40, offQuery: "carottes" },
-      { name: "Sauce soja salée", amountPerPerson: 15, unit: "ml", department: "epicerie", packageSize: 150, packagePrice: 1.60, offQuery: "sauce soja" }
+      { name: "Crevettes décortiquées cuites", amountPerPerson: 90, unit: "g", department: "frais", packageSize: 200, packagePrice: 4.20, offQuery: "crevettes" },
+      { name: "Nouilles asiatiques aux œufs", amountPerPerson: 75, unit: "g", department: "epicerie", packageSize: 250, packagePrice: 1.45, offQuery: "nouilles asiatiques" },
+      { name: "Carottes fraîches", amountPerPerson: 1, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.50, offQuery: "carottes" },
+      { name: "Sauce soja salée", amountPerPerson: 15, unit: "ml", department: "epicerie", packageSize: 150, packagePrice: 1.80, offQuery: "sauce soja" }
     ]
   }
 ];
 
 export const DEFAULT_PRICE_INDEX = {
-  "Pâtes (Penne ou Tagliatelles)": { unitPrice: 0.0023, packagePrice: 1.15, unit: "g" },
-  "Lardons fumés": { unitPrice: 0.0092, packagePrice: 1.85, unit: "g" },
-  "Œufs frais": { unitPrice: 0.325, packagePrice: 1.95, unit: "pièce" },
-  "Crème fraîche fluide": { unitPrice: 0.0047, packagePrice: 0.95, unit: "ml" },
-  "Parmesan râpé": { unitPrice: 0.017, packagePrice: 1.70, unit: "g" },
-  "Lentilles corail": { unitPrice: 0.0033, packagePrice: 1.65, unit: "g" },
-  "Lait de coco": { unitPrice: 0.0036, packagePrice: 1.45, unit: "ml" },
-  "Tomates concassées en boîte": { unitPrice: 0.0024, packagePrice: 0.95, unit: "g" },
-  "Tomates concassées": { unitPrice: 0.0024, packagePrice: 0.95, unit: "g" },
-  "Oignon jaune": { unitPrice: 0.25, packagePrice: 1.50, unit: "pièce" },
-  "Riz basmati": { unitPrice: 0.0028, packagePrice: 1.40, unit: "g" },
-  "Filets de poulet": { unitPrice: 0.0115, packagePrice: 4.60, unit: "g" },
-  "Courgettes": { unitPrice: 0.60, packagePrice: 1.80, unit: "pièce" },
-  "Riz blanc long": { unitPrice: 0.0016, packagePrice: 1.60, unit: "g" },
-  "Galettes de sarrasin": { unitPrice: 0.35, packagePrice: 2.10, unit: "pièce" },
-  "Jambon blanc supérieur": { unitPrice: 0.55, packagePrice: 2.20, unit: "tranche" },
-  "Emmental râpé": { unitPrice: 0.009, packagePrice: 1.80, unit: "g" },
-  "Salade verte (Mâche ou Batiste)": { unitPrice: 0.0086, packagePrice: 1.30, unit: "g" },
-  "Haricots rouges en boîte": { unitPrice: 0.0027, packagePrice: 1.10, unit: "g" },
-  "Maïs doux en boîte": { unitPrice: 0.0035, packagePrice: 1.05, unit: "g" },
-  "Poivron rouge": { unitPrice: 0.73, packagePrice: 2.20, unit: "pièce" },
-  "Coquillettes": { unitPrice: 0.0019, packagePrice: 0.99, unit: "g" },
-  "Thon au naturel en boîte": { unitPrice: 0.0109, packagePrice: 1.75, unit: "g" },
-  "Coulis de tomate cuisiné": { unitPrice: 0.0022, packagePrice: 1.10, unit: "g" },
-  "Mozzarella": { unitPrice: 0.0092, packagePrice: 1.15, unit: "g" },
-  "Champignons de Paris frais": { unitPrice: 0.0056, packagePrice: 1.40, unit: "g" },
-  "Pois chiches en boîte": { unitPrice: 0.0028, packagePrice: 1.15, unit: "g" },
-  "Épinards frais en branches": { unitPrice: 0.008, packagePrice: 1.60, unit: "g" },
-  "Bûche de chèvre": { unitPrice: 0.0092, packagePrice: 1.85, unit: "g" },
-  "Pâte feuilletée pur beurre": { unitPrice: 1.35, packagePrice: 1.35, unit: "pièce" },
-  "Tomates rondes": { unitPrice: 0.35, packagePrice: 2.20, unit: "pièce" },
-  "Pavé de saumon frais ou surgelé": { unitPrice: 0.021, packagePrice: 5.20, unit: "g" },
-  "Brocolis frais ou surgelés": { unitPrice: 0.0034, packagePrice: 1.70, unit: "g" },
-  "Pommes de terre": { unitPrice: 0.0011, packagePrice: 2.70, unit: "g" },
-  "Crevettes décortiquées cuites": { unitPrice: 0.0175, packagePrice: 3.50, unit: "g" },
-  "Nouilles asiatiques aux œufs": { unitPrice: 0.0052, packagePrice: 1.30, unit: "g" },
-  "Bœuf haché 15% MG": { unitPrice: 0.012, packagePrice: 4.80, unit: "g" },
-  "Pain de mie grandes tranches": { unitPrice: 0.10, packagePrice: 1.45, unit: "tranche" },
-  "Moutarde de Dijon": { unitPrice: 0.003, packagePrice: 1.10, unit: "g" },
-  "Sauce soja": { unitPrice: 0.010, packagePrice: 1.60, unit: "ml" },
-  "Sauce soja salée": { unitPrice: 0.010, packagePrice: 1.60, unit: "ml" },
-  "Carottes fraîches": { unitPrice: 0.25, packagePrice: 1.40, unit: "pièce" },
-  "Beurre doux": { unitPrice: 0.0084, packagePrice: 2.10, unit: "g" }
+  "Pâtes (Penne ou Tagliatelles)": { unitPrice: 0.0027, packagePrice: 1.35, unit: "g" },
+  "Lardons fumés": { unitPrice: 0.011, packagePrice: 2.20, unit: "g" },
+  "Œufs frais": { unitPrice: 0.383, packagePrice: 2.30, unit: "pièce" },
+  "Crème fraîche fluide": { unitPrice: 0.00575, packagePrice: 1.15, unit: "ml" },
+  "Parmesan râpé": { unitPrice: 0.021, packagePrice: 2.10, unit: "g" },
+  "Lentilles corail": { unitPrice: 0.0039, packagePrice: 1.95, unit: "g" },
+  "Lait de coco": { unitPrice: 0.0041, packagePrice: 1.65, unit: "ml" },
+  "Tomates concassées en boîte": { unitPrice: 0.003, packagePrice: 1.20, unit: "g" },
+  "Tomates concassées": { unitPrice: 0.003, packagePrice: 1.20, unit: "g" },
+  "Oignon jaune": { unitPrice: 0.30, packagePrice: 1.60, unit: "pièce" },
+  "Riz basmati": { unitPrice: 0.0034, packagePrice: 1.70, unit: "g" },
+  "Filets de poulet": { unitPrice: 0.0145, packagePrice: 5.80, unit: "g" },
+  "Courgettes": { unitPrice: 0.70, packagePrice: 2.10, unit: "pièce" },
+  "Riz blanc long": { unitPrice: 0.00185, packagePrice: 1.85, unit: "g" },
+  "Galettes de sarrasin": { unitPrice: 0.408, packagePrice: 2.45, unit: "pièce" },
+  "Jambon blanc supérieur": { unitPrice: 0.65, packagePrice: 2.60, unit: "tranche" },
+  "Emmental râpé": { unitPrice: 0.0112, packagePrice: 2.25, unit: "g" },
+  "Salade verte (Mâche ou Batiste)": { unitPrice: 0.0096, packagePrice: 1.45, unit: "g" },
+  "Haricots rouges en boîte": { unitPrice: 0.0031, packagePrice: 1.25, unit: "g" },
+  "Maïs doux en boîte": { unitPrice: 0.004, packagePrice: 1.20, unit: "g" },
+  "Poivron rouge": { unitPrice: 0.80, packagePrice: 2.40, unit: "pièce" },
+  "Coquillettes": { unitPrice: 0.0024, packagePrice: 1.20, unit: "g" },
+  "Thon au naturel en boîte": { unitPrice: 0.0134, packagePrice: 2.15, unit: "g" },
+  "Coulis de tomate cuisiné": { unitPrice: 0.0026, packagePrice: 1.30, unit: "g" },
+  "Mozzarella": { unitPrice: 0.0108, packagePrice: 1.35, unit: "g" },
+  "Champignons de Paris frais": { unitPrice: 0.0066, packagePrice: 1.65, unit: "g" },
+  "Pois chiches en boîte": { unitPrice: 0.0033, packagePrice: 1.35, unit: "g" },
+  "Épinards frais en branches": { unitPrice: 0.009, packagePrice: 1.80, unit: "g" },
+  "Bûche de chèvre": { unitPrice: 0.0105, packagePrice: 2.10, unit: "g" },
+  "Pâte feuilletée pur beurre": { unitPrice: 1.55, packagePrice: 1.55, unit: "pièce" },
+  "Tomates rondes": { unitPrice: 0.40, packagePrice: 2.60, unit: "pièce" },
+  "Pavé de saumon frais ou surgelé": { unitPrice: 0.0248, packagePrice: 5.95, unit: "g" },
+  "Brocolis frais ou surgelés": { unitPrice: 0.0039, packagePrice: 1.95, unit: "g" },
+  "Pommes de terre": { unitPrice: 0.00128, packagePrice: 3.20, unit: "g" },
+  "Crevettes décortiquées cuites": { unitPrice: 0.021, packagePrice: 4.20, unit: "g" },
+  "Nouilles asiatiques aux œufs": { unitPrice: 0.0058, packagePrice: 1.45, unit: "g" },
+  "Bœuf haché 15% MG": { unitPrice: 0.014, packagePrice: 5.60, unit: "g" },
+  "Pain de mie grandes tranches": { unitPrice: 0.117, packagePrice: 1.65, unit: "tranche" },
+  "Moutarde de Dijon": { unitPrice: 0.0034, packagePrice: 1.25, unit: "g" },
+  "Sauce soja": { unitPrice: 0.012, packagePrice: 1.80, unit: "ml" },
+  "Sauce soja salée": { unitPrice: 0.012, packagePrice: 1.80, unit: "ml" },
+  "Carottes fraîches": { unitPrice: 0.28, packagePrice: 1.50, unit: "pièce" },
+  "Beurre doux": { unitPrice: 0.0096, packagePrice: 2.40, unit: "g" }
 };

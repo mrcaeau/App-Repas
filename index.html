@@ -182,20 +182,24 @@
       </button>
     </nav>
 
-    <!-- Jauge de Budget en direct -->
+    <!-- Jauge de Budget en direct avec distinction Ticket de caisse vs Portion -->
     <div class="budget-meter-card" id="budgetMeter">
       <div class="budget-meter-details">
         <div class="meter-stat">
-          <span class="meter-label">Budget cible</span>
-          <span class="meter-val" id="meterTarget">45 €</span>
+          <span class="meter-label">Budget max cible</span>
+          <span class="meter-val" id="meterTarget">35 €</span>
         </div>
         <div class="meter-stat">
-          <span class="meter-label">Coût estimé réel</span>
-          <span class="meter-val" id="meterReal">38.40 €</span>
+          <span class="meter-label">🛒 Panier en caisse (Paquets entiers)</span>
+          <span class="meter-val" id="meterStoreTotal" style="color: var(--primary-600);">32.40 €</span>
         </div>
         <div class="meter-stat">
-          <span class="meter-label">Marge disponible</span>
-          <span class="meter-val positive" id="meterDiff">+6.60 € restant</span>
+          <span class="meter-label">🍽️ Portions consommées</span>
+          <span class="meter-val" id="meterReal" style="font-size: 0.95rem; color: var(--text-muted);">21.80 €</span>
+        </div>
+        <div class="meter-stat">
+          <span class="meter-label">Marge en caisse</span>
+          <span class="meter-val positive" id="meterDiff">+2.60 € restant</span>
         </div>
       </div>
       <div class="meter-progress-track">

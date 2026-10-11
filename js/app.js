@@ -60,6 +60,7 @@ class PlanRepasApp {
 
     // Jauge de budget
     this.meterTarget = document.getElementById("meterTarget");
+    this.meterStoreTotal = document.getElementById("meterStoreTotal");
     this.meterReal = document.getElementById("meterReal");
     this.meterDiff = document.getElementById("meterDiff");
     this.meterBar = document.getElementById("meterBar");
@@ -296,23 +297,34 @@ class PlanRepasApp {
   updateBudgetMeter() {
     if (!this.state.currentPlan) return;
     const target = this.state.targetBudget;
-    const real = this.state.currentPlan.totalRealCost;
-    const diff = Math.round((target - real) * 100) / 100;
+    const portionReal = this.state.currentPlan.totalRealCost;
+
+    // Calcul du coût du panier réel en magasin (paquets entiers)
+    const groceryData = groceryListService.generateGroceryList(
+      this.state.currentPlan.meals,
+      this.state.servings,
+      this.state.pantryChecked
+    );
+    const storeTotal = groceryData.finalCheckoutCost;
+    const diff = Math.round((target - storeTotal) * 100) / 100;
 
     this.meterTarget.textContent = `${target} €`;
-    this.meterReal.textContent = `${real} €`;
+    if (this.meterStoreTotal) {
+      this.meterStoreTotal.textContent = `${storeTotal.toFixed(2)} €`;
+    }
+    this.meterReal.textContent = `${portionReal.toFixed(2)} €`;
 
     if (diff >= 0) {
-      this.meterDiff.textContent = `+${diff} € restant`;
+      this.meterDiff.textContent = `+${diff.toFixed(2)} € restant`;
       this.meterDiff.className = "meter-val positive";
     } else {
-      this.meterDiff.textContent = `${diff} € dépassé`;
+      this.meterDiff.textContent = `${Math.abs(diff).toFixed(2)} € dépassé`;
       this.meterDiff.className = "meter-val warning";
     }
 
-    const pct = Math.min(100, Math.round((real / target) * 100));
+    const pct = Math.min(100, Math.round((storeTotal / target) * 100));
     this.meterBar.style.width = `${pct}%`;
-    this.meterBar.className = real > target ? "meter-progress-bar over" : "meter-progress-bar";
+    this.meterBar.className = storeTotal > target ? "meter-progress-bar over" : "meter-progress-bar";
   }
 
   renderMealCards() {
@@ -457,6 +469,7 @@ class PlanRepasApp {
             this.state.pantryChecked.delete(itemId);
           }
           this.renderGroceryList();
+          this.updateBudgetMeter();
         });
       });
 
