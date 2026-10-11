@@ -58,11 +58,10 @@ class PlanRepasApp {
     this.mealsView = document.getElementById("mealsView");
     this.groceryView = document.getElementById("groceryView");
 
-    // Jauge de budget
+    // Jauge de budget simplifiée
     this.meterTarget = document.getElementById("meterTarget");
-    this.meterStoreTotal = document.getElementById("meterStoreTotal");
-    this.meterReal = document.getElementById("meterReal");
-    this.meterDiff = document.getElementById("meterDiff");
+    this.meterTotal = document.getElementById("meterTotal");
+    this.meterStatus = document.getElementById("meterStatus");
     this.meterBar = document.getElementById("meterBar");
 
     // Grilles & Conteneurs
@@ -228,10 +227,8 @@ class PlanRepasApp {
   }
 
   updateAvgPortionBadge() {
-    const totalPortions = this.state.mealCount * this.state.servings;
-    const avg = totalPortions > 0 ? (this.state.targetBudget / totalPortions).toFixed(2) : "0";
     if (this.avgPortionBadge) {
-      this.avgPortionBadge.textContent = `~${avg} € / portion (${this.state.servings} pers)`;
+      this.avgPortionBadge.textContent = `${this.state.targetBudget} €`;
     }
   }
 
@@ -297,7 +294,6 @@ class PlanRepasApp {
   updateBudgetMeter() {
     if (!this.state.currentPlan) return;
     const target = this.state.targetBudget;
-    const portionReal = this.state.currentPlan.totalRealCost;
 
     // Calcul du coût du panier réel en magasin (paquets entiers)
     const groceryData = groceryListService.generateGroceryList(
@@ -305,26 +301,27 @@ class PlanRepasApp {
       this.state.servings,
       this.state.pantryChecked
     );
-    const storeTotal = groceryData.finalCheckoutCost;
-    const diff = Math.round((target - storeTotal) * 100) / 100;
+    const totalPrice = groceryData.finalCheckoutCost;
+    const diff = Math.round((target - totalPrice) * 100) / 100;
 
     this.meterTarget.textContent = `${target} €`;
-    if (this.meterStoreTotal) {
-      this.meterStoreTotal.textContent = `${storeTotal.toFixed(2)} €`;
-    }
-    this.meterReal.textContent = `${portionReal.toFixed(2)} €`;
-
-    if (diff >= 0) {
-      this.meterDiff.textContent = `+${diff.toFixed(2)} € restant`;
-      this.meterDiff.className = "meter-val positive";
-    } else {
-      this.meterDiff.textContent = `${Math.abs(diff).toFixed(2)} € dépassé`;
-      this.meterDiff.className = "meter-val warning";
+    if (this.meterTotal) {
+      this.meterTotal.textContent = `${totalPrice.toFixed(2)} €`;
     }
 
-    const pct = Math.min(100, Math.round((storeTotal / target) * 100));
+    if (this.meterStatus) {
+      if (diff >= 0) {
+        this.meterStatus.textContent = `✓ Dans le budget (+${diff.toFixed(2)} €)`;
+        this.meterStatus.className = "meter-val positive";
+      } else {
+        this.meterStatus.textContent = `⚠️ Dépassé (-${Math.abs(diff).toFixed(2)} €)`;
+        this.meterStatus.className = "meter-val warning";
+      }
+    }
+
+    const pct = Math.min(100, Math.round((totalPrice / target) * 100));
     this.meterBar.style.width = `${pct}%`;
-    this.meterBar.className = storeTotal > target ? "meter-progress-bar over" : "meter-progress-bar";
+    this.meterBar.className = totalPrice > target ? "meter-progress-bar over" : "meter-progress-bar";
   }
 
   renderMealCards() {
@@ -343,10 +340,7 @@ class PlanRepasApp {
         return `<span class="appliance-badge">${APPLIANCE_ICONS[app] || app}</span>`;
       }).join(" ");
 
-      const isSolo = this.state.servings === 1;
-      const priceText = isSolo
-        ? `~${meal.mealTotalCost.toFixed(2)} € (1 portion solo)`
-        : `~${meal.mealTotalCost.toFixed(2)} € (${meal.costPerServing.toFixed(2)}€/p)`;
+      const priceText = `~${meal.mealTotalCost.toFixed(2)} €`;
 
       card.innerHTML = `
         <span class="meal-badge-day">${dayLabel}</span>
@@ -424,8 +418,7 @@ class PlanRepasApp {
     );
 
     this.tabGroceryCount.textContent = `${groceryData.totalItemsCount}`;
-    const servingNote = this.state.servings === 1 ? " (Panier pour 1 personne)" : ` (${this.state.servings} convives)`;
-    this.grocerySummaryBadge.textContent = `Total caisse estimé : ${groceryData.finalCheckoutCost} €${servingNote} • Économies placard : -${groceryData.pantrySavings} €`;
+    this.grocerySummaryBadge.textContent = `Prix total des courses : ${groceryData.finalCheckoutCost.toFixed(2)} €`;
 
     this.groceryDepartmentsContainer.innerHTML = "";
 

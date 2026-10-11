@@ -160,8 +160,8 @@
       <div class="generate-action-bar">
         <div class="budget-estimate-preview">
           <div>
-            <div class="preview-sub">Moyenne par portion estimée</div>
-            <div class="preview-badge" id="avgPortionBadge">~2.80 € / pers</div>
+            <div class="preview-sub">Prix ciblé</div>
+            <div class="preview-badge" id="avgPortionBadge">35 €</div>
           </div>
         </div>
         <button class="btn-primary" id="btnGenerate">
@@ -182,24 +182,20 @@
       </button>
     </nav>
 
-    <!-- Jauge de Budget en direct avec distinction Ticket de caisse vs Portion -->
+    <!-- Jauge de Budget simplifiée : Prix ciblé et Prix total -->
     <div class="budget-meter-card" id="budgetMeter">
       <div class="budget-meter-details">
         <div class="meter-stat">
-          <span class="meter-label">Budget max cible</span>
+          <span class="meter-label">Prix ciblé</span>
           <span class="meter-val" id="meterTarget">35 €</span>
         </div>
         <div class="meter-stat">
-          <span class="meter-label">🛒 Panier en caisse (Paquets entiers)</span>
-          <span class="meter-val" id="meterStoreTotal" style="color: var(--primary-600);">32.40 €</span>
+          <span class="meter-label">Prix total</span>
+          <span class="meter-val" id="meterTotal" style="color: var(--primary-600);">32.40 €</span>
         </div>
         <div class="meter-stat">
-          <span class="meter-label">🍽️ Portions consommées</span>
-          <span class="meter-val" id="meterReal" style="font-size: 0.95rem; color: var(--text-muted);">21.80 €</span>
-        </div>
-        <div class="meter-stat">
-          <span class="meter-label">Marge en caisse</span>
-          <span class="meter-val positive" id="meterDiff">+2.60 € restant</span>
+          <span class="meter-label">Statut</span>
+          <span class="meter-val positive" id="meterStatus">✓ Dans le budget</span>
         </div>
       </div>
       <div class="meter-progress-track">
