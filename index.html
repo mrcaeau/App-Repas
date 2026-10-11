@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlanRepas • Planificateur de Repas & Liste de Courses Économique</title>
+  <meta name="description" content="Planifiez vos repas de la semaine selon votre budget avec génération de liste de courses intelligente et prix Open Food Facts / Open Prices.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- En-tête de l'application -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="#" class="brand" id="brandLogo">
+        <div class="brand-icon">🥗</div>
+        <div>
+          <span class="brand-title">PlanRepas</span>
+          <div class="brand-subtitle">Planificateur intelligent sous contrainte de budget</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <!-- Bouton API Open Prices -->
+        <button class="api-badge" id="btnOpenPricesModal" title="Voir les prix en direct via Open Food Facts">
+          <span class="pulse-dot"></span>
+          <span>Open Prices API</span>
+        </button>
+
+        <!-- Toggle Thème Clair/Sombre -->
+        <button class="btn-icon" id="themeToggle" aria-label="Basculer le thème clair/sombre" title="Mode sombre">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenu Principal -->
+  <main class="main-container">
+    
+    <!-- Carte de Contrôles & Paramètres -->
+    <section class="control-card" id="controlSection">
+      <div class="control-card-header">
+        <h1 class="control-title">
+          <span>✨</span> Personnalisez vos repas de la semaine
+        </h1>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+          Inspiré de Planivore • Prix calibrés supermarché
+        </span>
+      </div>
+
+      <div class="control-grid">
+        <!-- Nombre de repas -->
+        <div class="control-group">
+          <label class="control-label">
+            <span>Nombre de repas</span>
+            <span class="control-val-badge">1 à 7</span>
+          </label>
+          <div class="pill-selector" id="durationPills">
+            <button class="pill-btn" data-count="1">1</button>
+            <button class="pill-btn" data-count="3">3</button>
+            <button class="pill-btn" data-count="5">5</button>
+            <button class="pill-btn active" data-count="7">7 repas</button>
+          </div>
+        </div>
+
+        <!-- Nombre de personnes -->
+        <div class="control-group">
+          <label class="control-label">
+            <span>Nombre de convives</span>
+            <span class="control-val-badge">Portions</span>
+          </label>
+          <div class="pill-selector" id="servingPills">
+            <button class="pill-btn" data-servings="1">1 pers</button>
+            <button class="pill-btn active" data-servings="2">2 pers</button>
+            <button class="pill-btn" data-servings="4">4 pers</button>
+            <button class="pill-btn" data-servings="6">6 pers</button>
+          </div>
+        </div>
+
+        <!-- Budget hebdomadaire cible -->
+        <div class="control-group">
+          <label for="budgetSlider" class="control-label">
+            <span>Budget courses cible</span>
+            <span class="control-val-badge" id="budgetValBadge">45 €</span>
+          </label>
+          <div class="slider-container">
+            <input type="range" id="budgetSlider" class="range-slider" min="15" max="150" step="5" value="45">
+            <div class="slider-scale">
+              <span>15 €</span>
+              <span>Économique</span>
+              <span>150 €</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Préférences / Filtres alimentaires -->
+        <div class="control-group">
+          <label class="control-label">
+            <span>Régime ou priorité</span>
+          </label>
+          <div class="filter-selector" id="dietFilterSelector">
+            <button class="filter-chip active" data-filter="all">Tous</button>
+            <button class="filter-chip" data-filter="vege">🌱 Végétarien</button>
+            <button class="filter-chip" data-filter="express">⚡ Rapide &lt; 20m</button>
+            <button class="filter-chip" data-filter="eco">🪙 &lt; 2€/pers</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barre d'action Générer -->
+      <div class="generate-action-bar">
+        <div class="budget-estimate-preview">
+          <div>
+            <div class="preview-sub">Moyenne par portion estimée</div>
+            <div class="preview-badge" id="avgPortionBadge">~2.80 € / pers</div>
+          </div>
+        </div>
+        <button class="btn-primary" id="btnGenerate">
+          <span>✨</span> Générer mon planning & liste
+        </button>
+      </div>
+    </section>
+
+    <!-- Navigation Onglets (Planning vs Liste de courses) -->
+    <nav class="view-tabs" aria-label="Navigation des vues">
+      <button class="tab-btn active" id="tabMeals">
+        <span>🗓️ Planning des repas</span>
+        <span class="tab-count" id="tabMealsCount">7</span>
+      </button>
+      <button class="tab-btn" id="tabGrocery">
+        <span>🛒 Liste de courses consolidée</span>
+        <span class="tab-count" id="tabGroceryCount">0</span>
+      </button>
+    </nav>
+
+    <!-- Jauge de Budget en direct -->
+    <div class="budget-meter-card" id="budgetMeter">
+      <div class="budget-meter-details">
+        <div class="meter-stat">
+          <span class="meter-label">Budget cible</span>
+          <span class="meter-val" id="meterTarget">45 €</span>
+        </div>
+        <div class="meter-stat">
+          <span class="meter-label">Coût estimé réel</span>
+          <span class="meter-val" id="meterReal">38.40 €</span>
+        </div>
+        <div class="meter-stat">
+          <span class="meter-label">Marge disponible</span>
+          <span class="meter-val positive" id="meterDiff">+6.60 € restant</span>
+        </div>
+      </div>
+      <div class="meter-progress-track">
+        <div class="meter-progress-bar" id="meterBar" style="width: 85%;"></div>
+      </div>
+    </div>
+
+    <!-- VUE 1 : PLANNING DES REPAS -->
+    <section id="mealsView">
+      <div class="section-header-bar">
+        <h2 class="section-title">
+          <span>🍳</span> Vos repas sélectionnés
+        </h2>
+        <span style="font-size: 0.82rem; color: var(--text-muted);">
+          Cliquez sur 🔄 Remplacer pour ajuster chaque plat
+        </span>
+      </div>
+      <div class="meals-grid" id="mealsGrid">
+        <!-- Rempli dynamiquement par JS -->
+      </div>
+    </section>
+
+    <!-- VUE 2 : LISTE DE COURSES -->
+    <section id="groceryView" style="display: none;">
+      <div class="grocery-container">
+        <div class="grocery-actions-bar">
+          <div>
+            <h2 class="section-title" style="margin-bottom: 0.2rem;">
+              <span>🛒</span> Liste de courses prête pour le supermarché
+            </h2>
+            <span style="font-size: 0.85rem; color: var(--text-muted);" id="grocerySummaryBadge">
+              Calculé à partir de vos repas sélectionnés
+            </span>
+          </div>
+          <div class="export-btns">
+            <button class="btn-secondary" id="btnCopyGrocery" title="Copier la liste complète">
+              📋 Copier
+            </button>
+            <button class="btn-secondary" id="btnWhatsapp" title="Partager sur WhatsApp">
+              💬 WhatsApp
+            </button>
+            <button class="btn-secondary" id="btnPrintGrocery" title="Imprimer ou enregistrer en PDF">
+              🖨️ Imprimer
+            </button>
+          </div>
+        </div>
+
+        <!-- Conteneur des rayons de supermarché -->
+        <div id="groceryDepartmentsContainer" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <!-- Rempli dynamiquement -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modale Détail Recette -->
+  <div class="modal-overlay" id="recipeModal" role="dialog" aria-modal="true">
+    <div class="modal-content" id="modalContentContainer">
+      <!-- Rempli dynamiquement -->
+    </div>
+  </div>
+
+  <!-- Modale Testeur Open Prices -->
+  <div class="modal-overlay" id="apiTesterModal" role="dialog" aria-modal="true">
+    <div class="modal-content" style="max-width: 540px;">
+      <div class="modal-body">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🔍</span> Relevés Open Prices (Open Food Facts)
+          </h2>
+          <button class="btn-icon" id="btnCloseApiModal">✕</button>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Testez l'interrogation en direct de l'API Open Prices. Recherchez n'importe quel ingrédient ou produit de supermarché pour voir les prix relevés.
+        </p>
+
+        <div class="api-tester-search">
+          <input type="text" id="apiSearchInput" class="search-input" placeholder="Ex: pâtes, courgettes, thon, œufs..." value="pâtes">
+          <button class="btn-primary" id="btnSearchApi">Rechercher</button>
+        </div>
+
+        <div class="api-result-box" id="apiResultBox">
+          <span style="font-size: 0.85rem; color: var(--text-dim);">
+            Entrez un nom de produit et cliquez sur Rechercher pour voir les données réelles Open Food Facts.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
