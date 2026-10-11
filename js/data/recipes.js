@@ -60,7 +60,25 @@ export const SUPERMARKET_PRODUCTS_MAP = {
   tagliatelles_500g: { name: "Tagliatelles (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.45, unit: "g", unitPrice: 0.0029 },
   thon_au_naturel_160g: { name: "Thon au naturel (160g)", department: "epicerie", packageSize: 160, packagePrice: 2.15, unit: "g", unitPrice: 0.0134 },
   tomates_cerises_250g: { name: "Tomates cerises (250g)", department: "legumes", packageSize: 250, packagePrice: 1.70, unit: "g", unitPrice: 0.0068 },
-  tomates_concassees_400g: { name: "Tomates concassées (400g)", department: "epicerie", packageSize: 400, packagePrice: 1.20, unit: "g", unitPrice: 0.003 }
+  tomates_concassees_400g: { name: "Tomates concassées (400g)", department: "epicerie", packageSize: 400, packagePrice: 1.20, unit: "g", unitPrice: 0.003 },
+  riz_basmati_1kg: { name: "Riz basmati (1kg)", department: "epicerie", packageSize: 1000, packagePrice: 2.30, unit: "g", unitPrice: 0.0023 },
+  riz_long_blanc_1kg: { name: "Riz long blanc (1kg)", department: "epicerie", packageSize: 1000, packagePrice: 1.85, unit: "g", unitPrice: 0.00185 },
+  haricots_rouges_boite_400g: { name: "Haricots rouges (boîte 400g)", department: "epicerie", packageSize: 400, packagePrice: 1.25, unit: "g", unitPrice: 0.0031 },
+  riz_thai_1kg: { name: "Riz thaï jasmin (1kg)", department: "epicerie", packageSize: 1000, packagePrice: 2.40, unit: "g", unitPrice: 0.0024 },
+  lait_coco_brique_20cl: { name: "Lait de coco (20cl)", department: "epicerie", packageSize: 200, packagePrice: 1.35, unit: "ml", unitPrice: 0.00675 },
+  sauce_soja_salee_150ml: { name: "Sauce soja salée (150ml)", department: "epicerie", packageSize: 150, packagePrice: 1.80, unit: "ml", unitPrice: 0.012 },
+  riz_rond_japonais_1kg: { name: "Riz rond japonais (1kg)", department: "epicerie", packageSize: 1000, packagePrice: 2.90, unit: "g", unitPrice: 0.0029 },
+  sauce_soja_sucree_150ml: { name: "Sauce soja sucrée (150ml)", department: "epicerie", packageSize: 150, packagePrice: 1.95, unit: "ml", unitPrice: 0.013 },
+  graines_sesame_100g: { name: "Graines de sésame (100g)", department: "epicerie", packageSize: 100, packagePrice: 1.45, unit: "g", unitPrice: 0.0145 },
+  riz_arborio_risotto_500g: { name: "Riz Arborio risotto (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.95, unit: "g", unitPrice: 0.0039 },
+  bouillon_legumes_cube_x8: { name: "Bouillon légumes (8 cubes)", department: "epicerie", packageSize: 8, packagePrice: 1.30, unit: "piece", unitPrice: 0.1625 },
+  huile_tournesol_1l: { name: "Huile de tournesol (1L)", department: "epicerie", packageSize: 1000, packagePrice: 2.10, unit: "ml", unitPrice: 0.0021 },
+  riz_rond_500g: { name: "Riz rond (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.35, unit: "g", unitPrice: 0.0027 },
+  lentilles_vertes_500g: { name: "Lentilles vertes (500g)", department: "epicerie", packageSize: 500, packagePrice: 1.65, unit: "g", unitPrice: 0.0033 },
+  pois_chiches_cuits_bocal_400g: { name: "Pois chiches cuits (400g)", department: "epicerie", packageSize: 400, packagePrice: 1.35, unit: "g", unitPrice: 0.003375 },
+  poireau_botte: { name: "Poireaux frais", department: "legumes", packageSize: 500, packagePrice: 1.80, unit: "g", unitPrice: 0.0036 },
+  steak_hache_15pct_125g: { name: "Steak haché 15% (125g)", department: "boucherie", packageSize: 125, packagePrice: 1.95, unit: "g", unitPrice: 0.0156 },
+  dos_cabillaud_200g: { name: "Dos de cabillaud (200g)", department: "boucherie", packageSize: 200, packagePrice: 4.90, unit: "g", unitPrice: 0.0245 }
 };
 
 export const DEFAULT_PRICE_INDEX = {};
@@ -70,10 +88,28 @@ for (const [key, val] of Object.entries(SUPERMARKET_PRODUCTS_MAP)) {
 }
 
 /**
- * Image illustrative selon le titre de la recette de pâtes
+ * Image illustrative selon le titre de la recette
  */
 function getRecipeImage(nom = "") {
   const lower = nom.toLowerCase();
+  if (lower.includes("risotto")) {
+    return "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=800&q=80";
+  }
+  if (lower.includes("cantonais") || lower.includes("riz sauté") || lower.includes("saute")) {
+    return "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=800&q=80";
+  }
+  if (lower.includes("chili")) {
+    return "https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=800&q=80";
+  }
+  if (lower.includes("curry") || lower.includes("coco")) {
+    return "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80";
+  }
+  if (lower.includes("bowl") || lower.includes("teriyaki") || lower.includes("soja")) {
+    return "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80";
+  }
+  if (lower.includes("riz")) {
+    return "https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=800&q=80";
+  }
   if (lower.includes("carbonara")) {
     return "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=800&q=80";
   }
@@ -86,7 +122,7 @@ function getRecipeImage(nom = "") {
   if (lower.includes("poulet") || lower.includes("dinde")) {
     return "https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=800&q=80";
   }
-  if (lower.includes("saumon") || lower.includes("crevette") || lower.includes("thon")) {
+  if (lower.includes("saumon") || lower.includes("crevette") || lower.includes("thon") || lower.includes("cabillaud") || lower.includes("poisson")) {
     return "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80";
   }
   if (lower.includes("tomate") || lower.includes("arrabbiata")) {
@@ -99,15 +135,35 @@ function getRecipeImage(nom = "") {
 }
 
 /**
- * Génère des étapes de préparation gourmandes pour chaque plat de pâtes
+ * Génère des étapes de préparation gourmandes pour chaque plat
  */
-function generatePastaInstructions(title, ingredients = []) {
+function generateCookingInstructions(title, ingredients = []) {
+  const lower = title.toLowerCase();
   const garnish = ingredients.filter(i => {
     const n = i.name.toLowerCase();
     return !n.includes("spaghetti") && !n.includes("penne") && !n.includes("tagliatelle") &&
-           !n.includes("fusilli") && !n.includes("coquillette") && !n.includes("linguine");
+           !n.includes("fusilli") && !n.includes("coquillette") && !n.includes("linguine") &&
+           !n.includes("riz") && !n.includes("bouillon");
   });
   const garnishNames = garnish.map(i => i.name).slice(0, 3).join(", ");
+
+  if (lower.includes("risotto")) {
+    return [
+      "Dans une sauteuse chaude avec une noisette de beurre, faire nacrer le riz à sec pendant 2 minutes.",
+      "Verser le bouillon chaud louche après louche en remuant régulièrement jusqu'à absorption complète (environ 18 min).",
+      garnish.length > 0 ? `Incorporer la garniture (${garnishNames}) à mi-cuisson pour qu'elle mijote doucement.` : "Assaisonner d'une pincée de poivre moulu.",
+      "Hors du feu, lier avec le parmesan râpé et un soupçon de crème ou beurre, couvrir 2 minutes puis servir bien crémeux !"
+    ];
+  }
+
+  if (lower.includes("riz")) {
+    return [
+      "Rincer le riz puis le cuire dans une casserole d'eau bouillante salée (environ 11 à 14 minutes) ou au cuiseur.",
+      garnish.length > 0 ? `Dans une poêle ou un wok chaud, faire dorer et mijoter la garniture (${garnishNames}) à feu moyen.` : "Égoutter le riz.",
+      "Ajouter la sauce ou les aromates à la poêle et laisser réduire quelques minutes pour concentrer les saveurs.",
+      "Servir le riz bien chaud généreusement nappé de la préparation parfumée !"
+    ];
+  }
 
   return [
     "Faire bouillir un grand volume d'eau salée et plonger les pâtes selon le temps indiqué al dente.",
@@ -159,24 +215,28 @@ function enrichIngredient(rawIng, recipePortions = 1) {
  */
 export function normalizeRecipe(raw, idx = 0) {
   const portions = raw.portions || 1;
-  const title = raw.nom || raw.title || `Recette de pâtes #${idx + 1}`;
+  const title = raw.nom || raw.title || `Recette maison #${idx + 1}`;
   const totalMinutes = raw.temps_minutes || 20;
   const prepTime = Math.max(5, Math.round(totalMinutes * 0.35));
   const cookTime = Math.max(5, Math.round(totalMinutes * 0.65));
-  const category = raw.categorie || "pates";
+  const lower = title.toLowerCase();
+  const category = raw.categorie || (lower.includes("risotto") ? "risotto" : lower.includes("riz") ? "riz" : "pates");
   const id = String(raw.id || (raw.nom ? raw.nom.toLowerCase().replace(/[^a-z0-9]+/g, "-") : `recette-${idx + 1}`));
 
   const ingredients = (raw.ingredients || []).map(ing => enrichIngredient(ing, portions));
   const instructions = Array.isArray(raw.instructions) && raw.instructions.length > 0
     ? raw.instructions
-    : generatePastaInstructions(title, ingredients);
+    : generateCookingInstructions(title, ingredients);
 
   const lowerText = JSON.stringify(raw).toLowerCase();
   const isVege = !lowerText.includes("poulet") && !lowerText.includes("boeuf") &&
                  !lowerText.includes("lardon") && !lowerText.includes("jambon") &&
                  !lowerText.includes("saumon") && !lowerText.includes("thon") &&
                  !lowerText.includes("crevette") && !lowerText.includes("dinde") &&
-                 !lowerText.includes("saucisse") && !lowerText.includes("chorizo");
+                 !lowerText.includes("saucisse") && !lowerText.includes("chorizo") &&
+                 !lowerText.includes("cabillaud") && !lowerText.includes("steak");
+
+  const tagLabel = category === "risotto" ? "Risotto" : category === "riz" ? "Riz" : "Pâtes";
 
   return {
     id,
@@ -190,7 +250,7 @@ export function normalizeRecipe(raw, idx = 0) {
     difficulty: "Très facile",
     image: raw.image || getRecipeImage(title),
     tags: [
-      "Pâtes",
+      tagLabel,
       `⏱️ ${totalMinutes} min`,
       isVege ? "Végétarien" : "Gourmand"
     ],
