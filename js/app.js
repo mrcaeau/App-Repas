@@ -79,7 +79,7 @@ class PlanRepasApp {
     this.themeToggle = document.getElementById("themeToggle");
     this.recipeModal = document.getElementById("recipeModal");
     this.modalContentContainer = document.getElementById("modalContentContainer");
-    this.btnCloseRecipeModal = document.getElementById("btnCloseRecipeModal");
+    this.btnModalOverlayClose = document.getElementById("btnModalOverlayClose");
 
     // TheMealDB & Open Prices
     this.btnSyncMealDb = document.getElementById("btnSyncMealDb");
@@ -185,9 +185,19 @@ class PlanRepasApp {
     });
 
     // Fermeture modales
-    this.btnCloseRecipeModal.addEventListener("click", () => this.closeRecipeModal());
+    if (this.btnModalOverlayClose) {
+      this.btnModalOverlayClose.addEventListener("click", () => this.closeRecipeModal());
+    }
     this.recipeModal.addEventListener("click", (e) => {
       if (e.target === this.recipeModal) this.closeRecipeModal();
+    });
+
+    // Touche Échap globale pour fermer n'importe quelle modale ouverte
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" || e.key === "Esc") {
+        this.closeRecipeModal();
+        this.closeApiModal();
+      }
     });
 
     // Testeur Open Prices
@@ -484,9 +494,10 @@ class PlanRepasApp {
     const appliancesText = (meal.appliances || ["plaques"]).map(a => APPLIANCE_ICONS[a] || a).join(", ");
 
     this.modalContentContainer.innerHTML = `
+      <button class="modal-sticky-close" id="btnModalCloseSticky" title="Fermer la boîte (Échap)" aria-label="Fermer la recette">✕</button>
       <div class="modal-header-image">
         <img src="${meal.image}" alt="${meal.title}" />
-        <button class="btn-close-modal" id="btnModalCloseCross">✕</button>
+        <button class="btn-close-modal" id="btnModalCloseCross" title="Fermer la boîte (Échap)" aria-label="Fermer la recette">✕</button>
       </div>
       <div class="modal-body">
         <h2 class="modal-title">${meal.title}</h2>
@@ -515,9 +526,16 @@ class PlanRepasApp {
           ${meal.instructions.map(step => `<li>${step}</li>`).join("")}
         </ol>
       </div>
+      <div class="modal-footer">
+        <button class="btn-primary" id="btnModalBottomClose" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; font-size: 1.05rem; font-weight: 700; padding: 0.9rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-md);">
+          <span>✕</span> Fermer la recette
+        </button>
+      </div>
     `;
 
-    document.getElementById("btnModalCloseCross").addEventListener("click", () => this.closeRecipeModal());
+    document.getElementById("btnModalCloseSticky")?.addEventListener("click", () => this.closeRecipeModal());
+    document.getElementById("btnModalCloseCross")?.addEventListener("click", () => this.closeRecipeModal());
+    document.getElementById("btnModalBottomClose")?.addEventListener("click", () => this.closeRecipeModal());
     this.recipeModal.classList.add("open");
   }
 

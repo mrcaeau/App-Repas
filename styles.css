@@ -1032,24 +1032,100 @@ body {
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 36px;
-  height: 36px;
+  z-index: 50;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #ffffff;
-  border: none;
-  font-size: 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  font-size: 1.35rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
   transition: all var(--transition-fast);
 }
 
 .btn-close-modal:hover {
-  background: rgba(15, 23, 42, 0.95);
-  transform: scale(1.08);
+  background: #000000;
+  border-color: #ffffff;
+  transform: scale(1.1);
+}
+
+.modal-sticky-close {
+  position: sticky;
+  top: 14px;
+  right: 14px;
+  align-self: flex-end;
+  margin-top: 14px;
+  margin-right: 14px;
+  margin-bottom: -58px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  font-size: 1.4rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  transition: all var(--transition-fast);
+}
+
+.modal-sticky-close:hover {
+  background: #000000;
+  border-color: #ffffff;
+  transform: scale(1.12);
+}
+
+.modal-overlay-close-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 120;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  font-size: 1.4rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: all var(--transition-fast);
+}
+
+.modal-overlay-close-btn:hover {
+  background: #000000;
+  border-color: #ffffff;
+  transform: scale(1.1);
+}
+
+.modal-footer {
+  padding: 1.1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-subtle);
+  display: flex;
+  justify-content: stretch;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 
 .modal-body {
