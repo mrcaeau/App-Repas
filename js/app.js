@@ -282,7 +282,8 @@ class PlanRepasApp {
       servings: this.state.servings,
       targetBudget: this.state.targetBudget,
       filter: this.state.filter,
-      availableAppliances: this.state.availableAppliances
+      availableAppliances: this.state.availableAppliances,
+      pantryChecked: this.state.pantryChecked
     });
 
     this.tabMealsCount.textContent = `${this.state.currentPlan.meals.length}`;
@@ -391,7 +392,8 @@ class PlanRepasApp {
       servings: this.state.servings,
       targetBudget: this.state.targetBudget,
       filter: this.state.filter,
-      availableAppliances: this.state.availableAppliances
+      availableAppliances: this.state.availableAppliances,
+      pantryChecked: this.state.pantryChecked
     });
 
     if (newMeal) {

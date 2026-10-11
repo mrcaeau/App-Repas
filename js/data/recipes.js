@@ -396,6 +396,162 @@ export const RECIPES_DATA = [
       { name: "Carottes fraîches", amountPerPerson: 1, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.50, offQuery: "carottes" },
       { name: "Sauce soja salée", amountPerPerson: 15, unit: "ml", department: "epicerie", packageSize: 150, packagePrice: 1.80, offQuery: "sauce soja" }
     ]
+  },
+  {
+    id: "pates-sauce-tomate-fromage",
+    title: "Pennes au coulis de tomate & emmental fondant",
+    description: "Le régal simple et économique par excellence, parfumé d'origan et nappé de fromage.",
+    category: "eco",
+    diet: "vegetarien",
+    prepTime: 5,
+    cookTime: 12,
+    difficulty: "Très facile",
+    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80",
+    tags: ["Économique", "Express", "Végétarien"],
+    appliances: ["plaques"],
+    minServings: 1,
+    instructions: [
+      "Faire cuire les pennes dans de l'eau bouillante salée.",
+      "Chauffer le coulis de tomate dans une sauteuse avec une pincée de sel, poivre et herbes.",
+      "Mélanger les pâtes égouttées dans la sauce bien chaude.",
+      "Servir généreusement parsemé d'emmental râpé."
+    ],
+    ingredients: [
+      { name: "Pâtes (Penne ou Tagliatelles)", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.35, offQuery: "pates penne" },
+      { name: "Coulis de tomate cuisiné", amountPerPerson: 120, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.30, offQuery: "coulis tomate" },
+      { name: "Emmental râpé", amountPerPerson: 35, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.25, offQuery: "emmental rape" }
+    ]
+  },
+  {
+    id: "riz-saute-oeufs-carottes",
+    title: "Riz sauté à la poêle, œufs battus & carottes",
+    description: "Un plat complet inspiré du riz cantonais, rapide, anti-gaspillage et ultra économique.",
+    category: "express",
+    diet: "vegetarien",
+    prepTime: 8,
+    cookTime: 10,
+    difficulty: "Très facile",
+    image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80",
+    tags: ["Express", "Économique", "Batch cooking"],
+    appliances: ["plaques"],
+    minServings: 1,
+    instructions: [
+      "Cuire le riz dans une casserole ou utiliser un reste de riz cuit.",
+      "Faire revenir les oignons et les dés de carottes dans une poêle chaude avec un peu d'huile.",
+      "Pousser les légumes sur le côté, casser les œufs et les brouiller vivement.",
+      "Ajouter le riz, assaisonner d'une cuillère de sauce soja et faire sauter le tout 3 minutes."
+    ],
+    ingredients: [
+      { name: "Riz blanc long", amountPerPerson: 75, unit: "g", department: "epicerie", packageSize: 1000, packagePrice: 1.85, offQuery: "riz long" },
+      { name: "Œufs frais", amountPerPerson: 2, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.30, offQuery: "oeufs" },
+      { name: "Oignon jaune", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.60, offQuery: "oignon" },
+      { name: "Carottes fraîches", amountPerPerson: 1, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.50, offQuery: "carottes" }
+    ]
+  },
+  {
+    id: "salade-riz-thon-oeuf-mais",
+    title: "Salade de riz complète : thon, œuf dur & maïs doux",
+    description: "Fraîche, rassasiante et prête à l'avance, parfaite pour le midi ou le soir.",
+    category: "equilibre",
+    diet: "pescetarien",
+    prepTime: 10,
+    cookTime: 10,
+    difficulty: "Très facile",
+    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80",
+    tags: ["Frais", "Sans four", "Équilibré"],
+    appliances: ["plaques"],
+    minServings: 1,
+    instructions: [
+      "Cuire le riz et les œufs durs (9 minutes dans l'eau bouillante), puis laisser refroidir.",
+      "Dans un saladier, mélanger le riz froid, le thon égoutté et le maïs doux.",
+      "Écaler les œufs, les couper en quartiers et les déposer sur la salade verte.",
+      "Assaisonner d'un filet d'huile et de vinaigre."
+    ],
+    ingredients: [
+      { name: "Riz blanc long", amountPerPerson: 70, unit: "g", department: "epicerie", packageSize: 1000, packagePrice: 1.85, offQuery: "riz long" },
+      { name: "Thon au naturel en boîte", amountPerPerson: 80, unit: "g", department: "epicerie", packageSize: 160, packagePrice: 2.15, offQuery: "thon naturel" },
+      { name: "Œufs frais", amountPerPerson: 1, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.30, offQuery: "oeufs" },
+      { name: "Maïs doux en boîte", amountPerPerson: 60, unit: "g", department: "epicerie", packageSize: 300, packagePrice: 1.20, offQuery: "mais doux" },
+      { name: "Salade verte (Mâche ou Batiste)", amountPerPerson: 40, unit: "g", department: "legumes", packageSize: 150, packagePrice: 1.45, offQuery: "salade verte" }
+    ]
+  },
+  {
+    id: "pommes-terre-sautees-oeuf-plat",
+    title: "Poêlée de pommes de terre dorées aux oignons & œuf au plat",
+    description: "Le plat rustique de campagne : pommes de terre croustillantes et jaune d'œuf coulant.",
+    category: "eco",
+    diet: "vegetarien",
+    prepTime: 10,
+    cookTime: 15,
+    difficulty: "Facile",
+    image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=800&q=80",
+    tags: ["Rustique", "Économique", "Gourmand"],
+    appliances: ["plaques"],
+    minServings: 1,
+    instructions: [
+      "Couper les pommes de terre en rondelles et émincer l'oignon.",
+      "Faire sauter les pommes de terre à feu moyen dans une poêle avec le beurre jusqu'à ce qu'elles soient bien dorées et tendres (15 min).",
+      "Ajouter les oignons à mi-cuisson.",
+      "Casser les œufs au plat directement sur la poêlée 3 minutes avant de servir."
+    ],
+    ingredients: [
+      { name: "Pommes de terre", amountPerPerson: 200, unit: "g", department: "legumes", packageSize: 2500, packagePrice: 3.20, offQuery: "pommes de terre" },
+      { name: "Oignon jaune", amountPerPerson: 0.5, unit: "pièce", department: "legumes", packageSize: 1000, packagePrice: 1.60, offQuery: "oignon" },
+      { name: "Œufs frais", amountPerPerson: 2, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.30, offQuery: "oeufs" },
+      { name: "Beurre doux", amountPerPerson: 10, unit: "g", department: "frais", packageSize: 250, packagePrice: 2.40, offQuery: "beurre" }
+    ]
+  },
+  {
+    id: "pates-coquillettes-jambon-creme",
+    title: "Coquillettes onctueuses au jambon, crème & emmental",
+    description: "Le grand réconfort des soirs de semaine : rapide, crémeux et adoré de tous.",
+    category: "express",
+    diet: "omnivore",
+    prepTime: 5,
+    cookTime: 8,
+    difficulty: "Très facile",
+    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80",
+    tags: ["Express", "Enfants", "Confort"],
+    appliances: ["plaques"],
+    minServings: 1,
+    instructions: [
+      "Faire cuire les coquillettes al dente.",
+      "Couper le jambon en lamelles.",
+      "Égoutter les pâtes, ajouter immédiatement la crème fraîche, le jambon et l'emmental râpé.",
+      "Mélanger sur feu très doux 1 minute pour que le fromage fonde parfaitement."
+    ],
+    ingredients: [
+      { name: "Coquillettes", amountPerPerson: 100, unit: "g", department: "epicerie", packageSize: 500, packagePrice: 1.20, offQuery: "coquillettes" },
+      { name: "Jambon blanc supérieur", amountPerPerson: 1, unit: "tranche", department: "frais", packageSize: 4, packagePrice: 2.60, offQuery: "jambon blanc" },
+      { name: "Crème fraîche fluide", amountPerPerson: 35, unit: "ml", department: "frais", packageSize: 200, packagePrice: 1.15, offQuery: "creme fraiche" },
+      { name: "Emmental râpé", amountPerPerson: 30, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.25, offQuery: "emmental rape" }
+    ]
+  },
+  {
+    id: "omelette-fromage-salade",
+    title: "Omelette baveuse à l'emmental & salade verte croquante",
+    description: "Simple, saine et croustillante avec du pain frais toasté.",
+    category: "express",
+    diet: "vegetarien",
+    prepTime: 4,
+    cookTime: 5,
+    difficulty: "Très facile",
+    image: "https://images.unsplash.com/photo-1510693206972-df098062cb71?auto=format&fit=crop&w=800&q=80",
+    tags: ["Solo friendly", "Express", "Moins de 2€/pers"],
+    appliances: ["plaques"],
+    minServings: 1,
+    instructions: [
+      "Battre les œufs avec une pincée de sel et de poivre.",
+      "Verser dans une poêle chaude beurrée et cuire à feu moyen.",
+      "Parsemer d'emmental râpé au centre dès que le fond commence à prendre.",
+      "Replier en deux et servir avec la salade verte."
+    ],
+    ingredients: [
+      { name: "Œufs frais", amountPerPerson: 2.5, unit: "pièce", department: "frais", packageSize: 6, packagePrice: 2.30, offQuery: "oeufs" },
+      { name: "Emmental râpé", amountPerPerson: 35, unit: "g", department: "frais", packageSize: 200, packagePrice: 2.25, offQuery: "emmental rape" },
+      { name: "Salade verte (Mâche ou Batiste)", amountPerPerson: 40, unit: "g", department: "legumes", packageSize: 150, packagePrice: 1.45, offQuery: "salade verte" },
+      { name: "Pain de mie ou baguette", amountPerPerson: 60, unit: "g", department: "boulangerie", packageSize: 250, packagePrice: 1.20, offQuery: "baguette" }
+    ]
   }
 ];
 
