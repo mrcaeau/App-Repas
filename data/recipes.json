@@ -3,7 +3,7 @@
     "nom": "Pâtes à la carbonara",
     "ingredients": [
       {
-        "produit_id": "spaghetti",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -28,7 +28,7 @@
     "nom": "Pâtes au poulet et à la crème",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -53,7 +53,7 @@
     "nom": "Pâtes bolognaise maison",
     "ingredients": [
       {
-        "produit_id": "tagliatelles",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -78,7 +78,7 @@
     "nom": "Pâtes au pesto vert et parmesan",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -103,7 +103,7 @@
     "nom": "Pâtes au beurre et parmesan",
     "ingredients": [
       {
-        "produit_id": "spaghetti",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -128,7 +128,7 @@
     "nom": "Penne all'arrabbiata",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -153,7 +153,7 @@
     "nom": "Pâtes au thon et à la sauce tomate",
     "ingredients": [
       {
-        "produit_id": "fusilli",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -178,7 +178,7 @@
     "nom": "Pâtes aux crevettes, ail et persil",
     "ingredients": [
       {
-        "produit_id": "linguine",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -203,7 +203,7 @@
     "nom": "Pâtes au saumon frais et à la crème",
     "ingredients": [
       {
-        "produit_id": "tagliatelles",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -228,7 +228,7 @@
     "nom": "Pâtes aux lardons et champignons",
     "ingredients": [
       {
-        "produit_id": "coquillettes",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -253,7 +253,7 @@
     "nom": "Spaghetti ail et huile d'olive",
     "ingredients": [
       {
-        "produit_id": "spaghetti",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -278,7 +278,7 @@
     "nom": "Pâtes au jambon et emmental",
     "ingredients": [
       {
-        "produit_id": "coquillettes",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -303,7 +303,7 @@
     "nom": "Pâtes aux aubergines et sauce tomate",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -328,7 +328,7 @@
     "nom": "Pâtes au fromage fondu façon mac and cheese",
     "ingredients": [
       {
-        "produit_id": "coquillettes",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -353,7 +353,7 @@
     "nom": "Pâtes aux courgettes et chèvre frais",
     "ingredients": [
       {
-        "produit_id": "fusilli",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -378,7 +378,7 @@
     "nom": "Pâtes aux épinards et à la crème",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -403,7 +403,7 @@
     "nom": "Pâtes au saumon fumé et crème fraîche",
     "ingredients": [
       {
-        "produit_id": "tagliatelles",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -428,7 +428,7 @@
     "nom": "Pâtes au boeuf haché et poivrons",
     "ingredients": [
       {
-        "produit_id": "fusilli",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -453,7 +453,7 @@
     "nom": "Pâtes au chorizo doux et sauce tomate",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -478,7 +478,7 @@
     "nom": "Pâtes au poulet et curry doux",
     "ingredients": [
       {
-        "produit_id": "fusilli",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -503,7 +503,7 @@
     "nom": "Pâtes aux brocolis et crème au parmesan",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -528,7 +528,7 @@
     "nom": "Pâtes aux boulettes de boeuf et tomate",
     "ingredients": [
       {
-        "produit_id": "spaghetti",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -553,7 +553,7 @@
     "nom": "Pâtes aux petits pois et lardons",
     "ingredients": [
       {
-        "produit_id": "fusilli",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -578,7 +578,7 @@
     "nom": "Pâtes au thon, crème et moutarde",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -603,7 +603,7 @@
     "nom": "Pâtes au pesto rouge et tomates cerises",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -628,7 +628,7 @@
     "nom": "Pâtes à la dinde et sauce moutarde à l'ancienne",
     "ingredients": [
       {
-        "produit_id": "fusilli",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -653,7 +653,7 @@
     "nom": "Pâtes à la crème de courge et parmesan",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -678,7 +678,7 @@
     "nom": "Pâtes sauce tomate basilic et mozzarella",
     "ingredients": [
       {
-        "produit_id": "spaghetti",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -703,7 +703,7 @@
     "nom": "Pâtes aux saucisses de Strasbourg et fromage",
     "ingredients": [
       {
-        "produit_id": "coquillettes",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -728,7 +728,7 @@
     "nom": "Pâtes au jambon cru et copeaux de parmesan",
     "ingredients": [
       {
-        "produit_id": "tagliatelles",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -753,7 +753,7 @@
     "nom": "Pâtes aux crevettes et crème au curry",
     "ingredients": [
       {
-        "produit_id": "linguine",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -778,7 +778,7 @@
     "nom": "Pâtes aux champignons de Paris à la crème",
     "ingredients": [
       {
-        "produit_id": "tagliatelles",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -803,7 +803,7 @@
     "nom": "Pâtes au maïs, thon et mayonnaise",
     "ingredients": [
       {
-        "produit_id": "fusilli",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -828,7 +828,7 @@
     "nom": "Pâtes aux dés de jambon et sauce tomate",
     "ingredients": [
       {
-        "produit_id": "coquillettes",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -853,7 +853,7 @@
     "nom": "Pâtes au poulet et sauce tomate",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -878,7 +878,7 @@
     "nom": "Pâtes crémeuses à la vache qui rit",
     "ingredients": [
       {
-        "produit_id": "coquillettes",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -903,7 +903,7 @@
     "nom": "Pâtes aux lardons et coulis de tomate",
     "ingredients": [
       {
-        "produit_id": "penne",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -928,7 +928,7 @@
     "nom": "Pâtes aux carottes rôties et cumin",
     "ingredients": [
       {
-        "produit_id": "fusilli",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -953,7 +953,7 @@
     "nom": "Pâtes au poulet et paprika doux",
     "ingredients": [
       {
-        "produit_id": "tagliatelles",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },
@@ -978,7 +978,7 @@
     "nom": "Pâtes aux crevettes et tomates cerises",
     "ingredients": [
       {
-        "produit_id": "spaghetti",
+        "produit_id": "pates",
         "quantite": 100,
         "unite": "g"
       },

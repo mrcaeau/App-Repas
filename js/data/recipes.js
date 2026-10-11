@@ -1,55 +1,15 @@
 // Catalogue de recettes JSON & Référentiel Supermarché Français
-// Découplage complet : les recettes utilisent des identifiants sémantiques propres (ex: "spaghetti", "poulet"),
+// Découplage complet : les recettes utilisent des identifiants sémantiques propres (ex: "pates", "poulet"),
 // et les caractéristiques supermarché (format paquet, prix, rayon) sont gérées dans data/produits.json.
 
 export const DEFAULT_PRODUCTS = {
-  "spaghetti": {
-    "nom": "Spaghetti",
+  "pates": {
+    "nom": "Pâtes",
     "rayon": "epicerie",
     "paquet": 500,
     "unite": "g",
-    "prix": 1.35,
-    "prix_unitaire": 0.0027
-  },
-  "penne": {
-    "nom": "Penne",
-    "rayon": "epicerie",
-    "paquet": 500,
-    "unite": "g",
-    "prix": 1.35,
-    "prix_unitaire": 0.0027
-  },
-  "tagliatelles": {
-    "nom": "Tagliatelles",
-    "rayon": "epicerie",
-    "paquet": 500,
-    "unite": "g",
-    "prix": 1.45,
-    "prix_unitaire": 0.0029
-  },
-  "fusilli": {
-    "nom": "Fusilli",
-    "rayon": "epicerie",
-    "paquet": 500,
-    "unite": "g",
-    "prix": 1.3,
-    "prix_unitaire": 0.0026
-  },
-  "coquillettes": {
-    "nom": "Coquillettes",
-    "rayon": "epicerie",
-    "paquet": 500,
-    "unite": "g",
-    "prix": 1.25,
-    "prix_unitaire": 0.0025
-  },
-  "linguine": {
-    "nom": "Linguine",
-    "rayon": "epicerie",
-    "paquet": 500,
-    "unite": "g",
-    "prix": 1.4,
-    "prix_unitaire": 0.0028
+    "prix": 1.2,
+    "prix_unitaire": 0.0024
   },
   "riz_basmati": {
     "nom": "Riz basmati",
@@ -638,6 +598,18 @@ export function updateProductsRegistry(catalog = {}) {
     DEFAULT_PRICE_INDEX[name] = { unitPrice, packagePrice, unit };
     DEFAULT_PRICE_INDEX[key] = { unitPrice, packagePrice, unit };
   }
+
+  // Alias rétrocompatibilité pour les variantes de pâtes
+  if (SUPERMARKET_PRODUCTS_MAP["pates"]) {
+    const patesMeta = SUPERMARKET_PRODUCTS_MAP["pates"];
+    const pastaAliases = ["spaghetti", "penne", "tagliatelles", "fusilli", "coquillettes", "linguine"];
+    for (const alias of pastaAliases) {
+      if (!SUPERMARKET_PRODUCTS_MAP[alias]) {
+        SUPERMARKET_PRODUCTS_MAP[alias] = patesMeta;
+        DEFAULT_PRICE_INDEX[alias] = { unitPrice: patesMeta.unitPrice, packagePrice: patesMeta.packagePrice, unit: patesMeta.unit };
+      }
+    }
+  }
 }
 
 // Initialisation immédiate avec le catalogue par défaut
@@ -697,7 +669,8 @@ function generateCookingInstructions(title, ingredients = []) {
   const lower = title.toLowerCase();
   const garnish = ingredients.filter(i => {
     const n = (i.name || "").toLowerCase();
-    return !n.includes("spaghetti") && !n.includes("penne") && !n.includes("tagliatelle") &&
+    return !n.includes("pâte") && !n.includes("pate") &&
+           !n.includes("spaghetti") && !n.includes("penne") && !n.includes("tagliatelle") &&
            !n.includes("fusilli") && !n.includes("coquillette") && !n.includes("linguine") &&
            !n.includes("riz") && !n.includes("bouillon");
   });
