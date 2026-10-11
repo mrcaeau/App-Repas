@@ -1,11 +1,20 @@
-// Algorithme de sélection intelligente de repas sous contrainte budgétaire
-// Similaire aux logiques d'optimisation de Planivore
+// Algorithme de sélection intelligente de repas avec contrainte budgétaire,
+// électroménager disponible et adaptation stricte aux portions (solo vs plusieurs).
 
 import { RECIPES_DATA, DEFAULT_PRICE_INDEX } from "../data/recipes.js";
 
 export class MealPlanner {
-  constructor(recipes = RECIPES_DATA) {
-    this.recipes = recipes;
+  constructor(baseRecipes = RECIPES_DATA) {
+    this.baseRecipes = baseRecipes;
+    this.externalRecipes = []; // Recettes importées de TheMealDB
+  }
+
+  setExternalRecipes(recipes = []) {
+    this.externalRecipes = recipes;
+  }
+
+  getAllRecipes() {
+    return [...this.baseRecipes, ...this.externalRecipes];
   }
 
   /**
@@ -20,7 +29,7 @@ export class MealPlanner {
       } else if (ing.packagePrice && ing.packageSize) {
         totalPerServing += (ing.amountPerPerson * ing.packagePrice) / ing.packageSize;
       } else {
-        totalPerServing += 0.50; // estimation par défaut
+        totalPerServing += 0.45;
       }
     }
     return Math.round(totalPerServing * 100) / 100;
@@ -34,11 +43,50 @@ export class MealPlanner {
   }
 
   /**
-   * Génère un planning de N repas respectant le budget cible et les filtres
+   * Vérifie si les équipements requis par la recette sont disponibles chez l'utilisateur
    */
-  generatePlan({ mealCount = 7, servings = 2, targetBudget = 50, filter = "all" }) {
-    // 1. Filtrer les recettes éligibles
-    let pool = this.recipes.filter(recipe => {
+  isApplianceCompatible(recipe, availableAppliances = ["plaques", "four", "microondes"]) {
+    if (!recipe.appliances || recipe.appliances.length === 0) return true;
+    
+    // Si la recette propose plusieurs options d'appareils (ex: airfryer OU poêle)
+    // Elle est compatible si l'utilisateur possède au moins un des équipements requis.
+    return recipe.appliances.some(app => availableAppliances.includes(app));
+  }
+
+  /**
+   * Vérifie la compatibilité des portions
+   * Pas de gros plats non fractionnables (ex: pizza ou quiche entière de 4 personnes) si 1 portion seule
+   */
+  isServingsCompatible(recipe, servings = 1) {
+    const min = recipe.minServings || 1;
+    return servings >= min;
+  }
+
+  /**
+   * Génère un planning de N repas respectant le budget cible, les équipements et les portions
+   */
+  generatePlan({
+    mealCount = 7,
+    servings = 2,
+    targetBudget = 45,
+    filter = "all",
+    availableAppliances = ["plaques", "four", "microondes"]
+  }) {
+    const all = this.getAllRecipes();
+
+    // 1. Filtrage strict : Équipements + Portions + Régime
+    let pool = all.filter(recipe => {
+      // Vérification électroménager
+      if (!this.isApplianceCompatible(recipe, availableAppliances)) {
+        return false;
+      }
+
+      // Vérification portions (exclure les gros plats collectifs si solo)
+      if (!this.isServingsCompatible(recipe, servings)) {
+        return false;
+      }
+
+      // Filtre diététique ou rapidité
       if (filter === "all") return true;
       if (filter === "vege") return recipe.diet === "vegetarien";
       if (filter === "express") return recipe.prepTime + recipe.cookTime <= 20;
@@ -47,9 +95,12 @@ export class MealPlanner {
       return true;
     });
 
+    // Si le filtre est trop restreint, on assouplit légèrement
     if (pool.length < mealCount) {
-      // Si le filtre est trop restrictif, on élargit pour toujours fournir le nombre de repas demandé
-      pool = [...this.recipes];
+      pool = all.filter(r => this.isApplianceCompatible(r, availableAppliances) && this.isServingsCompatible(r, servings));
+    }
+    if (pool.length < mealCount) {
+      pool = all;
     }
 
     // Associer les coûts
@@ -59,30 +110,25 @@ export class MealPlanner {
       mealTotalCost: this.calculateMealCost(recipe, servings)
     }));
 
-    // Trier pour équilibrer coût et diversité
+    // Mélanger aléatoirement
     const shuffled = [...enriched].sort(() => Math.random() - 0.5);
 
     // Sélection avec contrainte de budget
-    const targetPerMeal = targetBudget / mealCount;
     let selected = [];
-
-    // Sélection gloutonne équilibrée
     for (const candidate of shuffled) {
       if (selected.length >= mealCount) break;
 
-      // Éviter de dépasser drastiquement le budget restant
       const currentTotal = selected.reduce((acc, m) => acc + m.mealTotalCost, 0);
       const remainingBudget = targetBudget - currentTotal;
       const remainingMeals = mealCount - selected.length;
       const avgLeftBudget = remainingBudget / remainingMeals;
 
-      // Tolérance budgétaire souple (+25% par repas pour permettre un repas un peu plus cher compensé par un moins cher)
       if (candidate.mealTotalCost <= avgLeftBudget * 1.35 || selected.length + 1 === mealCount) {
         selected.push(candidate);
       }
     }
 
-    // Compléter si besoin
+    // Compléter au besoin
     if (selected.length < mealCount) {
       for (const candidate of shuffled) {
         if (!selected.find(s => s.id === candidate.id)) {
@@ -92,7 +138,6 @@ export class MealPlanner {
       }
     }
 
-    // Résumé financier
     const totalRealCost = Math.round(selected.reduce((acc, m) => acc + m.mealTotalCost, 0) * 100) / 100;
 
     return {
@@ -107,21 +152,22 @@ export class MealPlanner {
   }
 
   /**
-   * Remplace une recette par une autre alternative compatible
+   * Permute une recette spécifique en respectant les équipements et portions
    */
-  swapMeal(currentMealId, currentMealList, { servings = 2, targetBudget = 50, filter = "all" }) {
+  swapMeal(currentMealId, currentMealList, {
+    servings = 2,
+    targetBudget = 45,
+    filter = "all",
+    availableAppliances = ["plaques", "four", "microondes"]
+  }) {
     const existingIds = new Set(currentMealList.map(m => m.id));
-    
-    // Candidats non déjà présents dans le planning
-    const available = this.recipes.filter(r => !existingIds.has(r.id));
-    
-    if (available.length === 0) {
-      // Si toutes sont déjà dans la liste, on reprend la liste globale
-      return null;
-    }
+    const all = this.getAllRecipes();
 
-    // Filtrage préférentiel
-    let candidates = available.filter(recipe => {
+    const candidates = all.filter(recipe => {
+      if (existingIds.has(recipe.id)) return false;
+      if (!this.isApplianceCompatible(recipe, availableAppliances)) return false;
+      if (!this.isServingsCompatible(recipe, servings)) return false;
+
       if (filter === "all") return true;
       if (filter === "vege") return recipe.diet === "vegetarien";
       if (filter === "express") return recipe.prepTime + recipe.cookTime <= 20;
@@ -129,9 +175,8 @@ export class MealPlanner {
       return true;
     });
 
-    if (candidates.length === 0) candidates = available;
+    if (candidates.length === 0) return null;
 
-    // Choix aléatoire parmi les candidats
     const picked = candidates[Math.floor(Math.random() * candidates.length)];
     return {
       ...picked,

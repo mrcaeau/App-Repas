@@ -24,6 +24,12 @@
       </a>
 
       <div class="header-actions">
+        <!-- Bouton API TheMealDB -->
+        <button class="api-badge" id="btnSyncMealDb" style="border-color: #f59e0b; color: #d97706; background: rgba(245, 158, 11, 0.1);" title="Importer des recettes internationales de TheMealDB">
+          <span>🌍</span>
+          <span id="mealDbStatusText">TheMealDB API</span>
+        </button>
+
         <!-- Bouton API Open Prices -->
         <button class="api-badge" id="btnOpenPricesModal" title="Voir les prix en direct via Open Food Facts">
           <span class="pulse-dot"></span>
@@ -40,6 +46,16 @@
 
   <!-- Contenu Principal -->
   <main class="main-container">
+
+    <!-- Bannière dynamique Mode Solo (1 portion) -->
+    <div id="soloBannerContainer" style="display: none;">
+      <div class="solo-portion-callout">
+        <span style="font-size: 1.3rem;">🍽️</span>
+        <div>
+          <strong>Mode Portion Solo activé :</strong> Recettes et ingrédients strictement calibrés pour 1 personne. Les plats géants ou familiaux indivisibles sont automatiquement exclus pour éviter le gaspillage et vous donner le coût exact de votre repas.
+        </div>
+      </div>
+    </div>
     
     <!-- Carte de Contrôles & Paramètres -->
     <section class="control-card" id="controlSection">
@@ -71,28 +87,28 @@
         <div class="control-group">
           <label class="control-label">
             <span>Nombre de convives</span>
-            <span class="control-val-badge">Portions</span>
+            <span class="control-val-badge" id="servingsBadge">Portions</span>
           </label>
           <div class="pill-selector" id="servingPills">
-            <button class="pill-btn" data-servings="1">1 pers</button>
+            <button class="pill-btn" data-servings="1">1 pers (Solo)</button>
             <button class="pill-btn active" data-servings="2">2 pers</button>
             <button class="pill-btn" data-servings="4">4 pers</button>
             <button class="pill-btn" data-servings="6">6 pers</button>
           </div>
         </div>
 
-        <!-- Budget hebdomadaire cible -->
+        <!-- Budget hebdomadaire cible (Max 100€ pour plus de précision) -->
         <div class="control-group">
           <label for="budgetSlider" class="control-label">
             <span>Budget courses cible</span>
-            <span class="control-val-badge" id="budgetValBadge">45 €</span>
+            <span class="control-val-badge" id="budgetValBadge">35 €</span>
           </label>
           <div class="slider-container">
-            <input type="range" id="budgetSlider" class="range-slider" min="15" max="150" step="5" value="45">
+            <input type="range" id="budgetSlider" class="range-slider" min="10" max="100" step="1" value="35">
             <div class="slider-scale">
-              <span>15 €</span>
-              <span>Économique</span>
-              <span>150 €</span>
+              <span>10 €</span>
+              <span>Précis (1€/step)</span>
+              <span>100 € max</span>
             </div>
           </div>
         </div>
@@ -108,6 +124,35 @@
             <button class="filter-chip" data-filter="express">⚡ Rapide &lt; 20m</button>
             <button class="filter-chip" data-filter="eco">🪙 &lt; 2€/pers</button>
           </div>
+        </div>
+      </div>
+
+      <!-- Électroménager disponible à la maison -->
+      <div style="margin-top: 0.5rem; margin-bottom: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        <label class="control-label" style="margin-bottom: 0.65rem;">
+          <span>⚡ Vos appareils de cuisine disponibles (filtre automatique des recettes) :</span>
+        </label>
+        <div class="appliance-selector-grid" id="appliancesSelector">
+          <label class="appliance-chip-label">
+            <input type="checkbox" value="plaques" checked id="appliancePlaques">
+            <span>🍳 Plaques / Poêle</span>
+          </label>
+          <label class="appliance-chip-label">
+            <input type="checkbox" value="four" checked id="applianceFour">
+            <span>♨️ Four traditionnel</span>
+          </label>
+          <label class="appliance-chip-label">
+            <input type="checkbox" value="microondes" checked id="applianceMicroondes">
+            <span>⚡ Micro-ondes</span>
+          </label>
+          <label class="appliance-chip-label">
+            <input type="checkbox" value="airfryer" id="applianceAirfryer">
+            <span>🌪️ Airfryer</span>
+          </label>
+          <label class="appliance-chip-label">
+            <input type="checkbox" value="fritteuse" id="applianceFritteuse">
+            <span>🍟 Friteuse</span>
+          </label>
         </div>
       </div>
 

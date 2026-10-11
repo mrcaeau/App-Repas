@@ -1,26 +1,37 @@
-// Application principale PlanRepas
+// Application principale PlanRepas avec TheMealDB, filtre électroménager et adaptation solo
 import { mealPlanner } from "./services/mealPlanner.js";
 import { groceryListService, DEPARTMENT_LABELS } from "./services/groceryList.js";
 import { openPricesService } from "./services/openPricesApi.js";
+import { theMealDbService } from "./services/mealDbApi.js";
 import { RECIPES_DATA } from "./data/recipes.js";
+
+const APPLIANCE_ICONS = {
+  plaques: "🍳 Poêle/Plaques",
+  four: "♨️ Four",
+  microondes: "⚡ Micro-ondes",
+  airfryer: "🌪️ Airfryer",
+  fritteuse: "🍟 Friteuse"
+};
 
 class PlanRepasApp {
   constructor() {
     this.state = {
       mealCount: 7,
       servings: 2,
-      targetBudget: 45,
+      targetBudget: 35,
       filter: "all",
+      availableAppliances: ["plaques", "four", "microondes"],
       activeTab: "meals",
       currentPlan: null,
       pantryChecked: new Set(),
-      theme: localStorage.getItem("planrepas_theme") || "light"
+      theme: localStorage.getItem("planrepas_theme") || "light",
+      isMealDbLoading: false
     };
 
     this.initElements();
     this.bindEvents();
     this.applyTheme(this.state.theme);
-    this.generatePlan();
+    this.initTheMealDb();
   }
 
   initElements() {
@@ -29,8 +40,15 @@ class PlanRepasApp {
     this.servingPills = document.querySelectorAll("#servingPills .pill-btn");
     this.budgetSlider = document.getElementById("budgetSlider");
     this.budgetValBadge = document.getElementById("budgetValBadge");
+    this.avgPortionBadge = document.getElementById("avgPortionBadge");
     this.filterChips = document.querySelectorAll(".filter-chip");
     this.btnGenerate = document.getElementById("btnGenerate");
+
+    // Électroménager
+    this.applianceCheckboxes = document.querySelectorAll("#appliancesSelector input[type='checkbox']");
+
+    // Bannière solo
+    this.soloBannerContainer = document.getElementById("soloBannerContainer");
 
     // Onglets
     this.tabMeals = document.getElementById("tabMeals");
@@ -62,7 +80,9 @@ class PlanRepasApp {
     this.modalContentContainer = document.getElementById("modalContentContainer");
     this.btnCloseRecipeModal = document.getElementById("btnCloseRecipeModal");
 
-    // Testeur Open Prices
+    // TheMealDB & Open Prices
+    this.btnSyncMealDb = document.getElementById("btnSyncMealDb");
+    this.mealDbStatusText = document.getElementById("mealDbStatusText");
     this.btnOpenPricesModal = document.getElementById("btnOpenPricesModal");
     this.apiTesterModal = document.getElementById("apiTesterModal");
     this.btnCloseApiModal = document.getElementById("btnCloseApiModal");
@@ -71,6 +91,21 @@ class PlanRepasApp {
     this.apiResultBox = document.getElementById("apiResultBox");
 
     this.toastContainer = document.getElementById("toastContainer");
+  }
+
+  async initTheMealDb() {
+    try {
+      // Charger le catalogue initial de TheMealDB
+      const meals = await theMealDbService.fetchCuratedMeals(12);
+      if (meals && meals.length > 0) {
+        mealPlanner.setExternalRecipes(meals);
+        this.mealDbStatusText.textContent = `TheMealDB (+${meals.length} plats)`;
+      }
+    } catch (e) {
+      console.warn("TheMealDB init fallback:", e);
+    }
+    this.updateAvgPortionBadge();
+    this.generatePlan();
   }
 
   bindEvents() {
@@ -91,19 +126,30 @@ class PlanRepasApp {
         this.servingPills.forEach(p => p.classList.remove("active"));
         pill.classList.add("active");
         this.state.servings = parseInt(pill.dataset.servings, 10);
+        this.toggleSoloPortionMode(this.state.servings === 1);
         this.suggestBudgetForConfig();
         this.generatePlan();
       });
     });
 
-    // Slider de budget
+    // Slider de budget (10€ à 100€ précis à 1€)
     this.budgetSlider.addEventListener("input", (e) => {
       this.state.targetBudget = parseInt(e.target.value, 10);
       this.budgetValBadge.textContent = `${this.state.targetBudget} €`;
+      this.updateAvgPortionBadge();
       this.updateBudgetMeter();
     });
 
-    // Filtres
+    // Filtres d'appareils de cuisine (four, plaques, micro-ondes, airfryer, friteuse)
+    this.applianceCheckboxes.forEach(cb => {
+      cb.addEventListener("change", () => {
+        this.updateAvailableAppliances();
+        this.generatePlan();
+        this.showToast("🍳 Filtre appareils mis à jour !");
+      });
+    });
+
+    // Filtres de régime
     this.filterChips.forEach(chip => {
       chip.addEventListener("click", () => {
         this.filterChips.forEach(c => c.classList.remove("active"));
@@ -118,6 +164,9 @@ class PlanRepasApp {
       this.generatePlan();
       this.showToast("✨ Planning recalculé avec succès !");
     });
+
+    // Bouton de synchronisation TheMealDB
+    this.btnSyncMealDb.addEventListener("click", () => this.syncMoreTheMealDb());
 
     // Navigation Onglets
     this.tabMeals.addEventListener("click", () => this.switchTab("meals"));
@@ -152,19 +201,44 @@ class PlanRepasApp {
     });
   }
 
+  updateAvailableAppliances() {
+    const checked = [];
+    this.applianceCheckboxes.forEach(cb => {
+      if (cb.checked) checked.push(cb.value);
+    });
+    // Toujours au moins un moyen de cuisson
+    this.state.availableAppliances = checked.length > 0 ? checked : ["plaques"];
+  }
+
+  toggleSoloPortionMode(isSolo) {
+    if (this.soloBannerContainer) {
+      this.soloBannerContainer.style.display = isSolo ? "block" : "none";
+    }
+  }
+
+  suggestBudgetForConfig() {
+    // Calcul équilibré : ~2.50€ à 3.20€ par repas par personne, borné à [10, 100]
+    let suggested = Math.round(this.state.mealCount * this.state.servings * 2.8);
+    suggested = Math.max(10, Math.min(100, suggested));
+    this.budgetSlider.value = suggested;
+    this.state.targetBudget = suggested;
+    this.budgetValBadge.textContent = `${suggested} €`;
+    this.updateAvgPortionBadge();
+  }
+
+  updateAvgPortionBadge() {
+    const totalPortions = this.state.mealCount * this.state.servings;
+    const avg = totalPortions > 0 ? (this.state.targetBudget / totalPortions).toFixed(2) : "0";
+    if (this.avgPortionBadge) {
+      this.avgPortionBadge.textContent = `~${avg} € / portion (${this.state.servings} pers)`;
+    }
+  }
+
   applyTheme(theme) {
     this.state.theme = theme;
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("planrepas_theme", theme);
     this.themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
-  }
-
-  suggestBudgetForConfig() {
-    // Calcul d'un budget par défaut cohérent (~3€ par repas par personne)
-    const suggested = Math.round(this.state.mealCount * this.state.servings * 3.2);
-    this.budgetSlider.value = suggested;
-    this.state.targetBudget = suggested;
-    this.budgetValBadge.textContent = `${suggested} €`;
   }
 
   switchTab(tabName) {
@@ -183,12 +257,34 @@ class PlanRepasApp {
     }
   }
 
+  async syncMoreTheMealDb() {
+    if (this.state.isMealDbLoading) return;
+    this.state.isMealDbLoading = true;
+    this.mealDbStatusText.textContent = "Chargement API...";
+    this.showToast("🌍 Recherche de nouvelles recettes sur TheMealDB...");
+
+    try {
+      const meals = await theMealDbService.fetchCuratedMeals(25);
+      if (meals && meals.length > 0) {
+        mealPlanner.setExternalRecipes(meals);
+        this.mealDbStatusText.textContent = `TheMealDB (${mealPlanner.getAllRecipes().length} recettes)`;
+        this.generatePlan();
+        this.showToast(`✨ ${meals.length} recettes TheMealDB intégrées au planning !`);
+      }
+    } catch (e) {
+      this.showToast("Erreur lors de la synchronisation TheMealDB");
+    } finally {
+      this.state.isMealDbLoading = false;
+    }
+  }
+
   generatePlan() {
     this.state.currentPlan = mealPlanner.generatePlan({
       mealCount: this.state.mealCount,
       servings: this.state.servings,
       targetBudget: this.state.targetBudget,
-      filter: this.state.filter
+      filter: this.state.filter,
+      availableAppliances: this.state.availableAppliances
     });
 
     this.tabMealsCount.textContent = `${this.state.currentPlan.meals.length}`;
@@ -230,6 +326,16 @@ class PlanRepasApp {
       const dayLabel = days[idx] || `Repas ${idx + 1}`;
       const totalTime = meal.prepTime + meal.cookTime;
 
+      // Badges des appareils requis
+      const applianceBadges = (meal.appliances || ["plaques"]).map(app => {
+        return `<span class="appliance-badge">${APPLIANCE_ICONS[app] || app}</span>`;
+      }).join(" ");
+
+      const isSolo = this.state.servings === 1;
+      const priceText = isSolo
+        ? `~${meal.mealTotalCost.toFixed(2)} € (1 portion solo)`
+        : `~${meal.mealTotalCost.toFixed(2)} € (${meal.costPerServing.toFixed(2)}€/p)`;
+
       card.innerHTML = `
         <span class="meal-badge-day">${dayLabel}</span>
         <div class="meal-image-wrap">
@@ -238,13 +344,19 @@ class PlanRepasApp {
         <div class="meal-card-body">
           <div class="meal-meta-row">
             <span class="meal-time">⏱️ ${totalTime} min</span>
-            <span class="meal-cost-badge">~${meal.mealTotalCost.toFixed(2)} € (${(meal.costPerServing).toFixed(2)}€/p)</span>
+            <span class="meal-cost-badge">${priceText}</span>
           </div>
           <h3 class="meal-title">${meal.title}</h3>
           <p class="meal-description">${meal.description}</p>
+          
+          <div style="display: flex; gap: 0.35rem; margin-bottom: 0.6rem; flex-wrap: wrap;">
+            ${applianceBadges}
+          </div>
+
           <div class="meal-tags">
             ${meal.tags.map(t => `<span class="tag-badge">${t}</span>`).join("")}
           </div>
+
           <div class="meal-card-footer">
             <button class="btn-secondary btn-swap" data-meal-id="${meal.id}">
               🔄 Remplacer
@@ -256,12 +368,10 @@ class PlanRepasApp {
         </div>
       `;
 
-      // Bouton Remplacer
       card.querySelector(".btn-swap").addEventListener("click", () => {
         this.swapSpecificMeal(meal.id, idx);
       });
 
-      // Bouton Détail recette
       card.querySelector(".btn-detail").addEventListener("click", () => {
         this.openRecipeModal(meal);
       });
@@ -274,7 +384,8 @@ class PlanRepasApp {
     const newMeal = mealPlanner.swapMeal(mealId, this.state.currentPlan.meals, {
       servings: this.state.servings,
       targetBudget: this.state.targetBudget,
-      filter: this.state.filter
+      filter: this.state.filter,
+      availableAppliances: this.state.availableAppliances
     });
 
     if (newMeal) {
@@ -285,9 +396,9 @@ class PlanRepasApp {
       this.renderMealCards();
       this.renderGroceryList();
       this.updateBudgetMeter();
-      this.showToast(`🔄 Recette remplacée par "${newMeal.title}"`);
+      this.showToast(`🔄 Remplacé par "${newMeal.title}"`);
     } else {
-      this.showToast("Toutes les recettes disponibles sont déjà incluses !");
+      this.showToast("Toutes les recettes compatibles avec vos appareils sont déjà sélectionnées !");
     }
   }
 
@@ -301,7 +412,8 @@ class PlanRepasApp {
     );
 
     this.tabGroceryCount.textContent = `${groceryData.totalItemsCount}`;
-    this.grocerySummaryBadge.textContent = `Total caisse estimé : ${groceryData.finalCheckoutCost} € (Économies placard : -${groceryData.pantrySavings} €)`;
+    const servingNote = this.state.servings === 1 ? " (Panier pour 1 personne)" : ` (${this.state.servings} convives)`;
+    this.grocerySummaryBadge.textContent = `Total caisse estimé : ${groceryData.finalCheckoutCost} €${servingNote} • Économies placard : -${groceryData.pantrySavings} €`;
 
     this.groceryDepartmentsContainer.innerHTML = "";
 
@@ -324,7 +436,7 @@ class PlanRepasApp {
                 <input type="checkbox" class="custom-checkbox" ${item.inPantry ? 'checked' : ''} data-item-id="${item.id}" />
                 <div class="grocery-item-info">
                   <span class="grocery-item-name">${item.name}</span>
-                  <span class="grocery-item-sub">Besoin : ${Math.round(item.totalQuantity * 10) / 10} ${item.unit} (${item.packagesNeeded} paquet(s)) • Utilisé dans : ${item.mealsUsedIn.join(", ")}</span>
+                  <span class="grocery-item-sub">Quantité pour ${this.state.servings} pers : ${Math.round(item.totalQuantity * 10) / 10} ${item.unit} (${item.packagesNeeded} paquet(s) de magasin)</span>
                 </div>
               </div>
               <div class="grocery-item-right">
@@ -336,7 +448,6 @@ class PlanRepasApp {
         </ul>
       `;
 
-      // Écouteur sur les cases à cocher du placard
       card.querySelectorAll(".custom-checkbox").forEach(box => {
         box.addEventListener("change", (e) => {
           const itemId = e.target.dataset.itemId;
@@ -355,6 +466,8 @@ class PlanRepasApp {
 
   openRecipeModal(meal) {
     const servings = this.state.servings;
+    const appliancesText = (meal.appliances || ["plaques"]).map(a => APPLIANCE_ICONS[a] || a).join(", ");
+
     this.modalContentContainer.innerHTML = `
       <div class="modal-header-image">
         <img src="${meal.image}" alt="${meal.title}" />
@@ -364,11 +477,12 @@ class PlanRepasApp {
         <h2 class="modal-title">${meal.title}</h2>
         <div class="modal-meta-bar">
           <span class="meal-time">⏱️ Prépa : ${meal.prepTime} min | Cuisson : ${meal.cookTime} min</span>
-          <span class="meal-cost-badge">👥 ${servings} portion(s) • Total ~${(meal.costPerServing * servings).toFixed(2)} €</span>
+          <span class="meal-cost-badge">👥 ${servings === 1 ? '1 portion individuelle' : `${servings} portions`} • Coût ~${(meal.costPerServing * servings).toFixed(2)} €</span>
+          <span class="tag-badge">Appareils : ${appliancesText}</span>
         </div>
         <p class="meal-description">${meal.description}</p>
         
-        <h3 class="modal-section-title">🛒 Ingrédients (${servings} pers)</h3>
+        <h3 class="modal-section-title">🛒 Ingrédients (${servings === 1 ? '1 personne' : `${servings} personnes`})</h3>
         <div class="ingredients-list">
           ${meal.ingredients.map(ing => {
             const scaledQty = Math.round(ing.amountPerPerson * servings * 10) / 10;
@@ -481,7 +595,6 @@ class PlanRepasApp {
   }
 }
 
-// Initialisation au chargement du DOM
 document.addEventListener("DOMContentLoaded", () => {
   window.planRepasApp = new PlanRepasApp();
 });
