@@ -57,11 +57,11 @@ export class MealPlanner {
 
   /**
    * Générateur de planning optimisé sur le PRIX TOTAL DU PANIER EN CAISSE
-   * Effectue une optimisation par mutualisation d'ingrédients pour respecter strictly targetBudget
+   * Utilise un algorithme glouton à coût incrémental minimal pour mutualiser les ingrédients
    */
   generatePlan({
     mealCount = 7,
-    servings = 2,
+    servings = 1,
     targetBudget = 30,
     filter = "all",
     availableAppliances = ["plaques", "four", "microondes"],
@@ -89,57 +89,62 @@ export class MealPlanner {
       pool = all;
     }
 
-    // 2. Recherche par optimisation pour trouver le meilleur panier sous la contrainte targetBudget
+    // 2. Optimisation gloutonne incrémentale : 120 itérations avec sélection à coût minimal
     let validPlans = [];
     let lowestCostPlan = null;
     let minOverheadCost = Infinity;
 
-    // Trier les recettes économiques en priorité
-    const sortedPool = [...pool].sort((a, b) => this.calculateCostPerServing(a) - this.calculateCostPerServing(b));
-
-    const ATTEMPTS = 250;
+    const ATTEMPTS = 120;
     for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
-      let currentSelection = [];
-      // Mélanger aléatoirement avec une légère préférence pour les recettes à haute synergie
-      const randomized = [...sortedPool].sort(() => Math.random() - 0.5);
+      const shuffled = [...pool].sort(() => Math.random() - 0.5);
+      let chosen = [shuffled[0]];
 
-      for (const candidate of randomized) {
-        if (currentSelection.length >= mealCount) break;
-        if (currentSelection.some(m => m.id === candidate.id)) continue;
+      while (chosen.length < mealCount) {
+        let bestNext = null;
+        let lowestIncremental = Infinity;
 
-        const trialMeals = [...currentSelection, candidate];
-        const trialCost = this.getStoreCartCost(trialMeals, servings, pantryChecked);
+        // Trouver le plat qui ajoute le moins de surcoût au ticket de caisse
+        for (const cand of shuffled) {
+          if (chosen.some(c => c.id === cand.id)) continue;
+          const costWithCand = this.getStoreCartCost([...chosen, cand], servings, pantryChecked);
+          if (costWithCand < lowestIncremental) {
+            lowestIncremental = costWithCand;
+            bestNext = cand;
+          }
+        }
 
-        // Règle stricte : si le budget est serré, on n'accepte le candidat que si le panier reste sous le budget
-        if (trialCost <= targetBudget || currentSelection.length === 0) {
-          currentSelection.push(candidate);
+        if (bestNext) {
+          chosen.push(bestNext);
+        } else {
+          break;
         }
       }
 
-      // Si on a réussi à obtenir le nombre de repas demandé
-      if (currentSelection.length === mealCount) {
-        const finalCost = this.getStoreCartCost(currentSelection, servings, pantryChecked);
+      if (chosen.length === mealCount) {
+        const finalCost = this.getStoreCartCost(chosen, servings, pantryChecked);
 
         if (finalCost <= targetBudget) {
-          validPlans.push({ meals: currentSelection, finalCost });
+          validPlans.push({ meals: chosen, finalCost });
         }
 
         if (finalCost < minOverheadCost) {
           minOverheadCost = finalCost;
-          lowestCostPlan = { meals: currentSelection, finalCost };
+          lowestCostPlan = { meals: chosen, finalCost };
         }
       }
     }
 
-    // Sélection finale :
+    // Sélection finale : privilégie un plan strictement sous budget si disponible
     let chosenPlan = null;
     if (validPlans.length > 0) {
-      // Choisir un plan valide avec une bonne diversité
       chosenPlan = validPlans[Math.floor(Math.random() * validPlans.length)];
     } else if (lowestCostPlan) {
       chosenPlan = lowestCostPlan;
     } else {
-      chosenPlan = { meals: sortedPool.slice(0, mealCount), finalCost: this.getStoreCartCost(sortedPool.slice(0, mealCount), servings, pantryChecked) };
+      chosenPlan = {
+        meals: pool.slice(0, mealCount),
+        finalCost: this.getStoreCartCost(pool.slice(0, mealCount), servings, pantryChecked)
+      };
     }
 
     const enriched = chosenPlan.meals.map(recipe => ({
@@ -167,7 +172,7 @@ export class MealPlanner {
    * Permute une recette tout en veillant à ne pas dépasser le budget du panier en caisse
    */
   swapMeal(currentMealId, currentMealList, {
-    servings = 2,
+    servings = 1,
     targetBudget = 30,
     filter = "all",
     availableAppliances = ["plaques", "four", "microondes"],
@@ -176,7 +181,6 @@ export class MealPlanner {
     const existingIds = new Set(currentMealList.filter(m => m.id !== currentMealId).map(m => m.id));
     const all = this.getAllRecipes();
 
-    // Candidats valides
     const candidates = all.filter(recipe => {
       if (existingIds.has(recipe.id)) return false;
       if (!this.isApplianceCompatible(recipe, availableAppliances)) return false;
@@ -191,18 +195,14 @@ export class MealPlanner {
 
     if (candidates.length === 0) return null;
 
-    // Autres repas déjà conservés
     const otherMeals = currentMealList.filter(m => m.id !== currentMealId);
 
-    // Chercher un candidat dont le coût en caisse reste le plus proche possible du budget cible
     let bestCandidate = null;
-    let bestDelta = Infinity;
+    let lowestCost = Infinity;
 
     for (const cand of candidates) {
       const trialCartCost = this.getStoreCartCost([...otherMeals, cand], servings, pantryChecked);
-      const delta = trialCartCost - targetBudget;
 
-      // Priorité absolue aux candidats qui ne dépassent pas le budget
       if (trialCartCost <= targetBudget) {
         return {
           ...cand,
@@ -211,8 +211,8 @@ export class MealPlanner {
         };
       }
 
-      if (Math.abs(delta) < bestDelta) {
-        bestDelta = Math.abs(delta);
+      if (trialCartCost < lowestCost) {
+        lowestCost = trialCartCost;
         bestCandidate = cand;
       }
     }

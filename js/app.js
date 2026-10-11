@@ -17,8 +17,8 @@ class PlanRepasApp {
   constructor() {
     this.state = {
       mealCount: 7,
-      servings: 2,
-      targetBudget: 35,
+      servings: 1,
+      targetBudget: 30,
       filter: "all",
       availableAppliances: ["plaques", "four", "microondes"],
       activeTab: "meals",
@@ -31,6 +31,7 @@ class PlanRepasApp {
     this.initElements();
     this.bindEvents();
     this.applyTheme(this.state.theme);
+    this.toggleSoloPortionMode(true);
     this.initTheMealDb();
   }
 
@@ -217,9 +218,15 @@ class PlanRepasApp {
   }
 
   suggestBudgetForConfig() {
-    // Calcul équilibré : ~2.50€ à 3.20€ par repas par personne, borné à [10, 100]
-    let suggested = Math.round(this.state.mealCount * this.state.servings * 2.8);
-    suggested = Math.max(10, Math.min(100, suggested));
+    let suggested = 30;
+    if (this.state.servings === 1) {
+      suggested = Math.round(this.state.mealCount * 4.2); // ~30€ pour 7 repas
+    } else if (this.state.servings === 2) {
+      suggested = Math.round(this.state.mealCount * 6.5); // ~45€ pour 14 repas (2 pers)
+    } else {
+      suggested = Math.round(this.state.mealCount * this.state.servings * 2.8);
+    }
+    suggested = Math.max(15, Math.min(100, suggested));
     this.budgetSlider.value = suggested;
     this.state.targetBudget = suggested;
     this.budgetValBadge.textContent = `${suggested} €`;
