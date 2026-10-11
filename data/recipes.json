@@ -1,32 +1,362 @@
 [
   {
-    "id": 1,
-    "nom": "Pâtes crémeuses au poulet",
-    "portions": 1,
-    "temps_minutes": 20,
-    "categorie": "pates",
+    "nom": "Pâtes à la carbonara",
     "ingredients": [
-      {
-        "nom": "pâtes",
-        "quantite": 100,
-        "unite": "g"
-      },
-      {
-        "nom": "blanc de poulet",
-        "quantite": 120,
-        "unite": "g"
-      },
-      {
-        "nom": "crème fraîche",
-        "quantite": 80,
-        "unite": "g"
-      }
-    ],
-    "instructions": [
-      "Faire cuire les pâtes.",
-      "Couper le poulet en morceaux et le faire revenir.",
-      "Ajouter la crème et laisser mijoter quelques minutes.",
-      "Mélanger avec les pâtes."
+      {"produit_id": "spaghetti_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "lardons_fumes_200g", "quantite": 60, "unite": "g"},
+      {"produit_id": "oeufs_boite_6", "quantite": 2, "unite": "piece"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 25, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au poulet et à la crème",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "poulet_filet_500g", "quantite": 120, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 80, "unite": "ml"},
+      {"produit_id": "champignons_paris_250g", "quantite": 50, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes bolognaise maison",
+    "ingredients": [
+      {"produit_id": "tagliatelles_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "boeuf_hache_15pct_350g", "quantite": 120, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 150, "unite": "ml"},
+      {"produit_id": "oignon_jaune_filet_1kg", "quantite": 40, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au pesto vert et parmesan",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "pesto_alla_genovese_190g", "quantite": 50, "unite": "g"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 20, "unite": "g"},
+      {"produit_id": "huile_olive_vierge_75cl", "quantite": 10, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes au beurre et parmesan",
+    "ingredients": [
+      {"produit_id": "spaghetti_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "beurre_doux_250g", "quantite": 25, "unite": "g"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 35, "unite": "g"},
+      {"produit_id": "poivre_noir_moulin_50g", "quantite": 2, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Penne all'arrabbiata",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "tomates_concassees_400g", "quantite": 150, "unite": "g"},
+      {"produit_id": "ail_tete", "quantite": 1, "unite": "gousse"},
+      {"produit_id": "piment_rouge_frais_50g", "quantite": 5, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au thon et à la sauce tomate",
+    "ingredients": [
+      {"produit_id": "fusilli_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "thon_au_naturel_160g", "quantite": 80, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 120, "unite": "ml"},
+      {"produit_id": "olives_noires_denoyautees_150g", "quantite": 20, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux crevettes, ail et persil",
+    "ingredients": [
+      {"produit_id": "linguine_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "crevettes_decortiquees_200g", "quantite": 100, "unite": "g"},
+      {"produit_id": "ail_tete", "quantite": 2, "unite": "gousse"},
+      {"produit_id": "huile_olive_vierge_75cl", "quantite": 15, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes au saumon frais et à la crème",
+    "ingredients": [
+      {"produit_id": "tagliatelles_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "pave_saumon_frais_140g", "quantite": 120, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 70, "unite": "ml"},
+      {"produit_id": "jus_citron_25cl", "quantite": 10, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux lardons et champignons",
+    "ingredients": [
+      {"produit_id": "coquillettes_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "lardons_fumes_200g", "quantite": 70, "unite": "g"},
+      {"produit_id": "champignons_paris_250g", "quantite": 80, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 60, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Spaghetti ail et huile d'olive",
+    "ingredients": [
+      {"produit_id": "spaghetti_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "ail_tete", "quantite": 2, "unite": "gousse"},
+      {"produit_id": "huile_olive_vierge_75cl", "quantite": 20, "unite": "ml"},
+      {"produit_id": "persil_plat_botte", "quantite": 5, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au jambon et emmental",
+    "ingredients": [
+      {"produit_id": "coquillettes_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "jambon_blanc_4_tranches_160g", "quantite": 80, "unite": "g"},
+      {"produit_id": "emmental_rape_200g", "quantite": 40, "unite": "g"},
+      {"produit_id": "beurre_doux_250g", "quantite": 15, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux aubergines et sauce tomate",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "aubergine_piece", "quantite": 120, "unite": "g"},
+      {"produit_id": "tomates_concassees_400g", "quantite": 120, "unite": "g"},
+      {"produit_id": "mozzarella_125g", "quantite": 40, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au fromage fondu façon mac and cheese",
+    "ingredients": [
+      {"produit_id": "coquillettes_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "cheddar_mature_200g", "quantite": 60, "unite": "g"},
+      {"produit_id": "lait_demi_ecreme_1l", "quantite": 80, "unite": "ml"},
+      {"produit_id": "beurre_doux_250g", "quantite": 15, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux courgettes et chèvre frais",
+    "ingredients": [
+      {"produit_id": "fusilli_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "courgette_piece", "quantite": 120, "unite": "g"},
+      {"produit_id": "fromage_chevre_frais_150g", "quantite": 60, "unite": "g"},
+      {"produit_id": "huile_olive_vierge_75cl", "quantite": 10, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux épinards et à la crème",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "epinards_frais_250g", "quantite": 90, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 70, "unite": "ml"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 20, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au saumon fumé et crème fraîche",
+    "ingredients": [
+      {"produit_id": "tagliatelles_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "saumon_fume_100g", "quantite": 70, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 70, "unite": "ml"},
+      {"produit_id": "jus_citron_25cl", "quantite": 10, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes au boeuf haché et poivrons",
+    "ingredients": [
+      {"produit_id": "fusilli_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "boeuf_hache_15pct_350g", "quantite": 110, "unite": "g"},
+      {"produit_id": "poivron_rouge_piece", "quantite": 80, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 100, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes au chorizo doux et sauce tomate",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "chorizo_doux_200g", "quantite": 60, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 110, "unite": "ml"},
+      {"produit_id": "oignon_jaune_filet_1kg", "quantite": 30, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au poulet et curry doux",
+    "ingredients": [
+      {"produit_id": "fusilli_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "poulet_filet_500g", "quantite": 120, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 80, "unite": "ml"},
+      {"produit_id": "poudre_curry_doux_45g", "quantite": 5, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux brocolis et crème au parmesan",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "brocoli_piece_500g", "quantite": 120, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 50, "unite": "ml"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 25, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux boulettes de boeuf et tomate",
+    "ingredients": [
+      {"produit_id": "spaghetti_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "boulettes_boeuf_300g", "quantite": 120, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 130, "unite": "ml"},
+      {"produit_id": "oignon_jaune_filet_1kg", "quantite": 30, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux petits pois et lardons",
+    "ingredients": [
+      {"produit_id": "fusilli_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "petits_pois_surgeles_600g", "quantite": 80, "unite": "g"},
+      {"produit_id": "lardons_fumes_200g", "quantite": 50, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 50, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes au thon, crème et moutarde",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "thon_au_naturel_160g", "quantite": 80, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 70, "unite": "ml"},
+      {"produit_id": "moutarde_dijon_200g", "quantite": 15, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au pesto rouge et tomates cerises",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "pesto_rosso_190g", "quantite": 50, "unite": "g"},
+      {"produit_id": "tomates_cerises_250g", "quantite": 80, "unite": "g"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 20, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes à la dinde et sauce moutarde à l'ancienne",
+    "ingredients": [
+      {"produit_id": "fusilli_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "filet_dinde_400g", "quantite": 120, "unite": "g"},
+      {"produit_id": "moutarde_ancienne_200g", "quantite": 20, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 70, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes à la crème de courge et parmesan",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "courge_butternut_piece", "quantite": 140, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 40, "unite": "ml"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 25, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes sauce tomate basilic et mozzarella",
+    "ingredients": [
+      {"produit_id": "spaghetti_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 130, "unite": "ml"},
+      {"produit_id": "mozzarella_125g", "quantite": 60, "unite": "g"},
+      {"produit_id": "basilic_frais_botte", "quantite": 5, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux saucisses de Strasbourg et fromage",
+    "ingredients": [
+      {"produit_id": "coquillettes_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "saucisses_strasbourg_x4", "quantite": 80, "unite": "g"},
+      {"produit_id": "emmental_rape_200g", "quantite": 35, "unite": "g"},
+      {"produit_id": "beurre_doux_250g", "quantite": 15, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au jambon cru et copeaux de parmesan",
+    "ingredients": [
+      {"produit_id": "tagliatelles_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "jambon_sec_4_tranches_100g", "quantite": 50, "unite": "g"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 25, "unite": "g"},
+      {"produit_id": "huile_olive_vierge_75cl", "quantite": 15, "unite": "ml"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux crevettes et crème au curry",
+    "ingredients": [
+      {"produit_id": "linguine_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "crevettes_decortiquees_200g", "quantite": 110, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 70, "unite": "ml"},
+      {"produit_id": "poudre_curry_doux_45g", "quantite": 5, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux champignons de Paris à la crème",
+    "ingredients": [
+      {"produit_id": "tagliatelles_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "champignons_paris_250g", "quantite": 120, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 75, "unite": "ml"},
+      {"produit_id": "ail_tete", "quantite": 1, "unite": "gousse"}
+    ]
+  },
+  {
+    "nom": "Pâtes au maïs, thon et mayonnaise",
+    "ingredients": [
+      {"produit_id": "fusilli_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "thon_au_naturel_160g", "quantite": 70, "unite": "g"},
+      {"produit_id": "mais_doux_boite_300g", "quantite": 60, "unite": "g"},
+      {"produit_id": "mayonnaise_tube_175g", "quantite": 25, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux dés de jambon et sauce tomate",
+    "ingredients": [
+      {"produit_id": "coquillettes_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "des_jambon_200g", "quantite": 75, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 110, "unite": "ml"},
+      {"produit_id": "emmental_rape_200g", "quantite": 25, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au poulet et sauce tomate",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "poulet_filet_500g", "quantite": 120, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 120, "unite": "ml"},
+      {"produit_id": "oignon_jaune_filet_1kg", "quantite": 30, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes crémeuses à la vache qui rit",
+    "ingredients": [
+      {"produit_id": "coquillettes_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "portions_vache_qui_rit_x12", "quantite": 3, "unite": "piece"},
+      {"produit_id": "lait_demi_ecreme_1l", "quantite": 40, "unite": "ml"},
+      {"produit_id": "beurre_doux_250g", "quantite": 10, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux lardons et coulis de tomate",
+    "ingredients": [
+      {"produit_id": "penne_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "lardons_fumes_200g", "quantite": 65, "unite": "g"},
+      {"produit_id": "coulis_tomate_500g", "quantite": 120, "unite": "ml"},
+      {"produit_id": "oignon_jaune_filet_1kg", "quantite": 30, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux carottes rôties et cumin",
+    "ingredients": [
+      {"produit_id": "fusilli_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "carotte_botte", "quantite": 120, "unite": "g"},
+      {"produit_id": "huile_olive_vierge_75cl", "quantite": 15, "unite": "ml"},
+      {"produit_id": "parmesan_rape_100g", "quantite": 20, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes au poulet et paprika doux",
+    "ingredients": [
+      {"produit_id": "tagliatelles_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "poulet_filet_500g", "quantite": 120, "unite": "g"},
+      {"produit_id": "creme_fraiche_20cl", "quantite": 70, "unite": "ml"},
+      {"produit_id": "paprika_doux_flacon_40g", "quantite": 5, "unite": "g"}
+    ]
+  },
+  {
+    "nom": "Pâtes aux crevettes et tomates cerises",
+    "ingredients": [
+      {"produit_id": "spaghetti_500g", "quantite": 100, "unite": "g"},
+      {"produit_id": "crevettes_decortiquees_200g", "quantite": 100, "unite": "g"},
+      {"produit_id": "tomates_cerises_250g", "quantite": 80, "unite": "g"},
+      {"produit_id": "huile_olive_vierge_75cl", "quantite": 15, "unite": "ml"}
     ]
   }
 ]
