@@ -1244,8 +1244,165 @@ body {
   animation: slideUp 0.3s forwards cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes slideUp {
-  to { transform: translateY(0); opacity: 1; }
+/* Actions d'en-tête pour les repas */
+.meals-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Vue Repas enregistrés */
+.saved-plans-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.saved-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.saved-plan-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all var(--transition-normal);
+}
+
+.saved-plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-300);
+}
+
+.saved-plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.saved-plan-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.saved-plan-date {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.saved-plan-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.saved-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.saved-badge-cost {
+  background: var(--primary-50);
+  color: var(--primary-700);
+  border-color: var(--primary-200);
+  font-weight: 700;
+}
+
+[data-theme="dark"] .saved-badge-cost {
+  background: var(--primary-100);
+  color: #34d399;
+}
+
+.saved-plan-meals-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  background: var(--bg-subtle);
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.saved-meal-mini-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.saved-meal-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.saved-plan-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.saved-plan-actions .btn-primary,
+.saved-plan-actions .btn-secondary {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+.saved-empty-state {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: var(--bg-surface);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.saved-empty-icon {
+  font-size: 3rem;
+  opacity: 0.85;
+}
+
+.saved-empty-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.saved-empty-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  line-height: 1.5;
 }
 
 /* Responsive mobile */

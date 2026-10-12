@@ -170,15 +170,19 @@
       </div>
     </section>
 
-    <!-- Navigation Onglets (Planning vs Liste de courses) -->
+    <!-- Navigation Onglets (Planning vs Liste de courses vs Repas enregistrés) -->
     <nav class="view-tabs" aria-label="Navigation des vues">
       <button class="tab-btn active" id="tabMeals">
         <span>🗓️ Planning des repas</span>
         <span class="tab-count" id="tabMealsCount">7</span>
       </button>
       <button class="tab-btn" id="tabGrocery">
-        <span>🛒 Liste de courses consolidée</span>
+        <span>🛒 Liste de courses</span>
         <span class="tab-count" id="tabGroceryCount">0</span>
+      </button>
+      <button class="tab-btn" id="tabSaved">
+        <span>⭐ Repas enregistrés</span>
+        <span class="tab-count" id="tabSavedCount">0</span>
       </button>
     </nav>
 
@@ -206,12 +210,19 @@
     <!-- VUE 1 : PLANNING DES REPAS -->
     <section id="mealsView">
       <div class="section-header-bar">
-        <h2 class="section-title">
-          <span>🍳</span> Vos repas sélectionnés
-        </h2>
-        <span style="font-size: 0.82rem; color: var(--text-muted);">
-          Cliquez sur 🔄 Remplacer pour ajuster chaque plat
-        </span>
+        <div>
+          <h2 class="section-title">
+            <span>🍳</span> Vos repas sélectionnés
+          </h2>
+          <span style="font-size: 0.82rem; color: var(--text-muted);">
+            Cliquez sur 🔄 Remplacer pour ajuster chaque plat
+          </span>
+        </div>
+        <div class="meals-header-actions">
+          <button class="btn-primary" id="btnSaveMealsPlan" title="Enregistrer ce menu dans vos repas enregistrés">
+            <span>💾</span> Enregistrer les recettes
+          </button>
+        </div>
       </div>
       <div class="meals-grid" id="mealsGrid">
         <!-- Rempli dynamiquement par JS -->
@@ -231,6 +242,9 @@
             </span>
           </div>
           <div class="export-btns">
+            <button class="btn-primary" id="btnDownloadPdf" title="Télécharger la liste de courses en PDF avec tous les prix de chaque produit">
+              <span>📄</span> Télécharger en PDF
+            </button>
             <button class="btn-secondary" id="btnCopyGrocery" title="Copier la liste complète">
               📋 Copier
             </button>
@@ -245,6 +259,28 @@
 
         <!-- Conteneur des rayons de supermarché -->
         <div id="groceryDepartmentsContainer" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <!-- Rempli dynamiquement -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VUE 3 : REPAS ENREGISTRÉS -->
+    <section id="savedView" style="display: none;">
+      <div class="saved-plans-container">
+        <div class="section-header-bar">
+          <div>
+            <h2 class="section-title">
+              <span>⭐</span> Vos repas et menus enregistrés
+            </h2>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">
+              Retrouvez et rechargez vos sélections sauvegardées en un clic
+            </span>
+          </div>
+          <button class="btn-secondary" id="btnClearSavedPlans" style="display: none;" title="Effacer tous les repas enregistrés">
+            🗑️ Tout effacer
+          </button>
+        </div>
+        <div class="saved-plans-grid" id="savedPlansGrid">
           <!-- Rempli dynamiquement -->
         </div>
       </div>
@@ -292,6 +328,7 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=20261011_6"></script>
+  <script src="js/libs/jspdf.umd.min.js"></script>
+  <script type="module" src="js/app.js?v=20261012_1"></script>
 </body>
 </html>

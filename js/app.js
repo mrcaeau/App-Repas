@@ -1,7 +1,8 @@
-// Application principale PlanRepas avec Catalogue JSON, filtre électroménager et adaptation solo
 import { mealPlanner } from "./services/mealPlanner.js";
 import { groceryListService, DEPARTMENT_LABELS } from "./services/groceryList.js";
 import { openPricesService } from "./services/openPricesApi.js";
+import { savedPlansService } from "./services/savedPlans.js";
+import { pdfExportService } from "./services/pdfExport.js";
 import { RECIPES_DATA, loadRecipesCatalog } from "./data/recipes.js";
 
 const APPLIANCE_ICONS = {
@@ -30,6 +31,7 @@ class PlanRepasApp {
     this.bindEvents();
     this.applyTheme(this.state.theme);
     this.toggleSoloPortionMode(true);
+    this.updateSavedBadgeCount();
     this.initRecipesCatalog();
   }
 
@@ -52,10 +54,18 @@ class PlanRepasApp {
     // Onglets
     this.tabMeals = document.getElementById("tabMeals");
     this.tabGrocery = document.getElementById("tabGrocery");
+    this.tabSaved = document.getElementById("tabSaved");
     this.tabMealsCount = document.getElementById("tabMealsCount");
     this.tabGroceryCount = document.getElementById("tabGroceryCount");
+    this.tabSavedCount = document.getElementById("tabSavedCount");
     this.mealsView = document.getElementById("mealsView");
     this.groceryView = document.getElementById("groceryView");
+    this.savedView = document.getElementById("savedView");
+    this.savedPlansGrid = document.getElementById("savedPlansGrid");
+    this.btnClearSavedPlans = document.getElementById("btnClearSavedPlans");
+
+    // Bouton enregistrer les recettes
+    this.btnSaveMealsPlan = document.getElementById("btnSaveMealsPlan");
 
     // Jauge de budget simplifiée
     this.meterTarget = document.getElementById("meterTarget");
@@ -68,7 +78,8 @@ class PlanRepasApp {
     this.groceryDepartmentsContainer = document.getElementById("groceryDepartmentsContainer");
     this.grocerySummaryBadge = document.getElementById("grocerySummaryBadge");
 
-    // Boutons d'export
+    // Boutons d'export & PDF
+    this.btnDownloadPdf = document.getElementById("btnDownloadPdf");
     this.btnCopyGrocery = document.getElementById("btnCopyGrocery");
     this.btnPrintGrocery = document.getElementById("btnPrintGrocery");
     this.btnWhatsapp = document.getElementById("btnWhatsapp");
@@ -168,11 +179,27 @@ class PlanRepasApp {
     // Navigation Onglets
     this.tabMeals.addEventListener("click", () => this.switchTab("meals"));
     this.tabGrocery.addEventListener("click", () => this.switchTab("grocery"));
+    if (this.tabSaved) {
+      this.tabSaved.addEventListener("click", () => this.switchTab("saved"));
+    }
 
-    // Exports
+    // Enregistrer les recettes
+    if (this.btnSaveMealsPlan) {
+      this.btnSaveMealsPlan.addEventListener("click", () => this.handleSaveCurrentPlan());
+    }
+
+    // Exports & PDF
+    if (this.btnDownloadPdf) {
+      this.btnDownloadPdf.addEventListener("click", () => this.handleDownloadPdf());
+    }
     this.btnCopyGrocery.addEventListener("click", () => this.copyGroceryToClipboard());
     this.btnPrintGrocery.addEventListener("click", () => window.print());
     this.btnWhatsapp.addEventListener("click", () => this.shareOnWhatsapp());
+
+    // Tout effacer les plans enregistrés
+    if (this.btnClearSavedPlans) {
+      this.btnClearSavedPlans.addEventListener("click", () => this.handleClearAllSavedPlans());
+    }
 
     // Thème clair/sombre
     this.themeToggle.addEventListener("click", () => {
@@ -254,17 +281,22 @@ class PlanRepasApp {
 
   switchTab(tabName) {
     this.state.activeTab = tabName;
-    if (tabName === "meals") {
-      this.tabMeals.classList.add("active");
-      this.tabGrocery.classList.remove("active");
-      this.mealsView.style.display = "block";
-      this.groceryView.style.display = "none";
-    } else {
-      this.tabMeals.classList.remove("active");
-      this.tabGrocery.classList.add("active");
-      this.mealsView.style.display = "none";
-      this.groceryView.style.display = "block";
+    this.tabMeals.classList.toggle("active", tabName === "meals");
+    this.tabGrocery.classList.toggle("active", tabName === "grocery");
+    if (this.tabSaved) {
+      this.tabSaved.classList.toggle("active", tabName === "saved");
+    }
+
+    this.mealsView.style.display = tabName === "meals" ? "block" : "none";
+    this.groceryView.style.display = tabName === "grocery" ? "block" : "none";
+    if (this.savedView) {
+      this.savedView.style.display = tabName === "saved" ? "block" : "none";
+    }
+
+    if (tabName === "grocery") {
       this.renderGroceryList();
+    } else if (tabName === "saved") {
+      this.renderSavedPlans();
     }
   }
 
@@ -589,6 +621,226 @@ class PlanRepasApp {
       this.state.targetBudget
     );
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
+  }
+
+  // ==========================================
+  // GESTION DES REPAS ENREGISTRÉS & EXPORT PDF
+  // ==========================================
+
+  handleSaveCurrentPlan() {
+    if (!this.state.currentPlan || !this.state.currentPlan.meals || this.state.currentPlan.meals.length === 0) {
+      this.showToast("⚠️ Aucun menu à enregistrer. Générez d'abord un planning.");
+      return;
+    }
+
+    try {
+      const saved = savedPlansService.savePlan(this.state.currentPlan);
+      this.updateSavedBadgeCount();
+      this.showToast("💾 Recettes enregistrées ! Retrouvez-les dans 'Repas enregistrés'");
+    } catch (err) {
+      console.error("Erreur enregistrement menu :", err);
+      this.showToast("❌ Impossible d'enregistrer le menu : " + err.message);
+    }
+  }
+
+  updateSavedBadgeCount() {
+    const count = savedPlansService.getCount();
+    if (this.tabSavedCount) {
+      this.tabSavedCount.textContent = `${count}`;
+    }
+    if (this.btnClearSavedPlans) {
+      this.btnClearSavedPlans.style.display = count > 0 ? "inline-flex" : "none";
+    }
+  }
+
+  renderSavedPlans() {
+    if (!this.savedPlansGrid) return;
+    const plans = savedPlansService.getAllPlans();
+    this.updateSavedBadgeCount();
+
+    if (plans.length === 0) {
+      this.savedPlansGrid.innerHTML = `
+        <div class="saved-empty-state" style="grid-column: 1 / -1;">
+          <div class="saved-empty-icon">⭐</div>
+          <div class="saved-empty-title">Aucun repas enregistré pour le moment</div>
+          <p class="saved-empty-text">
+            Lorsque vous générez un planning qui vous plaît, cliquez sur <strong>"Enregistrer les recettes"</strong> dans l'onglet Planning. Vous pourrez recharger vos menus favoris à tout moment en un clic !
+          </p>
+          <button class="btn-primary" id="btnGoToMealsFromSaved" style="margin-top: 0.5rem;">
+            <span>🗓️</span> Voir le planning actuel
+          </button>
+        </div>
+      `;
+      document.getElementById("btnGoToMealsFromSaved")?.addEventListener("click", () => {
+        this.switchTab("meals");
+      });
+      return;
+    }
+
+    this.savedPlansGrid.innerHTML = plans.map(plan => {
+      const costStr = Number(plan.finalCheckoutCost || 0).toFixed(2);
+      const mealsPreviewHtml = (plan.meals || []).map(m => `
+        <div class="saved-meal-mini-item">
+          <img src="${m.image}" alt="${m.title}" class="saved-meal-thumb" loading="lazy" />
+          <span>${m.title}</span>
+        </div>
+      `).join("");
+
+      return `
+        <div class="saved-plan-card" data-plan-id="${plan.id}">
+          <div class="saved-plan-header">
+            <div>
+              <div class="saved-plan-title">${plan.title}</div>
+              <div class="saved-plan-date">📅 Enregistré le ${plan.dateFormatted}</div>
+              <div class="saved-plan-badges">
+                <span class="saved-badge">🗓️ ${plan.mealCount} repas</span>
+                <span class="saved-badge">👥 ${plan.servings} pers</span>
+                <span class="saved-badge saved-badge-cost">💶 ${costStr} € en caisse</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="saved-plan-meals-preview">
+            ${mealsPreviewHtml}
+          </div>
+
+          <div class="saved-plan-actions">
+            <button class="btn-primary btn-load-plan" data-id="${plan.id}" title="Recharger ce menu et sa liste de courses">
+              <span>📂</span> Charger ce menu
+            </button>
+            <button class="btn-secondary btn-pdf-plan" data-id="${plan.id}" title="Télécharger la liste de courses en PDF">
+              <span>📄</span> PDF
+            </button>
+            <button class="btn-secondary btn-delete-plan" data-id="${plan.id}" title="Supprimer ce menu enregistré" style="margin-left: auto; color: #ef4444;">
+              <span>🗑️</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    // Écouteurs sur les boutons d'action des cartes
+    this.savedPlansGrid.querySelectorAll(".btn-load-plan").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this.loadSavedPlan(btn.dataset.id);
+      });
+    });
+
+    this.savedPlansGrid.querySelectorAll(".btn-pdf-plan").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this.downloadSavedPlanPdf(btn.dataset.id);
+      });
+    });
+
+    this.savedPlansGrid.querySelectorAll(".btn-delete-plan").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this.deleteSavedPlan(btn.dataset.id);
+      });
+    });
+  }
+
+  loadSavedPlan(planId) {
+    const plan = savedPlansService.getPlanById(planId);
+    if (!plan) {
+      this.showToast("❌ Menu introuvable.");
+      return;
+    }
+
+    // Restaurer l'état
+    this.state.mealCount = plan.mealCount;
+    this.state.servings = plan.servings;
+    this.state.targetBudget = plan.targetBudget || 30;
+    this.state.pantryChecked = new Set(plan.pantryChecked || []);
+    this.state.currentPlan = plan;
+
+    // Synchroniser les pilules d'interface
+    this.mealPills.forEach(p => {
+      p.classList.toggle("active", parseInt(p.dataset.count, 10) === this.state.mealCount);
+    });
+    this.servingPills.forEach(p => {
+      p.classList.toggle("active", parseInt(p.dataset.servings, 10) === this.state.servings);
+    });
+    this.toggleSoloPortionMode(this.state.servings === 1);
+
+    if (this.budgetSlider) {
+      this.budgetSlider.value = this.state.targetBudget;
+    }
+    if (this.budgetValBadge) {
+      this.budgetValBadge.textContent = `${this.state.targetBudget} €`;
+    }
+
+    this.tabMealsCount.textContent = `${plan.meals.length}`;
+    this.renderMealCards();
+    this.renderGroceryList();
+    this.updateBudgetMeter();
+    this.switchTab("meals");
+    this.showToast(`📂 Menu chargé (${plan.mealCount} repas pour ${plan.servings} pers) !`);
+  }
+
+  deleteSavedPlan(planId) {
+    savedPlansService.deletePlan(planId);
+    this.updateSavedBadgeCount();
+    this.renderSavedPlans();
+    this.showToast("🗑️ Menu supprimé des repas enregistrés.");
+  }
+
+  handleClearAllSavedPlans() {
+    if (confirm("Voulez-vous vraiment effacer tous vos repas enregistrés ?")) {
+      savedPlansService.clearAllPlans();
+      this.updateSavedBadgeCount();
+      this.renderSavedPlans();
+      this.showToast("🗑️ Tous les menus enregistrés ont été effacés.");
+    }
+  }
+
+  async handleDownloadPdf() {
+    if (!this.state.currentPlan || !this.state.currentPlan.meals || this.state.currentPlan.meals.length === 0) {
+      this.showToast("⚠️ Aucun repas sélectionné pour générer la liste de courses.");
+      return;
+    }
+
+    const groceryData = groceryListService.generateGroceryList(
+      this.state.currentPlan.meals,
+      this.state.servings,
+      this.state.pantryChecked
+    );
+
+    this.showToast("📄 Génération de la liste de courses en PDF...");
+    const success = await pdfExportService.generateGroceryPdf({
+      groceryData,
+      mealCount: this.state.mealCount,
+      servings: this.state.servings,
+      targetBudget: this.state.targetBudget,
+      meals: this.state.currentPlan.meals
+    });
+
+    if (success) {
+      this.showToast("✅ Téléchargement du PDF réussi !");
+    }
+  }
+
+  async downloadSavedPlanPdf(planId) {
+    const plan = savedPlansService.getPlanById(planId);
+    if (!plan) return;
+
+    const groceryData = groceryListService.generateGroceryList(
+      plan.meals,
+      plan.servings,
+      new Set(plan.pantryChecked || [])
+    );
+
+    this.showToast("📄 Génération du PDF pour ce menu...");
+    const success = await pdfExportService.generateGroceryPdf({
+      groceryData,
+      mealCount: plan.mealCount,
+      servings: plan.servings,
+      targetBudget: plan.targetBudget,
+      meals: plan.meals
+    });
+
+    if (success) {
+      this.showToast("✅ Téléchargement du PDF réussi !");
+    }
   }
 
   showToast(message) {
