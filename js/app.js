@@ -371,7 +371,7 @@ class PlanRepasApp {
       card.innerHTML = `
         <span class="meal-badge-day">${dayLabel}</span>
         <div class="meal-image-wrap">
-          <img src="${meal.image}" alt="${meal.title}" class="meal-image" loading="lazy" />
+          <img src="${meal.image}" alt="${meal.title}" class="meal-image" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80';" />
         </div>
         <div class="meal-card-body">
           <div class="meal-meta-row">
@@ -504,7 +504,7 @@ class PlanRepasApp {
     this.modalContentContainer.innerHTML = `
       <button class="modal-sticky-close" id="btnModalCloseSticky" title="Fermer la boîte (Échap)" aria-label="Fermer la recette">✕</button>
       <div class="modal-header-image">
-        <img src="${meal.image}" alt="${meal.title}" />
+        <img src="${meal.image}" alt="${meal.title}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80';" />
         <button class="btn-close-modal" id="btnModalCloseCross" title="Fermer la boîte (Échap)" aria-label="Fermer la recette">✕</button>
       </div>
       <div class="modal-body">
@@ -681,7 +681,7 @@ class PlanRepasApp {
       const costStr = Number(plan.finalCheckoutCost || 0).toFixed(2);
       const mealsPreviewHtml = (plan.meals || []).map(m => `
         <div class="saved-meal-mini-item">
-          <img src="${m.image}" alt="${m.title}" class="saved-meal-thumb" loading="lazy" />
+          <img src="${m.image}" alt="${m.title}" class="saved-meal-thumb" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80';" />
           <span>${m.title}</span>
         </div>
       `).join("");
